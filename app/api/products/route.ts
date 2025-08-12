@@ -1,6 +1,6 @@
 // app/api/products/route.ts
-import connectDB from '../../../../backend/src/config/db';
-import Product from '../../../../backend/src/models/Product';
+import connectDB from '@backend/src/config/db';
+import Product from '@backend/src/models/Product';
 import { NextResponse } from 'next/server';
 
 export async function POST(req: Request) {
