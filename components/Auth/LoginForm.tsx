@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 
-// Định nghĩa kiểu dữ liệu cho người dùng nhận được từ API
 interface UserApiResponse {
     id: string;
     name: string;
@@ -55,13 +54,14 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, onSwitchToRegister }) 
         setIsLoading(true);
         try {
             console.log('Attempting to log in with:', { email, password });
-            // Gửi yêu cầu đăng nhập đến Next.js API Route
-            const response = await fetch('/api/auth/login', {
+            // Gửi yêu cầu đăng nhập đến backend trên Render
+            const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/login`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, password })
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password }),
             });
-
 
             const data = await response.json();
 
@@ -69,17 +69,14 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, onSwitchToRegister }) 
                 setFormMessage('Login successful! Redirecting...');
                 console.log('Login successful!', data);
                 if (onSuccess) {
-                    // Truyền dữ liệu người dùng và token nhận được từ backend
                     onSuccess(data.user, data.token);
                 }
             } else {
-                // Xử lý lỗi từ backend
                 setFormMessage(data.message || 'Login failed. Please check your credentials and try again.');
                 console.error('Login failed:', data.message);
             }
-        } catch (error: unknown) { // Thay 'any' bằng 'unknown'
+        } catch (error: unknown) {
             console.error('Login failed (network error or server issue):', error);
-            // Kiểm tra kiểu của error để truy cập message
             if (error instanceof Error) {
                 setFormMessage(`Login failed. Could not connect to the server: ${error.message}`);
             } else {

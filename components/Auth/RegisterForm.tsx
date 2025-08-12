@@ -66,13 +66,14 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess, onSwitchToLogin 
         setIsLoading(true);
         try {
             console.log('Attempting to register with:', { name, email, password, confirmPassword });
-            // Gửi yêu cầu đăng ký đến Next.js API Route
-            const response = await fetch('/api/auth/register', {
+            // Gửi yêu cầu đăng ký đến backend trên Render
+            const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/register`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name, email, password })
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ name, email, password }),
             });
-
 
             const data = await response.json();
 
@@ -80,16 +81,14 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess, onSwitchToLogin 
                 setFormMessage('Registration successful! Please log in.');
                 console.log('Registration successful!', data);
                 if (onSuccess) {
-                    onSuccess(); // Thường là để chuyển sang form đăng nhập
+                    onSuccess();
                 }
             } else {
-                // Xử lý lỗi từ backend
                 setFormMessage(data.message || 'Registration failed. Please try again.');
                 console.error('Registration failed:', data.message);
             }
-        } catch (error: unknown) { // Thay 'any' bằng 'unknown'
+        } catch (error: unknown) {
             console.error('Registration failed (network error or server issue):', error);
-            // Kiểm tra kiểu của error để truy cập message
             if (error instanceof Error) {
                 setFormMessage(`Registration failed. Could not connect to the server: ${error.message}`);
             } else {

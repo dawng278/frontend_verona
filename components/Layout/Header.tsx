@@ -1,36 +1,16 @@
 'use client';
 
 import Link from 'next/link';
-import React, { useContext, useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Menu, X, ShoppingBag, User } from 'lucide-react';
+import LoginForm from "@/components/Auth/LoginForm";
+import RegisterForm from "@/components/Auth/RegisterForm";
 
-// Định nghĩa kiểu dữ liệu cho đối tượng người dùng
 interface UserType {
     id: string;
     name: string;
     email: string;
 }
-
-// Giả định các Context này đã được định nghĩa ở nơi khác
-// Trong một ứng dụng thực tế, bạn sẽ import chúng từ các file context của mình.
-// Ví dụ về cấu trúc AuthContext và CartContext:
-// interface AuthContextType {
-//     user: UserType | null;
-//     login: (userData: UserType, token: string) => void;
-//     logout: () => void;
-// }
-// const AuthContext = React.createContext<AuthContextType | undefined>(undefined);
-
-// interface CartContextType {
-//     items: any[];
-//     totalQuantity: number;
-//     toggleCart: () => void;
-// }
-// const CartContext = React.createContext<CartContextType | undefined>(undefined);
-
-// Import LoginForm và RegisterForm (đảm bảo đường dẫn chính xác)
-import LoginForm from '../Auth/LoginForm';
-import RegisterForm from '../Auth/RegisterForm';
 
 const NavLinks = () => (
     <>
@@ -65,54 +45,43 @@ const CartOverlay = () => (
 
 
 const Header = () => {
-    // State để quản lý thông tin người dùng (từ token hoặc context)
     const [user, setUser] = useState<UserType | null>(null);
-    // State mới để kiểm tra xem đã chạy ở client chưa
-    const [isClient, setIsClient] = useState<boolean>(false);
+    const [isClient, setIsClient] = useState<boolean>(false); // Để khắc phục lỗi hydration
 
-    // Hàm login thực tế (mô phỏng việc lưu token và thông tin người dùng)
     const handleUserLogin = (userData: UserType, token: string) => {
         setUser(userData);
-        // Lưu token vào localStorage. Trong production, cân nhắc dùng HTTP-only cookies
         localStorage.setItem('userToken', token);
         console.log('User logged in, token saved:', token);
     };
 
-    // Hàm logout thực tế (mô phỏng việc xóa token và thông tin người dùng)
     const handleUserLogout = () => {
         setUser(null);
-        localStorage.removeItem('userToken'); // Xóa token khi đăng xuất
+        localStorage.removeItem('userToken');
         console.log('User logged out, token removed.');
     };
 
-    // Tải thông tin người dùng từ localStorage khi component mount (chỉ chạy ở client)
     useEffect(() => {
         setIsClient(true); // Đánh dấu là đã ở client
 
         const storedToken = localStorage.getItem('userToken');
         if (storedToken) {
             try {
-                // Giải mã token để lấy thông tin cơ bản (KHÔNG NÊN LÀM VẬY VỚI CÁC TOKEN NHẠY CẢM TRONG PRODUCTION)
                 // Trong môi trường production, bạn nên gửi token này đến backend để xác thực
                 // và backend sẽ trả về thông tin người dùng đã được xác minh.
-                const decodedToken = JSON.parse(atob(storedToken.split('.')[1]));
-                if (decodedToken && decodedToken.id) {
-                    // Giả định chúng ta có thể lấy tên người dùng từ một API khác hoặc từ token
-                    // Để đơn giản, chúng ta chỉ đặt tên là "Người dùng" và email giả định
-                    setUser({ id: decodedToken.id, name: 'Người dùng', email: 'user@example.com' });
+                // Đối với ví dụ này, chúng ta sẽ decode token để lấy thông tin giả định.
+                const decodedPayload = JSON.parse(atob(storedToken.split('.')[1]));
+                // Giả định payload có 'id' và 'name'. Điều chỉnh tùy theo payload JWT của bạn.
+                if (decodedPayload && decodedPayload.id) {
+                    // Lấy tên từ payload hoặc đặt tên mặc định
+                    const userName = decodedPayload.name || 'Người dùng';
+                    setUser({ id: decodedPayload.id, name: userName, email: decodedPayload.email || 'user@example.com' });
                 }
             } catch (e) {
                 console.error("Failed to decode token from localStorage or token is invalid", e);
-                localStorage.removeItem('userToken'); // Xóa token lỗi
+                localStorage.removeItem('userToken');
             }
         }
     }, []);
-
-
-    const cart = {
-        totalQuantity: 0,
-        toggleCart: () => console.log('Mock toggle cart'),
-    };
 
     const accountRef = useRef<HTMLDivElement>(null);
     const authOverlayRef = useRef<HTMLDivElement>(null);
@@ -142,26 +111,24 @@ const Header = () => {
     }, []);
 
     const currentUser = user;
-    const { totalQuantity, toggleCart } = cart;
+    const cart = {
+        totalQuantity: 0,
+        toggleCart: () => console.log('Mock toggle cart'),
+    }; // Giả định cart context
 
-    // Hàm xử lý khi đăng nhập thành công từ LoginForm
     const handleLoginSuccess = (userData: UserType, token: string) => {
-        console.log('Login successful! Closing auth overlay.');
-        handleUserLogin(userData, token); // Gọi hàm để lưu thông tin người dùng và token
-        setCurrentAuthForm(null); // Đóng overlay
-        setShowAccountOverlay(false); // Đảm bảo AccountOverlay không hiển thị ngay lập tức
+        handleUserLogin(userData, token);
+        setCurrentAuthForm(null);
+        setShowAccountOverlay(false);
     };
 
-    // Hàm xử lý khi đăng ký thành công từ RegisterForm
     const handleRegisterSuccess = () => {
-        console.log('Registration successful! Switching to login form.');
-        setCurrentAuthForm('login'); // Chuyển sang form đăng nhập sau khi đăng ký thành công
+        setCurrentAuthForm('login');
     };
 
-    // Hàm xử lý khi người dùng click Logout từ AccountOverlay
     const handleLogoutClick = () => {
-        handleUserLogout(); // Gọi hàm logout
-        setShowAccountOverlay(false); // Đóng AccountOverlay
+        handleUserLogout();
+        setShowAccountOverlay(false);
     };
 
     return (
@@ -178,11 +145,11 @@ const Header = () => {
                 <div className="flex items-center space-x-4 relative">
                     {/* Cart Icon */}
                     <div className="relative">
-                        <button onClick={toggleCart} className="relative">
+                        <button onClick={cart.toggleCart} className="relative">
                             <ShoppingBag className="cursor-pointer mt-2 text-gray-700 hover:text-[#B61E01]" />
-                            {totalQuantity > 0 && (
+                            {cart.totalQuantity > 0 && (
                                 <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                                    {totalQuantity}
+                                    {cart.totalQuantity}
                                 </span>
                             )}
                         </button>
@@ -199,17 +166,15 @@ const Header = () => {
                         <User
                             className="cursor-pointer text-gray-700 hover:text-[#B61E01]"
                             onClick={() => {
-                                if (currentUser) { // Nếu đã đăng nhập, hiển thị AccountOverlay
+                                if (currentUser) {
                                     setShowAccountOverlay(!showAccountOverlay);
-                                    setCurrentAuthForm(null); // Đảm bảo overlay xác thực đóng
-                                } else { // Nếu chưa đăng nhập, hiển thị LoginOverlay
-                                    // Nếu form đang hiển thị là login, thì đóng nó. Ngược lại, mở form login.
+                                    setCurrentAuthForm(null);
+                                } else {
                                     setCurrentAuthForm(currentAuthForm === 'login' ? null : 'login');
-                                    setShowAccountOverlay(false); // Đảm bảo AccountOverlay đóng
+                                    setShowAccountOverlay(false);
                                 }
                             }}
                         />
-                        {/* Chỉ render AccountOverlay nếu đã đăng nhập và showAccountOverlay là true */}
                         {currentUser && showAccountOverlay && <AccountOverlay onLogout={handleLogoutClick} />}
                     </div>
 
@@ -241,19 +206,19 @@ const Header = () => {
             <CartOverlay />
 
             {/* Auth Overlay (Login/Register) */}
-            {currentAuthForm && !currentUser && ( // Chỉ hiển thị nếu có form xác thực và chưa đăng nhập
+            {currentAuthForm && !currentUser && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[100]">
-                    <div ref={authOverlayRef}> {/* Thêm ref để xử lý click bên ngoài */}
+                    <div ref={authOverlayRef}>
                         {currentAuthForm === 'login' && (
                             <LoginForm
                                 onSuccess={handleLoginSuccess}
-                                onSwitchToRegister={() => setCurrentAuthForm('register')} // Chuyển sang RegisterForm
+                                onSwitchToRegister={() => setCurrentAuthForm('register')}
                             />
                         )}
                         {currentAuthForm === 'register' && (
                             <RegisterForm
                                 onSuccess={handleRegisterSuccess}
-                                onSwitchToLogin={() => setCurrentAuthForm('login')} // Chuyển sang LoginForm
+                                onSwitchToLogin={() => setCurrentAuthForm('login')}
                             />
                         )}
                     </div>
