@@ -54,8 +54,8 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, onSwitchToRegister }) 
         setIsLoading(true);
         try {
             console.log('Attempting to log in with:', { email, password });
-            // Gửi yêu cầu đăng nhập đến backend trên Render
-            const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/login`, {
+
+            const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -86,6 +86,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, onSwitchToRegister }) 
             setIsLoading(false);
         }
     };
+
 
     return (
         <div className="w-full max-w-md p-6 sm:p-8 rounded-2xl shadow-xl bg-white border border-gray-200 mx-auto my-8 font-sans">

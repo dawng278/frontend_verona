@@ -67,7 +67,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess, onSwitchToLogin 
         try {
             console.log('Attempting to register with:', { name, email, password, confirmPassword });
             // Gửi yêu cầu đăng ký đến backend trên Render
-            const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/register`, {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/register`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

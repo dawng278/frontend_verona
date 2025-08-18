@@ -1,16 +1,20 @@
-// frontend/contexts/AuthContext.tsx
-'use client'; // Component này là Client Component
+'use client'; // This directive must be on the first line
 
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
+// --- Sửa đổi dòng này ---
+// Thay vì import từ thư mục backend cục bộ,
+// hãy import các hàm login và register từ file service của frontend
+import { login as loginFrontendService, register as registerFrontendService } from '@/app/services/authService';
+// --- Kết thúc sửa đổi ---
 
 // Định nghĩa kiểu dữ liệu cho User
 interface User {
     id: string;
     name: string;
     email: string;
-    role: 'user' | 'admin';
-    token?: string; // Token có thể có hoặc không
+    role: string;
+    token?: string;
 }
 
 // Định nghĩa kiểu dữ liệu cho AuthContext
@@ -27,7 +31,7 @@ interface AuthContextType {
 // Tạo AuthContext
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Custom hook để sử dụng AuthContext
+// Custom hook
 export const useAuth = () => {
     const context = useContext(AuthContext);
     if (context === undefined) {
@@ -36,138 +40,102 @@ export const useAuth = () => {
     return context;
 };
 
-// AuthProvider component
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [user, setUser] = useState<User | null>(null);
     const [token, setToken] = useState<string | null>(null);
-    const [loading, setLoading] = useState(true); // Bắt đầu với loading true
+    const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const router = useRouter();
 
-    // API Base URL cho các API Routes của Next.js
-    const API_BASE_URL = '/api/auth';
-
-    // Kiểm tra trạng thái đăng nhập khi component mount
+    // Load user từ localStorage khi app khởi động
     useEffect(() => {
-        const loadUserFromStorage = () => {
-            try {
-                const storedUser = localStorage.getItem('user');
-                const storedToken = localStorage.getItem('token');
-                if (storedUser && storedToken) {
-                    setUser(JSON.parse(storedUser));
-                    setToken(storedToken);
-                }
-            } catch (e) {
-                console.error("Failed to load user/token from localStorage", e);
-                // Xóa dữ liệu lỗi nếu có
-                localStorage.removeItem('user');
-                localStorage.removeItem('token');
-            } finally {
-                setLoading(false); // Dừng loading sau khi kiểm tra
+        try {
+            const storedUser = localStorage.getItem('user');
+            const storedToken = localStorage.getItem('token');
+            if (storedUser && storedToken) {
+                setUser(JSON.parse(storedUser));
+                setToken(storedToken);
             }
-        };
-        loadUserFromStorage();
+        } catch (e) {
+            console.error("Failed to load user/token from localStorage", e);
+            localStorage.removeItem('user');
+            localStorage.removeItem('token');
+        } finally {
+            setLoading(false);
+        }
     }, []);
 
-    // Hàm đăng nhập
+    // Đăng nhập
     const login = useCallback(async (email: string, password: string): Promise<boolean> => {
         setLoading(true);
         setError(null);
         try {
-            const res = await fetch(`${API_BASE_URL}/login`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ email, password }),
-            });
-
-            const data = await res.json();
-
-            if (res.ok && data.success) {
-                const loggedInUser: User = {
-                    id: data.user.id,
-                    name: data.user.name,
-                    email: data.user.email,
-                    role: data.user.role,
-                };
-                setUser(loggedInUser);
+            // --- Sửa đổi dòng này ---
+            const data = await loginFrontendService(email, password);
+            // --- Kết thúc sửa đổi ---
+            if (data?.token && data?.user) {
+                setUser(data.user as User);
                 setToken(data.token);
-                localStorage.setItem('user', JSON.stringify(loggedInUser));
+                localStorage.setItem('user', JSON.stringify(data.user));
                 localStorage.setItem('token', data.token);
                 return true;
             } else {
-                setError(data.error || 'Đăng nhập thất bại.');
+                setError(data?.message || 'Đăng nhập thất bại.');
                 return false;
             }
         } catch (err: unknown) {
-            const error = err as Error;
-            console.error('Lỗi đăng nhập:', error);
-            setError(error.message || 'Lỗi mạng hoặc server không phản hồi.');
+            if (err instanceof Error) {
+                console.error('Lỗi đăng nhập:', err.message);
+                setError(err.message);
+            } else {
+                console.error('Lỗi đăng nhập không xác định:', err);
+                setError('Lỗi mạng hoặc server không phản hồi.');
+            }
             return false;
         } finally {
             setLoading(false);
         }
     }, []);
 
-    // Hàm đăng ký
+    // Đăng ký
     const register = useCallback(async (name: string, email: string, password: string): Promise<boolean> => {
         setLoading(true);
         setError(null);
         try {
-            const res = await fetch(`${API_BASE_URL}/register`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ name, email, password, role: 'user' }), // Mặc định role là user khi đăng ký
-            });
-
-            const data = await res.json();
-
-            if (res.ok && data.success) {
-                const registeredUser: User = {
-                    id: data.user.id,
-                    name: data.user.name,
-                    email: data.user.email,
-                    role: data.user.role,
-                };
-                setUser(registeredUser);
+            // --- Sửa đổi dòng này ---
+            const data = await registerFrontendService(name, email, password);
+            // --- Kết thúc sửa đổi ---
+            if (data?.token && data?.user) {
+                setUser(data.user as User);
                 setToken(data.token);
-                localStorage.setItem('user', JSON.stringify(registeredUser));
+                localStorage.setItem('user', JSON.stringify(data.user));
                 localStorage.setItem('token', data.token);
                 return true;
             } else {
-                setError(data.error || 'Đăng ký thất bại.');
+                setError(data?.message || 'Đăng ký thất bại.');
                 return false;
             }
         } catch (err: unknown) {
-            const error = err as Error;
-            console.error('Lỗi đăng ký:', error);
-            setError(error.message || 'Lỗi mạng hoặc server không phản hồi.');
+            if (err instanceof Error) {
+                console.error('Lỗi đăng ký:', err.message);
+                setError(err.message);
+            } else {
+                console.error('Lỗi đăng ký không xác định:', err);
+                setError('Lỗi mạng hoặc server không phản hồi.');
+            }
             return false;
         } finally {
             setLoading(false);
         }
     }, []);
 
-    // Hàm đăng xuất
+    // Đăng xuất
     const logout = useCallback(async () => {
-        setLoading(true);
-        setError(null);
-        try {
-            // Gọi API đăng xuất nếu có (để xóa token trên server/cookie)
-            // await fetch(`${API_BASE_URL}/logout`, { method: 'GET' });
-        } catch (err) {
-            console.error('Lỗi đăng xuất API:', err);
-        } finally {
-            setUser(null);
-            setToken(null);
-            localStorage.removeItem('user');
-            localStorage.removeItem('token');
-            setLoading(false);
-            router.push('/login'); // Chuyển hướng về trang đăng nhập
-        }
+        setUser(null);
+        setToken(null);
+        localStorage.removeItem('user');
+        localStorage.removeItem('token');
+        router.push('/login');
     }, [router]);
 
     const value = {
@@ -180,11 +148,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         logout,
     };
 
-    // Chỉ render children khi trạng thái loading ban đầu đã hoàn tất
     if (loading) {
         return (
             <div className="flex justify-center items-center min-h-screen">
-                <p>Đang tải...</p> {/* Hoặc một spinner loading */}
+                <p>Đang tải...</p>
             </div>
         );
     }

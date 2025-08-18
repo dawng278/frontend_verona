@@ -1,36 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
+import { register } from "@/../backend/src/services/authService";
 
 export async function POST(req: NextRequest) {
     try {
         const body = await req.json();
+        const { name, email, password } = body;
 
-        const res = await fetch(
-            `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/register`,
-            {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(body),
-            }
-        );
-
-        // Xử lý lỗi từ backend (401, 409, 500, ...)
-        if (!res.ok) {
-            let errorData;
-            try {
-                errorData = await res.json();
-            } catch {
-                errorData = { message: "Unexpected error from backend" };
-            }
-            return NextResponse.json(errorData, { status: res.status });
-        }
-
-        // Thành công
-        const data = await res.json();
+        const data = await register(name, email, password);
         return NextResponse.json(data, { status: 200 });
-    } catch (error) {
-        console.error("FE register API error:", error);
+    } catch (error: any) {
+        console.error("Register API error:", error);
         return NextResponse.json(
-            { message: "Internal server error" },
+            { message: error.message || "Register failed" },
             { status: 500 }
         );
     }
