@@ -1,18 +1,14 @@
-import { NextRequest, NextResponse } from "next/server";
-import { register } from "@/../backend/src/services/authService";
+export async function POST(req: Request) {
+    const body = await req.json();
 
-export async function POST(req: NextRequest) {
-    try {
-        const body = await req.json();
-        const { name, email, password } = body;
+    const res = await fetch("https://backend-beka.onrender.com/api/auth/register", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(body)
+    });
 
-        const data = await register(name, email, password);
-        return NextResponse.json(data, { status: 200 });
-    } catch (error: any) {
-        console.error("Register API error:", error);
-        return NextResponse.json(
-            { message: error.message || "Register failed" },
-            { status: 500 }
-        );
-    }
+    const data = await res.json();
+    return new Response(JSON.stringify(data), { status: res.status });
 }
