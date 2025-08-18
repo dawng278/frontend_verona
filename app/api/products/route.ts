@@ -1,19 +1,29 @@
-// app/api/products/route.ts
-import connectDB from '@backend/config/db';
-import Product from '@backend/models/Product';
 import { NextResponse } from 'next/server';
 
 export async function POST(req: Request) {
-    await connectDB();
-
     try {
-        const { name, price, image } = await req.json();
+        const productData = await req.json();
 
-        const newProduct = await Product.create({ name, price, image });
+        // Make an HTTP POST request to your deployed backend API
+        const backendResponse = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/products`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(productData),
+        });
 
-        return NextResponse.json({ success: true, product: newProduct }, { status: 201 });
+        const data = await backendResponse.json();
+
+        if (!backendResponse.ok) {
+            // Handle backend errors
+            return NextResponse.json({ success: false, error: data.error || 'Backend error' }, { status: backendResponse.status });
+        }
+
+        return NextResponse.json({ success: true, product: data.product }, { status: 201 });
+
     } catch (err) {
-        console.error('Error creating product:', err);
-        return NextResponse.json({ success: false, error: 'Server error' }, { status: 500 });
+        console.error('Error in Next.js API route:', err);
+        return NextResponse.json({ success: false, error: 'Next.js server error' }, { status: 500 });
     }
 }
