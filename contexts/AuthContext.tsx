@@ -1,14 +1,31 @@
-'use client'; // This directive must be on the first line
+'use client'; // phải nằm trên cùng
 
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-// --- Sửa đổi dòng này ---
-// Thay vì import từ thư mục backend cục bộ,
-// hãy import các hàm login và register từ file service của frontend
-import { login as loginFrontendService, register as registerFrontendService } from '@/app/services/authService';
-// --- Kết thúc sửa đổi ---
 
-// Định nghĩa kiểu dữ liệu cho User
+// --- CHỈNH LẠI: service API call frontend ---
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+
+async function loginService(email: string, password: string) {
+    const res = await fetch(`${API_URL}/api/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+    });
+    return res.json();
+}
+
+async function registerService(name: string, email: string, password: string) {
+    const res = await fetch(`${API_URL}/api/auth/register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, password }),
+    });
+    return res.json();
+}
+// --- Hết phần service ---
+
+// Kiểu User
 interface User {
     id: string;
     name: string;
@@ -17,7 +34,6 @@ interface User {
     token?: string;
 }
 
-// Định nghĩa kiểu dữ liệu cho AuthContext
 interface AuthContextType {
     user: User | null;
     token: string | null;
@@ -25,18 +41,14 @@ interface AuthContextType {
     error: string | null;
     login: (email: string, password: string) => Promise<boolean>;
     register: (name: string, email: string, password: string) => Promise<boolean>;
-    logout: () => Promise<void>;
+    logout: () => void;
 }
 
-// Tạo AuthContext
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Custom hook
 export const useAuth = () => {
     const context = useContext(AuthContext);
-    if (context === undefined) {
-        throw new Error('useAuth must be used within an AuthProvider');
-    }
+    if (!context) throw new Error("useAuth must be used within an AuthProvider");
     return context;
 };
 
@@ -47,19 +59,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const [error, setError] = useState<string | null>(null);
     const router = useRouter();
 
-    // Load user từ localStorage khi app khởi động
+    // Load từ localStorage
     useEffect(() => {
         try {
-            const storedUser = localStorage.getItem('user');
-            const storedToken = localStorage.getItem('token');
+            const storedUser = localStorage.getItem("user");
+            const storedToken = localStorage.getItem("token");
             if (storedUser && storedToken) {
                 setUser(JSON.parse(storedUser));
                 setToken(storedToken);
             }
-        } catch (e) {
-            console.error("Failed to load user/token from localStorage", e);
-            localStorage.removeItem('user');
-            localStorage.removeItem('token');
+        } catch {
+            localStorage.removeItem("user");
+            localStorage.removeItem("token");
         } finally {
             setLoading(false);
         }
@@ -70,27 +81,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setLoading(true);
         setError(null);
         try {
-            // --- Sửa đổi dòng này ---
-            const data = await loginFrontendService(email, password);
-            // --- Kết thúc sửa đổi ---
+            const data = await loginService(email, password);
             if (data?.token && data?.user) {
-                setUser(data.user as User);
+                setUser(data.user);
                 setToken(data.token);
-                localStorage.setItem('user', JSON.stringify(data.user));
-                localStorage.setItem('token', data.token);
+                localStorage.setItem("user", JSON.stringify(data.user));
+                localStorage.setItem("token", data.token);
                 return true;
             } else {
-                setError(data?.message || 'Đăng nhập thất bại.');
+                setError(data?.message || "Đăng nhập thất bại.");
                 return false;
             }
-        } catch (err: unknown) {
-            if (err instanceof Error) {
-                console.error('Lỗi đăng nhập:', err.message);
-                setError(err.message);
-            } else {
-                console.error('Lỗi đăng nhập không xác định:', err);
-                setError('Lỗi mạng hoặc server không phản hồi.');
-            }
+        } catch (err) {
+            setError("Lỗi mạng hoặc server không phản hồi.");
             return false;
         } finally {
             setLoading(false);
@@ -102,27 +105,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setLoading(true);
         setError(null);
         try {
-            // --- Sửa đổi dòng này ---
-            const data = await registerFrontendService(name, email, password);
-            // --- Kết thúc sửa đổi ---
+            const data = await registerService(name, email, password);
             if (data?.token && data?.user) {
-                setUser(data.user as User);
+                setUser(data.user);
                 setToken(data.token);
-                localStorage.setItem('user', JSON.stringify(data.user));
-                localStorage.setItem('token', data.token);
+                localStorage.setItem("user", JSON.stringify(data.user));
+                localStorage.setItem("token", data.token);
                 return true;
             } else {
-                setError(data?.message || 'Đăng ký thất bại.');
+                setError(data?.message || "Đăng ký thất bại.");
                 return false;
             }
-        } catch (err: unknown) {
-            if (err instanceof Error) {
-                console.error('Lỗi đăng ký:', err.message);
-                setError(err.message);
-            } else {
-                console.error('Lỗi đăng ký không xác định:', err);
-                setError('Lỗi mạng hoặc server không phản hồi.');
-            }
+        } catch (err) {
+            setError("Lỗi mạng hoặc server không phản hồi.");
             return false;
         } finally {
             setLoading(false);
@@ -130,15 +125,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }, []);
 
     // Đăng xuất
-    const logout = useCallback(async () => {
+    const logout = useCallback(() => {
         setUser(null);
         setToken(null);
-        localStorage.removeItem('user');
-        localStorage.removeItem('token');
-        router.push('/login');
+        localStorage.removeItem("user");
+        localStorage.removeItem("token");
+        router.push("/login");
     }, [router]);
 
-    const value = {
+    const value: AuthContextType = {
         user,
         token,
         loading,
