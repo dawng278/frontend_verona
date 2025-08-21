@@ -4,7 +4,7 @@ import React from 'react';
 import { useCart } from '@/contexts/CartContext';
 
 const CartOverlay = () => {
-    const { isCartOpen, toggleCart, cartItems, totalAmount, removeFromCart } = useCart();
+    const { isCartOpen, toggleCart, cartItems, getTotalPrice, removeFromCart } = useCart();
 
     if (!isCartOpen) return null;
 
@@ -27,7 +27,12 @@ const CartOverlay = () => {
                             </div>
                             <div>
                                 <p>${(item.price * item.quantity).toFixed(2)}</p>
-                                <button onClick={() => removeFromCart(item.id)} className="text-xs text-red-600">Remove</button>
+                                <button
+                                    onClick={() => removeFromCart(item.id)}
+                                    className="text-xs text-red-600"
+                                >
+                                    Remove
+                                </button>
                             </div>
                         </li>
                     ))}
@@ -35,7 +40,7 @@ const CartOverlay = () => {
             )}
 
             <div className="mt-4 border-t pt-2 font-semibold">
-                Total: ${totalAmount.toFixed(2)}
+                Total: ${getTotalPrice().toFixed(2)}
             </div>
         </div>
     );

@@ -18,6 +18,9 @@ interface CartContextType {
     clearCart: () => void;
     getTotalPrice: () => number;
     loading: boolean;
+    isCartOpen: boolean;
+    toggleCart: () => void;
+    totalAmount: number;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -25,6 +28,7 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [cartItems, setCartItems] = useState<CartItem[]>([]);
     const [loading, setLoading] = useState(true);
+    const [isCartOpen, setIsCartOpen] = useState(false);
 
     // ✅ Load từ localStorage an toàn
     useEffect(() => {
@@ -71,7 +75,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
 
     return (
-        <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, clearCart, getTotalPrice, loading }}>
+        <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, clearCart, getTotalPrice, loading, isCartOpen, toggleCart: () => setIsCartOpen(!isCartOpen), totalAmount: getTotalPrice() }}>
             {children}
         </CartContext.Provider>
     );
