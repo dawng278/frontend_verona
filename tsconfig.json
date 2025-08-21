@@ -17,7 +17,7 @@
     "baseUrl": ".",
     "paths": {
       "@backend/*": ["../backend/src/*"],
-      "@/*": ["*"]
+      "@/*": ["./*"]
     },
     "plugins": [
       { "name": "next" }

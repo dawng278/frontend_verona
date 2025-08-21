@@ -1,19 +1,24 @@
 // next.config.ts
-import type { NextConfig } from 'next';
+import type { NextConfig } from "next";
+import path from "path";
 
 const nextConfig: NextConfig = {
-    // Cấu hình cho Next.js
-    // Ví dụ: cho phép tải ảnh từ các domain cụ thể nếu bạn dùng ảnh bên ngoài
     images: {
         remotePatterns: [
             {
-                protocol: 'https',
-                hostname: 'via.placeholder.com', // Ví dụ: cho phép ảnh placeholder
+                protocol: "https",
+                hostname: "via.placeholder.com",
             },
-            // Thêm các domain khác nếu bạn tải ảnh từ CDN hoặc dịch vụ bên ngoài
         ],
     },
-    // Thêm các cấu hình khác nếu cần
+
+    webpack: (config) => {
+        config.resolve.alias = {
+            ...config.resolve.alias,
+            "@backend": path.resolve(__dirname, "../backend/src"), // alias backend
+        };
+        return config;
+    },
 };
 
 export default nextConfig;
