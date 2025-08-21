@@ -1,50 +1,23 @@
-import { NextRequest, NextResponse } from 'next/server';
-import bcrypt from 'bcryptjs';
-import User from '@backend/models/User'; // Adjust import based on your setup
+import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(request: NextRequest) {
+export async function POST(req: NextRequest) {
     try {
-        const { name, email, password } = await request.json();
+        const body = await req.json();
 
-        if (!name || !email || !password) {
-            return NextResponse.json(
-                { message: "Please enter all fields" },
-                { status: 400 }
-            );
-        }
-
-        // Database operations would go here
-        const existingUser = await User.findOne({ email });
-        if (existingUser) {
-            return NextResponse.json(
-                { message: "User already exists" },
-                { status: 400 }
-            );
-        }
-
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const newUser = new User({
-            name,
-            email,
-            password: hashedPassword,
+        // Gọi sang backend Render
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/register`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body),
         });
 
-        await newUser.save();
+        const data = await res.json();
 
-        return NextResponse.json({
-            success: true,
-            message: "User registered successfully",
-            user: {
-                // id: newUser._id.toString(),
-                name,
-                email,
-            },
-        }, { status: 201 });
-
+        return NextResponse.json(data, { status: res.status });
     } catch (error) {
-        console.error("Register error:", error);
+        console.error("Frontend register error:", error);
         return NextResponse.json(
-            { success: false, message: "Internal server error during register" },
+            { success: false, message: "Internal server error (frontend register)" },
             { status: 500 }
         );
     }

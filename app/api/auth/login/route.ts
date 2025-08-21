@@ -1,50 +1,23 @@
 import { NextRequest, NextResponse } from "next/server";
-import bcrypt from "bcryptjs";
-import User from "@backend/models/User"; // chỉnh lại path theo dự án của bạn
 
 export async function POST(req: NextRequest) {
     try {
-        const { email, password } = await req.json();
+        const body = await req.json();
 
-        if (!email || !password) {
-            return NextResponse.json(
-                { message: "Please enter both email and password" },
-                { status: 400 }
-            );
-        }
+        // Gọi sang backend Render
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/login`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body),
+        });
 
-        const user = await User.findOne({ email });
-        if (!user) {
-            return NextResponse.json(
-                { message: "Invalid email or password" },
-                { status: 401 }
-            );
-        }
+        const data = await res.json();
 
-        const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) {
-            return NextResponse.json(
-                { message: "Invalid email or password" },
-                { status: 401 }
-            );
-        }
-
-        return NextResponse.json(
-            {
-                success: true,
-                message: "Login successful",
-                user: {
-                    id: user._id.toString(),
-                    name: user.name,
-                    email: user.email,
-                },
-            },
-            { status: 200 }
-        );
+        return NextResponse.json(data, { status: res.status });
     } catch (error) {
-        console.error("Login error:", error);
+        console.error("Frontend login error:", error);
         return NextResponse.json(
-            { success: false, message: "Internal server error during login" },
+            { success: false, message: "Internal server error (frontend login)" },
             { status: 500 }
         );
     }
