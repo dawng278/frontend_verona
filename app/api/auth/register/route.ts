@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
-// You'll need to configure your database connection
-// import User from '@backend/models/User'; // Adjust import based on your setup
+import User from '@backend/models/User'; // Adjust import based on your setup
 
 export async function POST(request: NextRequest) {
     try {
@@ -15,22 +14,22 @@ export async function POST(request: NextRequest) {
         }
 
         // Database operations would go here
-        // const existingUser = await User.findOne({ email });
-        // if (existingUser) {
-        //     return NextResponse.json(
-        //         { message: "User already exists" },
-        //         { status: 400 }
-        //     );
-        // }
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+            return NextResponse.json(
+                { message: "User already exists" },
+                { status: 400 }
+            );
+        }
 
-        // const hashedPassword = await bcrypt.hash(password, 10);
-        // const newUser = new User({
-        //     name,
-        //     email,
-        //     password: hashedPassword,
-        // });
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const newUser = new User({
+            name,
+            email,
+            password: hashedPassword,
+        });
 
-        // await newUser.save();
+        await newUser.save();
 
         return NextResponse.json({
             success: true,
