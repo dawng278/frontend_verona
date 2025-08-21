@@ -17,12 +17,14 @@ interface CartContextType {
     removeFromCart: (id: string) => void;
     clearCart: () => void;
     getTotalPrice: () => number;
+    loading: boolean;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [cartItems, setCartItems] = useState<CartItem[]>([]);
+    const [loading, setLoading] = useState(true);
 
     // ✅ Load từ localStorage an toàn
     useEffect(() => {
@@ -69,7 +71,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
 
     return (
-        <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, clearCart, getTotalPrice }}>
+        <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, clearCart, getTotalPrice, loading }}>
             {children}
         </CartContext.Provider>
     );
