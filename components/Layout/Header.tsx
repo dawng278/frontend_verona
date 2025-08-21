@@ -5,6 +5,11 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Menu, X, ShoppingBag, User } from 'lucide-react';
 import LoginForm from "@/components/Auth/LoginForm";
 import RegisterForm from "@/components/Auth/RegisterForm";
+import CartOverlay from "./CartOverlay";
+
+import { AuthContext } from "@/contexts/AuthContext";
+import { useCart } from "@/contexts/CartContext";
+
 
 interface UserType {
     id: string;
@@ -32,21 +37,11 @@ const AccountOverlay: React.FC<AccountOverlayProps> = ({ onLogout }) => (
     </div>
 );
 
-const CartOverlay = () => (
-    <div className="fixed inset-y-0 right-0 w-80 bg-white shadow-lg z-50 transform translate-x-full transition-transform duration-300 ease-in-out">
-        {/* Nội dung giỏ hàng */}
-        <div className="p-4">
-            <h3 className="text-xl font-bold mb-4">Your Cart</h3>
-            <p>Cart is empty.</p>
-            {/* Thêm các mục giỏ hàng ở đây */}
-        </div>
-    </div>
-);
-
 
 const Header = () => {
     const [user, setUser] = useState<UserType | null>(null);
-    const [isClient, setIsClient] = useState<boolean>(false); // Để khắc phục lỗi hydration
+    const [isClient, setIsClient] = useState<boolean>(false);
+    const { toggleCart, totalQuantity } = useCart();
 
     const handleUserLogin = (userData: UserType, token: string) => {
         setUser(userData);
