@@ -16,7 +16,7 @@
     // Quan trọng: baseUrl trỏ tới root của frontend
     "baseUrl": ".",
     "paths": {
-      "@backend/*": ["../backend/src/*"],
+      "@backend/*": ["backend/src/*"],
       "@/*": ["*"]
     },
     "plugins": [
