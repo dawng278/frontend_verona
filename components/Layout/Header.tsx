@@ -1,21 +1,25 @@
 'use client';
 
 import Link from 'next/link';
-import { useContext, useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Menu, X, LogIn, ShoppingBag } from 'lucide-react';
-import { AuthContext } from '@/contexts/AuthContext';
-import { CartContext, useCart } from '@/contexts/CartContext';
+import { useAuth } from "@/contexts/AuthContext";
+import { useCart } from '@/contexts/CartContext';
 
 import AccountOverlay from './AccountOverlay';
 import CartOverlay from './CartOverlay';
 import NavLinks from './NavLinks';
 
 const Header = () => {
-    const { user, logout } = useContext(AuthContext);
-    const { toggleCart, totalQuantity } = useCart();   // ✅ dùng context thật, không mock
+    const auth = useAuth();
+    const { toggleCart, totalQuantity } = useCart();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isAccountOpen, setIsAccountOpen] = useState(false);
     const accountRef = useRef<HTMLDivElement>(null);
+
+    // ✅ fallback an toàn nếu context null
+    const user = auth?.user ?? null;
+    const logout = auth?.logout ?? (() => {});
 
     // Toggle account overlay
     const handleAccountClick = () => {
@@ -56,7 +60,9 @@ const Header = () => {
                             <LogIn className="cursor-pointer text-gray-700 hover:text-[#B61E01]" />
                             {user && <span className="text-gray-700">{user.name}</span>}
                         </button>
-                        {isAccountOpen && <AccountOverlay user={user} logout={logout} />}
+                        {isAccountOpen && (
+                            <AccountOverlay/>
+                        )}
                     </div>
 
                     {/* Cart Icon */}
