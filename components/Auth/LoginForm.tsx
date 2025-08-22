@@ -125,7 +125,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, onSwitchToRegister, on
                 {/* Switch to Register */}
                 <div className="text-center text-sm mt-4">
                     <p className="text-gray-600">
-                        Don't have an account?{' '}
+                        Don&#39;t have an account?{' '}
                         <span className="text-[#E63946] font-semibold cursor-pointer" onClick={onSwitchToRegister}>
                             Register here.
                         </span>
