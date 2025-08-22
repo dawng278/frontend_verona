@@ -42,6 +42,11 @@ interface AuthContextType {
     login: (email: string, password: string) => Promise<boolean>;
     register: (name: string, email: string, password: string) => Promise<boolean>;
     logout: () => void;
+
+    // ✨ thêm phần quản lý Account Modal
+    isAccountOpen: boolean;
+    openAccount: () => void;
+    closeAccount: () => void;
 }
 
 export const AuthContext = createContext<AuthContextType | null>(null);
@@ -60,6 +65,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const router = useRouter();
+
+    // ✨ state quản lý modal account
+    const [isAccountOpen, setIsAccountOpen] = useState(false);
+    const openAccount = () => setIsAccountOpen(true);
+    const closeAccount = () => setIsAccountOpen(false);
 
     // Load từ localStorage
     useEffect(() => {
@@ -89,7 +99,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 setToken(data.token);
                 localStorage.setItem("user", JSON.stringify(data.user));
                 localStorage.setItem("token", data.token);
-                router.push("/");  // ⬅️ thêm điều hướng sau khi login
+                closeAccount(); // ⬅️ đóng modal khi login thành công
+                router.push("/");
                 return true;
             } else {
                 setError(data?.message || "Đăng nhập thất bại.");
@@ -114,6 +125,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 setToken(data.token);
                 localStorage.setItem("user", JSON.stringify(data.user));
                 localStorage.setItem("token", data.token);
+                closeAccount(); // ⬅️ đóng modal khi đăng ký thành công
                 return true;
             } else {
                 setError(data?.message || "Đăng ký thất bại.");
@@ -144,6 +156,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         login,
         register,
         logout,
+        isAccountOpen,
+        openAccount,
+        closeAccount,
     };
 
     if (loading) {
