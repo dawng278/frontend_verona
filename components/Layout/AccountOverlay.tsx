@@ -19,14 +19,14 @@ const AccountOverlay = ({ onClose }: AccountOverlayProps) => {
             onClick={onClose} // bấm vào nền -> đóng
         >
             <div
-                className="p-6 w-96 relative"
+                className="p-6 w-96 relative bg-white rounded-md shadow-lg"
                 onClick={(e) => e.stopPropagation()} // chặn click trong form không đóng
             >
                 {user ? (
                     <div className="text-center">
-                        <p className="mb-4">{user.name}</p>
+                        <p className="mb-4 font-medium">{user.name}</p>
                         <button
-                            onClick={logout}
+                            onClick={() => { logout(); onClose(); }}
                             className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
                         >
                             Logout
@@ -35,9 +35,9 @@ const AccountOverlay = ({ onClose }: AccountOverlayProps) => {
                 ) : (
                     <>
                         {showLogin ? (
-                            <LoginForm onSwitchToRegister={() => setShowLogin(false)} />
+                            <LoginForm onSwitchToRegister={() => setShowLogin(false)} onClose={onClose} />
                         ) : (
-                            <RegisterForm onSwitchToLogin={() => setShowLogin(true)} />
+                            <RegisterForm onSwitchToLogin={() => setShowLogin(true)} onClose={onClose} />
                         )}
                     </>
                 )}

@@ -11,12 +11,12 @@ interface UserApiResponse {
 interface LoginFormProps {
     onSuccess?: (user: UserApiResponse, token: string) => void;
     onSwitchToRegister?: () => void;
+    onClose?: () => void; // ✅ thêm onClose
 }
 
-const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, onSwitchToRegister }) => {
+const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, onSwitchToRegister, onClose }) => {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
-
     const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [formMessage, setFormMessage] = useState<string | null>(null);
@@ -47,128 +47,86 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, onSwitchToRegister }) 
         setFormMessage(null);
         setErrors({});
 
-        if (!validateForm()) {
-            return;
-        }
+        if (!validateForm()) return;
 
         setIsLoading(true);
         try {
-            console.log('Attempting to log in with:', { email, password });
-
             const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/login`, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, password }),
             });
-
             const data = await response.json();
 
             if (response.ok) {
                 setFormMessage('Login successful! Redirecting...');
-                console.log('Login successful!', data);
-                if (onSuccess) {
-                    onSuccess(data.user, data.token);
-                }
+                if (onSuccess) onSuccess(data.user, data.token);
+                if (onClose) onClose(); // ✅ đóng modal khi login thành công
             } else {
-                setFormMessage(data.message || 'Login failed. Please check your credentials and try again.');
-                console.error('Login failed:', data.message);
+                setFormMessage(data.message || 'Login failed. Please check your credentials.');
             }
-        } catch (error: unknown) {
-            console.error('Login failed (network error or server issue):', error);
-            if (error instanceof Error) {
-                setFormMessage(`Login failed. Could not connect to the server: ${error.message}`);
-            } else {
-                setFormMessage('Login failed. An unknown error occurred.');
-            }
+        } catch (err) {
+            setFormMessage('Login failed. Network or server error.');
         } finally {
             setIsLoading(false);
         }
     };
 
-
     return (
         <div className="w-full max-w-md p-6 sm:p-8 rounded-2xl shadow-xl bg-white border border-gray-200 mx-auto my-8 font-sans">
             <h2 className="text-3xl font-extrabold text-center mb-8 text-[#5C3A21]">Welcome Back!</h2>
-
             <form onSubmit={handleLogin} className="space-y-6">
+                {/* Email Input */}
                 <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-[#5C3A21] mb-1">
-                        Email
-                    </label>
+                    <label htmlFor="email" className="block text-sm font-medium text-[#5C3A21] mb-1">Email</label>
                     <input
                         type="email"
                         id="email"
                         className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 transition duration-200
-                                    ${errors.email ? 'border-red-500 focus:ring-red-300' : 'border-gray-300 focus:ring-[#FFA500]'}`}
+                            ${errors.email ? 'border-red-500 focus:ring-red-300' : 'border-gray-300 focus:ring-[#FFA500]'}`}
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
-                        aria-invalid={errors.email ? "true" : "false"}
-                        aria-describedby={errors.email ? "email-error" : undefined}
                     />
-                    {errors.email && (
-                        <p id="email-error" className="text-red-500 text-xs mt-1" role="alert">
-                            {errors.email}
-                        </p>
-                    )}
+                    {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
                 </div>
 
+                {/* Password Input */}
                 <div>
-                    <label htmlFor="password" className="block text-sm font-medium text-[#5C3A21] mb-1">
-                        Password
-                    </label>
+                    <label htmlFor="password" className="block text-sm font-medium text-[#5C3A21] mb-1">Password</label>
                     <input
                         type="password"
                         id="password"
                         className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 transition duration-200
-                                    ${errors.password ? 'border-red-500 focus:ring-red-300' : 'border-gray-300 focus:ring-[#FFA500]'}`}
+                            ${errors.password ? 'border-red-500 focus:ring-red-300' : 'border-gray-300 focus:ring-[#FFA500]'}`}
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
-                        aria-invalid={errors.password ? "true" : "false"}
-                        aria-describedby={errors.password ? "password-error" : undefined}
                     />
-                    {errors.password && (
-                        <p id="password-error" className="text-red-500 text-xs mt-1" role="alert">
-                            {errors.password}
-                        </p>
-                    )}
+                    {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password}</p>}
                 </div>
 
+                {/* Form Message */}
                 {formMessage && (
-                    <div className={`text-center text-sm p-2 rounded-md ${formMessage.includes('successful') ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`} role="status">
+                    <div className={`text-center text-sm p-2 rounded-md ${formMessage.includes('successful') ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
                         {formMessage}
                     </div>
                 )}
 
+                {/* Submit Button */}
                 <button
                     type="submit"
-                    className="w-full flex items-center justify-center bg-[#FFA500] text-white font-semibold py-3 rounded-lg hover:bg-[#FF8C00] transition duration-300 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full bg-[#FFA500] text-white font-semibold py-3 rounded-lg hover:bg-[#FF8C00] transition duration-300"
                     disabled={isLoading}
-                    aria-live="polite"
                 >
-                    {isLoading ? (
-                        <>
-                            <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                            </svg>
-                            Logging in...
-                        </>
-                    ) : (
-                        'Login'
-                    )}
+                    {isLoading ? 'Logging in...' : 'Login'}
                 </button>
 
+                {/* Switch to Register */}
                 <div className="text-center text-sm mt-4">
                     <p className="text-gray-600">
-                        Don&#39;t have an account?{' '}
-                        <span
-                            className="text-[#E63946] font-semibold hover:text-[#D62828] cursor-pointer transition duration-200"
-                            onClick={onSwitchToRegister}
-                        >
+                        Don't have an account?{' '}
+                        <span className="text-[#E63946] font-semibold cursor-pointer" onClick={onSwitchToRegister}>
                             Register here.
                         </span>
                     </p>

@@ -17,9 +17,7 @@ const Header = () => {
     const [isAccountOpen, setIsAccountOpen] = useState(false);
     const accountRef = useRef<HTMLDivElement>(null);
 
-    // ✅ fallback an toàn nếu context null
     const user = auth?.user ?? null;
-    const logout = auth?.logout ?? (() => {});
 
     // Toggle account overlay
     const handleAccountClick = () => {
@@ -56,7 +54,10 @@ const Header = () => {
                 <div className="flex items-center space-x-4">
                     {/* User Account */}
                     <div className="relative" ref={accountRef}>
-                        <button onClick={handleAccountClick} className="flex items-center space-x-2">
+                        <button
+                            onClick={handleAccountClick}
+                            className="flex items-center space-x-2"
+                        >
                             <LogIn className="cursor-pointer text-gray-700 hover:text-[#B61E01]" />
                             {user && <span className="text-gray-700">{user.name}</span>}
                         </button>
