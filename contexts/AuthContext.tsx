@@ -89,6 +89,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 setToken(data.token);
                 localStorage.setItem("user", JSON.stringify(data.user));
                 localStorage.setItem("token", data.token);
+                router.push("/");  // ⬅️ thêm điều hướng sau khi login
                 return true;
             } else {
                 setError(data?.message || "Đăng nhập thất bại.");
