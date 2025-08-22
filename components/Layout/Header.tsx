@@ -14,30 +14,9 @@ const Header = () => {
     const auth = useAuth();
     const { toggleCart, totalQuantity } = useCart();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [isAccountOpen, setIsAccountOpen] = useState(false);
-    const accountRef = useRef<HTMLDivElement>(null);
 
     // ✅ fallback an toàn nếu context null
     const user = auth?.user ?? null;
-    const logout = auth?.logout ?? (() => {});
-
-    // Toggle account overlay
-    const handleAccountClick = () => {
-        setIsAccountOpen(!isAccountOpen);
-    };
-
-    // Close account overlay if clicked outside
-    useEffect(() => {
-        function handleClickOutside(event: MouseEvent) {
-            if (accountRef.current && !accountRef.current.contains(event.target as Node)) {
-                setIsAccountOpen(false);
-            }
-        }
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, []);
 
     return (
         <header className="bg-white shadow-md fixed top-0 left-0 w-full z-50">
@@ -55,13 +34,15 @@ const Header = () => {
                 {/* Actions */}
                 <div className="flex items-center space-x-4">
                     {/* User Account */}
-                    <div className="relative" ref={accountRef}>
-                        <button onClick={handleAccountClick} className="flex items-center space-x-2">
-                            <LogIn className="cursor-pointer text-gray-700 hover:text-[#B61E01]" />
-                            {user && <span className="text-gray-700">{user.name}</span>}
-                        </button>
-                        {isAccountOpen && (
-                            <AccountOverlay/>
+                    <div className="relative">
+                        {user ? (
+                            <button className="flex items-center space-x-2">
+                                <LogIn className="cursor-pointer text-gray-700 hover:text-[#B61E01]" />
+                                <span className="text-gray-700">{user.name}</span>
+                            </button>
+                        ) : (
+                            // ✅ Hiển thị thẳng overlay Login/Register khi chưa đăng nhập
+                            <AccountOverlay />
                         )}
                     </div>
 
