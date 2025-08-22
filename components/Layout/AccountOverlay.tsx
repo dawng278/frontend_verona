@@ -11,25 +11,25 @@ interface AccountOverlayProps {
 }
 
 const AccountOverlay = ({ onClose }: AccountOverlayProps) => {
-    const { user, login, register, logout } = useAuth(); // ✅ chỉ dùng login/register/logout
+    const { user, login, register, logout } = useAuth();
     const [showLogin, setShowLogin] = useState(true);
     const [isLoggingOut, setIsLoggingOut] = useState(false);
     const [showSuccessMessage, setShowSuccessMessage] = useState(false);
     const overlayRef = useRef<HTMLDivElement>(null);
 
-    // Handle escape key press
+    // Handle escape key
     useEffect(() => {
-        function handleEscapeKey(event: KeyboardEvent) {
-            if (event.key === 'Escape') onClose();
-        }
-        document.addEventListener('keydown', handleEscapeKey);
-        return () => document.removeEventListener('keydown', handleEscapeKey);
+        const handleEscapeKey = (event: KeyboardEvent) => {
+            if (event.key === "Escape") onClose();
+        };
+        document.addEventListener("keydown", handleEscapeKey);
+        return () => document.removeEventListener("keydown", handleEscapeKey);
     }, [onClose]);
 
-    // Prevent body scroll when modal is open
+    // Prevent body scroll
     useEffect(() => {
-        document.body.style.overflow = 'hidden';
-        return () => { document.body.style.overflow = 'unset'; };
+        document.body.style.overflow = "hidden";
+        return () => { document.body.style.overflow = "unset"; };
     }, []);
 
     // Logout
@@ -38,19 +38,18 @@ const AccountOverlay = ({ onClose }: AccountOverlayProps) => {
         try {
             await logout();
             onClose();
-        } catch (error) {
-            console.error('Logout failed:', error);
+        } catch (err) {
+            console.error("Logout failed:", err);
         } finally {
             setIsLoggingOut(false);
         }
     };
 
-    // Handle successful login/register
+    // Show success message after login/register
     const handleAuthSuccess = () => {
-        // Show success message briefly
         setShowSuccessMessage(true);
         setTimeout(() => setShowSuccessMessage(false), 2000);
-        setShowLogin(true); // Chuyển sang menu user
+        setShowLogin(true); // show menu
     };
 
     // Backdrop click
@@ -80,7 +79,7 @@ const AccountOverlay = ({ onClose }: AccountOverlayProps) => {
                 )}
 
                 {user ? (
-                    // Authenticated user menu
+                    // Authenticated menu
                     <div className="p-6">
                         <div className="flex items-center space-x-3 mb-6 pb-4 border-b border-gray-100">
                             <div className="w-12 h-12 bg-[#FFA500] rounded-full flex items-center justify-center">
@@ -113,7 +112,6 @@ const AccountOverlay = ({ onClose }: AccountOverlayProps) => {
                         </button>
                     </div>
                 ) : (
-                    // Authentication forms
                     <div className="p-2">
                         {showLogin ? (
                             <LoginForm

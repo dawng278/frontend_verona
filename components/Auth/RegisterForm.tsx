@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Eye, EyeOff, Loader2, Check, X } from 'lucide-react';
+import { Eye, EyeOff, Loader2 } from 'lucide-react';
 
 interface RegisterFormProps {
     onSuccess?: (name: string, email: string, password: string) => Promise<void>;
@@ -10,69 +10,48 @@ interface RegisterFormProps {
 }
 
 const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess, onSwitchToLogin, onClose }) => {
-    const [name, setName] = useState<string>('');
-    const [email, setEmail] = useState<string>('');
-    const [password, setPassword] = useState<string>('');
-    const [confirmPassword, setConfirmPassword] = useState<string>('');
-    const [showPassword, setShowPassword] = useState<boolean>(false);
-    const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [errors, setErrors] = useState<{ name?: string; email?: string; password?: string; confirmPassword?: string }>({});
-    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState(false);
     const [formMessage, setFormMessage] = useState<string | null>(null);
-
-    const getPasswordStrength = (password: string) => {
-        let strength = 0;
-        const checks = {
-            length: password.length >= 8,
-            uppercase: /[A-Z]/.test(password),
-            lowercase: /[a-z]/.test(password),
-            number: /\d/.test(password),
-            special: /[!@#$%^&*(),.?":{}|<>]/.test(password)
-        };
-        Object.values(checks).forEach(check => check && strength++);
-        return { strength, checks };
-    };
-
-    const passwordStrength = getPasswordStrength(password);
 
     const validateForm = (): boolean => {
         const newErrors: typeof errors = {};
-        let isValid = true;
+        let valid = true;
 
         if (!name.trim()) {
-            newErrors.name = 'Full name is required.';
-            isValid = false;
-        } else if (name.trim().length < 2) {
-            newErrors.name = 'Name must be at least 2 characters.';
-            isValid = false;
+            newErrors.name = 'Name is required.';
+            valid = false;
         }
 
         if (!email.trim()) {
             newErrors.email = 'Email is required.';
-            isValid = false;
+            valid = false;
         } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-            newErrors.email = 'Please enter a valid email address.';
-            isValid = false;
+            newErrors.email = 'Invalid email.';
+            valid = false;
         }
 
         if (!password) {
             newErrors.password = 'Password is required.';
-            isValid = false;
-        } else if (password.length < 8 || passwordStrength.strength < 3) {
-            newErrors.password = 'Password is too weak. Include uppercase, lowercase, and numbers.';
-            isValid = false;
+            valid = false;
+        } else if (password.length < 6) {
+            newErrors.password = 'Password must be at least 6 characters.';
+            valid = false;
         }
 
-        if (!confirmPassword) {
-            newErrors.confirmPassword = 'Please confirm your password.';
-            isValid = false;
-        } else if (password !== confirmPassword) {
+        if (password !== confirmPassword) {
             newErrors.confirmPassword = 'Passwords do not match.';
-            isValid = false;
+            valid = false;
         }
 
         setErrors(newErrors);
-        return isValid;
+        return valid;
     };
 
     const handleRegister = async (e: React.FormEvent) => {
@@ -84,111 +63,94 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess, onSwitchToLogin,
 
         setIsLoading(true);
         try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/register`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify({ name: name.trim(), email: email.trim(), password }),
-            });
-
-            const data = await response.json();
-
-            if (response.ok && data.user && data.token) {
+            if (onSuccess) {
+                await onSuccess(name.trim(), email.trim(), password);
                 setFormMessage('Registration successful!');
-
-                // Call onSuccess with parameters
-                if (onSuccess) await onSuccess(name.trim(), email.trim(), password);
-
-                // Close modal after short delay
-                setTimeout(() => {
-                    if (onClose) onClose();
-                }, 1500);
-            } else {
-                setFormMessage(data.message || 'Registration failed. Please try again.');
+                setTimeout(() => { if (onClose) onClose(); }, 1500);
             }
-        } catch (err) {
+        } catch (err: any) {
             console.error('Registration error:', err);
-            setFormMessage('Registration failed. Check your internet connection.');
+            setFormMessage(err?.message || 'Registration failed.');
         } finally {
             setIsLoading(false);
-        }
-    };
-
-    const getStrengthColor = () => {
-        switch (passwordStrength.strength) {
-            case 0: case 1: return 'bg-red-500';
-            case 2: return 'bg-orange-500';
-            case 3: return 'bg-yellow-500';
-            case 4: return 'bg-blue-500';
-            case 5: return 'bg-green-500';
-            default: return 'bg-gray-300';
-        }
-    };
-
-    const getStrengthText = () => {
-        switch (passwordStrength.strength) {
-            case 0: case 1: return 'Very Weak';
-            case 2: return 'Weak';
-            case 3: return 'Fair';
-            case 4: return 'Good';
-            case 5: return 'Strong';
-            default: return '';
         }
     };
 
     return (
         <div className="w-full max-w-md p-6 sm:p-8 rounded-2xl shadow-xl bg-white border border-gray-200 mx-auto my-4 font-sans">
             <h2 className="text-2xl sm:text-3xl font-extrabold text-center mb-6 text-[#5C3A21]">Create Your Account</h2>
+            {formMessage && <p className="text-green-500 text-center mb-2">{formMessage}</p>}
 
             <form onSubmit={handleRegister} className="space-y-5">
-                {/* Name Input */}
                 <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-[#5C3A21] mb-2">Full Name</label>
+                    <label className="block text-sm font-medium text-[#5C3A21] mb-2">Full Name</label>
                     <input
                         type="text"
-                        id="name"
-                        className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition duration-200 placeholder-gray-400 ${errors.name ? 'border-red-500 focus:ring-red-300' : 'border-gray-300 focus:ring-[#FFA500]'}`}
                         value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        placeholder="Enter your full name"
-                        autoComplete="name"
+                        onChange={e => setName(e.target.value)}
+                        className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition duration-200 placeholder-gray-400 ${errors.name ? 'border-red-500 focus:ring-red-300' : 'border-gray-300 focus:ring-[#FFA500]'}`}
+                        placeholder="Enter your name"
                         required
                     />
                     {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
                 </div>
 
-                {/* Email Input */}
                 <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-[#5C3A21] mb-2">Email Address</label>
+                    <label className="block text-sm font-medium text-[#5C3A21] mb-2">Email</label>
                     <input
                         type="email"
-                        id="email"
-                        className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition duration-200 placeholder-gray-400 ${errors.email ? 'border-red-500 focus:ring-red-300' : 'border-gray-300 focus:ring-[#FFA500]'}`}
                         value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        onChange={e => setEmail(e.target.value)}
+                        className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition duration-200 placeholder-gray-400 ${errors.email ? 'border-red-500 focus:ring-red-300' : 'border-gray-300 focus:ring-[#FFA500]'}`}
                         placeholder="Enter your email"
-                        autoComplete="email"
                         required
                     />
                     {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
                 </div>
 
-                {/* Password & Confirm Password UI */}
-                {/* ... giữ nguyên UI như bạn đã viết ... */}
+                <div>
+                    <label className="block text-sm font-medium text-[#5C3A21] mb-2">Password</label>
+                    <div className="relative">
+                        <input
+                            type={showPassword ? "text" : "password"}
+                            value={password}
+                            onChange={e => setPassword(e.target.value)}
+                            className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition duration-200 placeholder-gray-400 ${errors.password ? 'border-red-500 focus:ring-red-300' : 'border-gray-300 focus:ring-[#FFA500]'}`}
+                            placeholder="Enter password"
+                            required
+                        />
+                        <button type="button" className="absolute right-3 top-3 text-gray-500 hover:text-gray-700" onClick={() => setShowPassword(!showPassword)}>
+                            {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                        </button>
+                    </div>
+                    {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password}</p>}
+                </div>
 
-                {/* Submit Button */}
-                <button type="submit" className="w-full bg-[#FFA500] text-white font-semibold py-3 rounded-lg hover:bg-[#FF8C00] transition duration-300 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed" disabled={isLoading}>
+                <div>
+                    <label className="block text-sm font-medium text-[#5C3A21] mb-2">Confirm Password</label>
+                    <div className="relative">
+                        <input
+                            type={showConfirmPassword ? "text" : "password"}
+                            value={confirmPassword}
+                            onChange={e => setConfirmPassword(e.target.value)}
+                            className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition duration-200 placeholder-gray-400 ${errors.confirmPassword ? 'border-red-500 focus:ring-red-300' : 'border-gray-300 focus:ring-[#FFA500]'}`}
+                            placeholder="Confirm password"
+                            required
+                        />
+                        <button type="button" className="absolute right-3 top-3 text-gray-500 hover:text-gray-700" onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
+                            {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                        </button>
+                    </div>
+                    {errors.confirmPassword && <p className="text-red-500 text-xs mt-1">{errors.confirmPassword}</p>}
+                </div>
+
+                <button type="submit" disabled={isLoading} className="w-full bg-[#FFA500] text-white font-semibold py-3 rounded-lg hover:bg-[#FF8C00] flex items-center justify-center disabled:opacity-50">
                     {isLoading ? <><Loader2 className="animate-spin mr-2" size={18} />Creating Account...</> : 'Create Account'}
                 </button>
 
-                {/* Switch to Login */}
                 <div className="text-center text-sm pt-4 border-t border-gray-100">
                     <p className="text-gray-600">Already have an account?{' '}
-                        <button type="button" onClick={onSwitchToLogin} className="text-[#E63946] font-semibold hover:text-[#B8151F] transition-colors">
-                            Sign in here
-                        </button>
+                        <button type="button" onClick={onSwitchToLogin} className="text-[#E63946] font-semibold hover:text-[#B8151F]">Sign in here</button>
                     </p>
                 </div>
             </form>
