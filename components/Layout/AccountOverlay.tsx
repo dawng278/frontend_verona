@@ -11,7 +11,7 @@ interface AccountOverlayProps {
 }
 
 const AccountOverlay = ({ onClose }: AccountOverlayProps) => {
-    const { user, logout } = useAuth();
+    const { user, setUser, logout } = useAuth(); // ✅ thêm setUser
     const [showLogin, setShowLogin] = useState(true);
     const [isLoggingOut, setIsLoggingOut] = useState(false);
     const [showSuccessMessage, setShowSuccessMessage] = useState(false);
@@ -49,18 +49,17 @@ const AccountOverlay = ({ onClose }: AccountOverlayProps) => {
         }
     };
 
-    // Handle successful login/register - Fixed!
-    const handleAuthSuccess = (user?: { id: string; name: string; email: string; role?: string }, token?: string) => {
-        // Show success message briefly, then keep overlay open to show user menu
+    // Handle successful login/register
+    const handleAuthSuccess = (loggedInUser: { id: string; name: string; email: string; role?: string }, token?: string) => {
+        // ✅ Cập nhật user toàn cục
+        setUser(loggedInUser);
+
+        // Show success message briefly
         setShowSuccessMessage(true);
+        setTimeout(() => setShowSuccessMessage(false), 2000);
 
-        // Hide success message after 2 seconds but keep overlay open
-        setTimeout(() => {
-            setShowSuccessMessage(false);
-        }, 2000);
-
-        // Don't close the overlay - let user see their account menu
-        // onClose(); ← Removed this line
+        // Chuyển từ login sang menu user
+        setShowLogin(true);
     };
 
     // Handle backdrop click
@@ -95,7 +94,7 @@ const AccountOverlay = ({ onClose }: AccountOverlayProps) => {
                 {/* Success message */}
                 {showSuccessMessage && (
                     <div className="absolute top-0 left-0 right-0 bg-green-500 text-white text-center py-2 z-10">
-                        Welcome! Login successful ✓
+                        Welcome, {user?.name || 'User'}! Login successful ✓
                     </div>
                 )}
 
