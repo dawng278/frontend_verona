@@ -24,14 +24,14 @@ interface CartContextType {
     totalAmount: number;
 }
 
-const CartContext = createContext<CartContextType | undefined>(undefined);
+export const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [cartItems, setCartItems] = useState<CartItem[]>([]);
     const [loading, setLoading] = useState(true);
     const [isCartOpen, setIsCartOpen] = useState(false);
 
-    // ✅ Load từ localStorage an toàn
+    // Load giỏ hàng từ localStorage
     useEffect(() => {
         try {
             const storedCart = localStorage.getItem('cart');
@@ -44,11 +44,11 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
         } catch (error) {
             console.error('Error parsing cart from localStorage', error);
         } finally {
-            setLoading(false); // ✅ set lại sau khi load xong
+            setLoading(false);
         }
     }, []);
 
-    // ✅ Lưu vào localStorage mỗi khi giỏ hàng thay đổi
+    // Lưu giỏ hàng vào localStorage khi thay đổi
     useEffect(() => {
         localStorage.setItem('cart', JSON.stringify(cartItems));
     }, [cartItems]);
@@ -77,7 +77,8 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
         return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
     };
 
-    // ✅ Tính tổng số lượng items trong giỏ
+    const toggleCart = () => setIsCartOpen((prev) => !prev);
+
     const totalQuantity = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
     return (
@@ -90,9 +91,9 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 getTotalPrice,
                 loading,
                 isCartOpen,
-                toggleCart: () => setIsCartOpen(!isCartOpen),
+                toggleCart,
                 totalAmount: getTotalPrice(),
-                totalQuantity, // ✅ thêm vào context
+                totalQuantity,
             }}
         >
             {children}
