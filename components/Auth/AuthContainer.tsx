@@ -1,29 +1,32 @@
 'use client';
 
 import React, { useState } from 'react';
-import LoginForm from './LoginForm'; // Đảm bảo đường dẫn chính xác
-import RegisterForm from './RegisterForm'; // Đảm bảo đường dẫn chính xác
+import LoginForm from '../Auth/LoginForm';
+import RegisterForm from '../Auth/RegisterForm';
+import { useAuth } from '@/contexts/AuthContext';
 
 const AuthContainer: React.FC = () => {
-    // State để xác định form nào đang được hiển thị: 'login' hoặc 'register'
+    const { login, register } = useAuth();
     const [currentForm, setCurrentForm] = useState<'login' | 'register'>('login');
 
-    // Hàm xử lý khi đăng nhập thành công
-    const handleLoginSuccess = () => {
-        console.log('Login successful! You can now redirect the user or close the form.');
-        // Ví dụ: Đóng overlay hoặc chuyển hướng người dùng
-        // setCurrentForm(null); // Nếu AuthContainer này là một phần của overlay
+    // Async handler cho Login
+    const handleLoginSuccess = async (email: string, password: string) => {
+        const success = await login(email, password);
+        if (success) {
+            setCurrentForm('login'); // hoặc handleAuthSuccess nếu có modal
+        }
     };
 
-    // Hàm xử lý khi đăng ký thành công
-    const handleRegisterSuccess = () => {
-        console.log('Registration successful! You can now redirect the user or prompt for login.');
-        // Sau khi đăng ký thành công, thường sẽ chuyển về trang đăng nhập
-        setCurrentForm('login');
+    // Async handler cho Register
+    const handleRegisterSuccess = async (name: string, email: string, password: string) => {
+        const success = await register(name, email, password);
+        if (success) {
+            setCurrentForm('login'); // chuyển sang login sau khi đăng ký
+        }
     };
 
     return (
-        <div className="flex items-center justify-center min-h-screen bg-gray-50 p-4">
+        <div className="w-full flex justify-center items-center min-h-screen">
             {currentForm === 'login' ? (
                 <LoginForm
                     onSuccess={handleLoginSuccess}

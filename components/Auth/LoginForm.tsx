@@ -50,7 +50,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, onSwitchToRegister, on
             if (onSuccess) {
                 await onSuccess(email, password); // ✅ chuẩn async
                 setFormMessage('Login successful!');
-                setTimeout(() => { if (onClose) onClose(); }, 1000);
+                if (onClose) setTimeout(onClose, 1000); // tự động đóng modal
             }
         } catch (err: unknown) {
             if (err instanceof Error) {

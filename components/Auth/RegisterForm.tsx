@@ -24,31 +24,14 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess, onSwitchToLogin,
         const newErrors: typeof errors = {};
         let valid = true;
 
-        if (!name.trim()) {
-            newErrors.name = 'Name is required.';
-            valid = false;
-        }
+        if (!name.trim()) { newErrors.name = 'Name is required.'; valid = false; }
+        if (!email.trim()) { newErrors.email = 'Email is required.'; valid = false; }
+        else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { newErrors.email = 'Invalid email.'; valid = false; }
 
-        if (!email.trim()) {
-            newErrors.email = 'Email is required.';
-            valid = false;
-        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-            newErrors.email = 'Invalid email.';
-            valid = false;
-        }
+        if (!password) { newErrors.password = 'Password is required.'; valid = false; }
+        else if (password.length < 6) { newErrors.password = 'Password must be at least 6 characters.'; valid = false; }
 
-        if (!password) {
-            newErrors.password = 'Password is required.';
-            valid = false;
-        } else if (password.length < 6) {
-            newErrors.password = 'Password must be at least 6 characters.';
-            valid = false;
-        }
-
-        if (password !== confirmPassword) {
-            newErrors.confirmPassword = 'Passwords do not match.';
-            valid = false;
-        }
+        if (password !== confirmPassword) { newErrors.confirmPassword = 'Passwords do not match.'; valid = false; }
 
         setErrors(newErrors);
         return valid;
@@ -66,14 +49,11 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess, onSwitchToLogin,
             if (onSuccess) {
                 await onSuccess(name.trim(), email.trim(), password);
                 setFormMessage('Registration successful!');
-                setTimeout(() => { if (onClose) onClose(); }, 1500);
+                if (onClose) setTimeout(onClose, 1500);
             }
         } catch (err: unknown) {
-            if (err instanceof Error) {
-                setFormMessage(err.message);
-            } else {
-                setFormMessage('Something went wrong.');
-            }
+            if (err instanceof Error) setFormMessage(err.message);
+            else setFormMessage('Something went wrong.');
         } finally {
             setIsLoading(false);
         }
@@ -87,26 +67,16 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess, onSwitchToLogin,
             <form onSubmit={handleRegister} className="space-y-5">
                 <div>
                     <label className="block text-sm font-medium text-[#5C3A21] mb-2">Full Name</label>
-                    <input
-                        type="text"
-                        value={name}
-                        onChange={e => setName(e.target.value)}
-                        className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition duration-200 placeholder-gray-400 ${errors.name ? 'border-red-500 focus:ring-red-300' : 'border-gray-300 focus:ring-[#FFA500]'}`}
-                        placeholder="Enter your name"
-                        required
+                    <input value={name} onChange={e => setName(e.target.value)} placeholder="Enter your name" required
+                           className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition duration-200 ${errors.name ? 'border-red-500 focus:ring-red-300' : 'border-gray-300 focus:ring-[#FFA500]'}`}
                     />
                     {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
                 </div>
 
                 <div>
                     <label className="block text-sm font-medium text-[#5C3A21] mb-2">Email</label>
-                    <input
-                        type="email"
-                        value={email}
-                        onChange={e => setEmail(e.target.value)}
-                        className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition duration-200 placeholder-gray-400 ${errors.email ? 'border-red-500 focus:ring-red-300' : 'border-gray-300 focus:ring-[#FFA500]'}`}
-                        placeholder="Enter your email"
-                        required
+                    <input value={email} onChange={e => setEmail(e.target.value)} placeholder="Enter your email" required
+                           className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition duration-200 ${errors.email ? 'border-red-500 focus:ring-red-300' : 'border-gray-300 focus:ring-[#FFA500]'}`}
                     />
                     {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
                 </div>
@@ -114,13 +84,8 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess, onSwitchToLogin,
                 <div>
                     <label className="block text-sm font-medium text-[#5C3A21] mb-2">Password</label>
                     <div className="relative">
-                        <input
-                            type={showPassword ? "text" : "password"}
-                            value={password}
-                            onChange={e => setPassword(e.target.value)}
-                            className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition duration-200 placeholder-gray-400 ${errors.password ? 'border-red-500 focus:ring-red-300' : 'border-gray-300 focus:ring-[#FFA500]'}`}
-                            placeholder="Enter password"
-                            required
+                        <input type={showPassword ? "text" : "password"} value={password} onChange={e => setPassword(e.target.value)} placeholder="Enter password" required
+                               className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition duration-200 ${errors.password ? 'border-red-500 focus:ring-red-300' : 'border-gray-300 focus:ring-[#FFA500]'}`}
                         />
                         <button type="button" className="absolute right-3 top-3 text-gray-500 hover:text-gray-700" onClick={() => setShowPassword(!showPassword)}>
                             {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
@@ -132,13 +97,8 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess, onSwitchToLogin,
                 <div>
                     <label className="block text-sm font-medium text-[#5C3A21] mb-2">Confirm Password</label>
                     <div className="relative">
-                        <input
-                            type={showConfirmPassword ? "text" : "password"}
-                            value={confirmPassword}
-                            onChange={e => setConfirmPassword(e.target.value)}
-                            className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition duration-200 placeholder-gray-400 ${errors.confirmPassword ? 'border-red-500 focus:ring-red-300' : 'border-gray-300 focus:ring-[#FFA500]'}`}
-                            placeholder="Confirm password"
-                            required
+                        <input type={showConfirmPassword ? "text" : "password"} value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} placeholder="Confirm password" required
+                               className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition duration-200 ${errors.confirmPassword ? 'border-red-500 focus:ring-red-300' : 'border-gray-300 focus:ring-[#FFA500]'}`}
                         />
                         <button type="button" className="absolute right-3 top-3 text-gray-500 hover:text-gray-700" onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
                             {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
