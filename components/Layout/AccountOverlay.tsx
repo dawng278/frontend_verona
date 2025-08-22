@@ -14,6 +14,7 @@ const AccountOverlay = ({ onClose }: AccountOverlayProps) => {
     const { user, logout } = useAuth();
     const [showLogin, setShowLogin] = useState(true);
     const [isLoggingOut, setIsLoggingOut] = useState(false);
+    const [showSuccessMessage, setShowSuccessMessage] = useState(false);
     const overlayRef = useRef<HTMLDivElement>(null);
 
     // Handle escape key press
@@ -48,12 +49,18 @@ const AccountOverlay = ({ onClose }: AccountOverlayProps) => {
         }
     };
 
-    // Handle successful login/register
+    // Handle successful login/register - Fixed!
     const handleAuthSuccess = (user?: { id: string; name: string; email: string; role?: string }, token?: string) => {
-        // Force a small delay to ensure state updates
+        // Show success message briefly, then keep overlay open to show user menu
+        setShowSuccessMessage(true);
+
+        // Hide success message after 2 seconds but keep overlay open
         setTimeout(() => {
-            onClose();
-        }, 500);
+            setShowSuccessMessage(false);
+        }, 2000);
+
+        // Don't close the overlay - let user see their account menu
+        // onClose(); ← Removed this line
     };
 
     // Handle backdrop click
@@ -84,6 +91,13 @@ const AccountOverlay = ({ onClose }: AccountOverlayProps) => {
                 >
                     <X size={18} />
                 </button>
+
+                {/* Success message */}
+                {showSuccessMessage && (
+                    <div className="absolute top-0 left-0 right-0 bg-green-500 text-white text-center py-2 z-10">
+                        Welcome! Login successful ✓
+                    </div>
+                )}
 
                 {user ? (
                     // Authenticated user menu
