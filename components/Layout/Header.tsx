@@ -40,7 +40,7 @@ const Header = () => {
     }, []);
 
     return (
-        <header className="bg-white shadow-md fixed top-0 left-0 w-full z-50">
+        <header className="bg-[#F4EDD4] shadow-md fixed top-0 left-0 w-full z-50">
             <div className="container mx-auto px-4 py-4 flex justify-between items-center">
                 {/* Logo */}
                 <Link href="/" className="text-2xl font-bold text-[#B61E01]">

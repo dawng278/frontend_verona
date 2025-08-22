@@ -9,7 +9,7 @@ import FindStoreSection from '@/components/common/FindStoreSection';
 
 const HomePage = () => {
     return (
-        <div className="relative w-full min-h-screen bg-cover bg-center bg-no-repeat">
+        <div className="relative w-full min-h-screen bg-cover bg-center bg-no-repeat pt-8">
             <Image
                 src={backgroundTexture}
                 alt="Background"
