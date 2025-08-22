@@ -3,7 +3,7 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 
-// --- CHỈNH LẠI: service API call frontend ---
+// --- service API call frontend ---
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
 async function loginService(email: string, password: string) {
@@ -23,7 +23,7 @@ async function registerService(name: string, email: string, password: string) {
     });
     return res.json();
 }
-// --- Hết phần service ---
+// --- end service ---
 
 // Kiểu User
 interface User {
@@ -43,7 +43,7 @@ interface AuthContextType {
     register: (name: string, email: string, password: string) => Promise<boolean>;
     logout: () => void;
 
-    // ✨ thêm phần quản lý Account Modal
+    // Quản lý Account Modal
     isAccountOpen: boolean;
     openAccount: () => void;
     closeAccount: () => void;
@@ -53,9 +53,7 @@ export const AuthContext = createContext<AuthContextType | null>(null);
 
 export const useAuth = (): AuthContextType => {
     const context = useContext(AuthContext);
-    if (!context) {
-        throw new Error("useAuth must be used within an AuthProvider");
-    }
+    if (!context) throw new Error("useAuth must be used within an AuthProvider");
     return context;
 };
 
@@ -66,12 +64,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const [error, setError] = useState<string | null>(null);
     const router = useRouter();
 
-    // ✨ state quản lý modal account
     const [isAccountOpen, setIsAccountOpen] = useState(false);
     const openAccount = () => setIsAccountOpen(true);
     const closeAccount = () => setIsAccountOpen(false);
 
-    // Load từ localStorage
+    // Load user/token từ localStorage
     useEffect(() => {
         try {
             const storedUser = localStorage.getItem("user");
@@ -88,58 +85,58 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
     }, []);
 
-    // Đăng nhập
+    // --- Login ---
     const login = useCallback(async (email: string, password: string): Promise<boolean> => {
         setLoading(true);
         setError(null);
         try {
             const data = await loginService(email, password);
-            if (data?.token && data?.user) {
+            if (data?.user && data?.token) {
                 setUser(data.user);
                 setToken(data.token);
                 localStorage.setItem("user", JSON.stringify(data.user));
                 localStorage.setItem("token", data.token);
-                closeAccount(); // ⬅️ đóng modal khi login thành công
+                closeAccount();
                 router.push("/");
                 return true;
             } else {
-                setError(data?.message || "Đăng nhập thất bại.");
+                setError(data?.message || "Login failed.");
                 return false;
             }
-        } catch (err) {
-            setError("Lỗi mạng hoặc server không phản hồi.");
+        } catch {
+            setError("Network or server error.");
             return false;
         } finally {
             setLoading(false);
         }
-    }, []);
+    }, [router]);
 
-    // Đăng ký
+    // --- Register ---
     const register = useCallback(async (name: string, email: string, password: string): Promise<boolean> => {
         setLoading(true);
         setError(null);
         try {
             const data = await registerService(name, email, password);
-            if (data?.token && data?.user) {
+            if (data?.user && data?.token) {
                 setUser(data.user);
                 setToken(data.token);
                 localStorage.setItem("user", JSON.stringify(data.user));
                 localStorage.setItem("token", data.token);
-                closeAccount(); // ⬅️ đóng modal khi đăng ký thành công
+                closeAccount();
                 return true;
             } else {
-                setError(data?.message || "Đăng ký thất bại.");
+                setError(data?.message || "Registration failed.");
                 return false;
             }
-        } catch (err) {
-            setError("Lỗi mạng hoặc server không phản hồi.");
+        } catch {
+            setError("Network or server error.");
             return false;
         } finally {
             setLoading(false);
         }
     }, []);
 
-    // Đăng xuất
+    // --- Logout ---
     const logout = useCallback(() => {
         setUser(null);
         setToken(null);
@@ -161,13 +158,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         closeAccount,
     };
 
-    if (loading) {
-        return (
-            <div className="flex justify-center items-center min-h-screen">
-                <p>Đang tải...</p>
-            </div>
-        );
-    }
+    if (loading) return <div className="flex justify-center items-center min-h-screen"><p>Loading...</p></div>;
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
