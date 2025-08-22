@@ -6,9 +6,9 @@ import { Menu, X, LogIn, ShoppingBag } from 'lucide-react';
 import { useAuth } from "@/contexts/AuthContext";
 import { useCart } from '@/contexts/CartContext';
 
-import AccountOverlay from './AccountOverlay';
 import CartOverlay from './CartOverlay';
 import NavLinks from './NavLinks';
+import AccountOverlay from "@/components/Layout/AccountOverlay";
 
 const Header = () => {
     const auth = useAuth();
@@ -55,12 +55,14 @@ const Header = () => {
                     {/* User Account */}
                     <div className="relative" ref={accountRef}>
                         <button
-                            onClick={handleAccountClick}
+                            onClick={() => setIsAccountOpen(!isAccountOpen)}
                             className="flex items-center space-x-2"
                         >
                             <LogIn className="cursor-pointer text-gray-700 hover:text-[#B61E01]" />
-                            {user && <span className="text-gray-700">{user.name}</span>}
+                            {user ? <span className="text-gray-700">{user.name}</span> : <span>Account</span>}
                         </button>
+
+                        {/* Dropdown menu */}
                         {isAccountOpen && (
                             <AccountOverlay onClose={() => setIsAccountOpen(false)} />
                         )}
