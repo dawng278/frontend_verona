@@ -19,6 +19,7 @@ interface CartContextType {
     getTotalPrice: () => number;
     loading: boolean;
     isCartOpen: boolean;
+    totalQuantity: number;
     toggleCart: () => void;
     totalAmount: number;
 }
@@ -42,6 +43,8 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
             }
         } catch (error) {
             console.error('Error parsing cart from localStorage', error);
+        } finally {
+            setLoading(false); // ✅ set lại sau khi load xong
         }
     }, []);
 
@@ -74,8 +77,24 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
         return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
     };
 
+    // ✅ Tính tổng số lượng items trong giỏ
+    const totalQuantity = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+
     return (
-        <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, clearCart, getTotalPrice, loading, isCartOpen, toggleCart: () => setIsCartOpen(!isCartOpen), totalAmount: getTotalPrice() }}>
+        <CartContext.Provider
+            value={{
+                cartItems,
+                addToCart,
+                removeFromCart,
+                clearCart,
+                getTotalPrice,
+                loading,
+                isCartOpen,
+                toggleCart: () => setIsCartOpen(!isCartOpen),
+                totalAmount: getTotalPrice(),
+                totalQuantity, // ✅ thêm vào context
+            }}
+        >
             {children}
         </CartContext.Provider>
     );
