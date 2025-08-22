@@ -68,9 +68,12 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess, onSwitchToLogin,
                 setFormMessage('Registration successful!');
                 setTimeout(() => { if (onClose) onClose(); }, 1500);
             }
-        } catch (err: any) {
-            console.error('Registration error:', err);
-            setFormMessage(err?.message || 'Registration failed.');
+        } catch (err: unknown) {
+            if (err instanceof Error) {
+                setFormMessage(err.message);
+            } else {
+                setFormMessage('Something went wrong.');
+            }
         } finally {
             setIsLoading(false);
         }

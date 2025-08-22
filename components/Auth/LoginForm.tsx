@@ -52,9 +52,12 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, onSwitchToRegister, on
                 setFormMessage('Login successful!');
                 setTimeout(() => { if (onClose) onClose(); }, 1000);
             }
-        } catch (err: any) {
-            console.error('Login error:', err);
-            setFormMessage(err?.message || 'Login failed.');
+        } catch (err: unknown) {
+            if (err instanceof Error) {
+                setFormMessage(err.message);
+            } else {
+                setFormMessage('Something went wrong.');
+            }
         } finally {
             setIsLoading(false);
         }
