@@ -1,3 +1,5 @@
+'use client';
+
 import LoginForm from '@/components/Auth/LoginForm';
 import { useAuth } from '@/contexts/AuthContext';
 

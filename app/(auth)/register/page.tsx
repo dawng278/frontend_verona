@@ -1,3 +1,5 @@
+'use client';
+
 import RegisterForm from '@/components/Auth/RegisterForm';
 import { useAuth } from '@/contexts/AuthContext';
 
