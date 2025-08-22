@@ -1,49 +1,39 @@
 'use client';
 
-import React from 'react';
 import { useCart } from '@/contexts/CartContext';
 
-const CartOverlay = () => {
-    const { isCartOpen, toggleCart, cartItems, getTotalPrice, removeFromCart } = useCart();
+export default function CartOverlay() {
+    const { cartItems, isCartOpen, toggleCart, removeFromCart, totalAmount } = useCart();
 
-    if (!isCartOpen) return null;
+    if (!isCartOpen) return null; // ⬅️ Không mở thì không hiển thị gì cả
 
     return (
-        <div className="fixed top-0 right-0 w-80 h-full bg-white shadow-lg z-50 p-4 overflow-y-auto">
-            <div className="flex justify-between items-center mb-4">
-                <h2 className="text-lg font-bold">Your Cart</h2>
-                <button onClick={toggleCart} className="text-gray-500 hover:text-black">&times;</button>
-            </div>
+        <div className="fixed right-0 top-0 h-full w-80 bg-white shadow-lg p-4 z-50">
+            <button
+                className="absolute top-2 right-2 text-gray-600"
+                onClick={toggleCart}
+            >
+                ✕
+            </button>
+            <h2 className="text-lg font-bold mb-4">Giỏ hàng</h2>
 
             {cartItems.length === 0 ? (
-                <p className="text-center text-gray-500">Cart is empty</p>
+                <p>Giỏ hàng trống</p>
             ) : (
-                <ul>
+                <ul className="space-y-2">
                     {cartItems.map((item) => (
-                        <li key={item.id} className="mb-4 flex justify-between items-center">
-                            <div>
-                                <p className="font-semibold">{item.name}</p>
-                                <p className="text-sm text-gray-600">Qty: {item.quantity}</p>
-                            </div>
-                            <div>
-                                <p>${(item.price * item.quantity).toFixed(2)}</p>
-                                <button
-                                    onClick={() => removeFromCart(item.id)}
-                                    className="text-xs text-red-600"
-                                >
-                                    Remove
-                                </button>
-                            </div>
+                        <li key={item.id} className="flex justify-between">
+                            <span>{item.name} x {item.quantity}</span>
+                            <span>{item.price * item.quantity}₫</span>
+                            <button onClick={() => removeFromCart(item.id)}>🗑</button>
                         </li>
                     ))}
                 </ul>
             )}
 
-            <div className="mt-4 border-t pt-2 font-semibold">
-                Total: ${getTotalPrice().toFixed(2)}
+            <div className="mt-4 border-t pt-2">
+                <p className="font-bold">Tổng: {totalAmount}₫</p>
             </div>
         </div>
     );
-};
-
-export default CartOverlay;
+}
