@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Eye, EyeOff, Loader2 } from 'lucide-react';
 
 interface LoginFormProps {
-    onSuccess: (email: string, password: string) => Promise<void>;
+    onSuccess?: (email: string, password: string) => Promise<void>;
     onSwitchToRegister?: () => void;
     onClose?: () => void;
 }
@@ -21,7 +21,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, onSwitchToRegister, on
         setFormMessage(null);
         setIsLoading(true);
         try {
-            await onSuccess(email, password);
+            if (onSuccess) await onSuccess(email, password); // ✅ chỉ gọi nếu có
             setFormMessage('Login successful!');
             setTimeout(() => { if (onClose) onClose(); }, 1000);
         } catch (err: unknown) {
