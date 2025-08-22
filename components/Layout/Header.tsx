@@ -61,7 +61,7 @@ const Header = () => {
                             {user && <span className="text-gray-700">{user.name}</span>}
                         </button>
                         {isAccountOpen && (
-                            <AccountOverlay/>
+                            <AccountOverlay onClose={() => setIsAccountOpen(false)} />
                         )}
                     </div>
 
