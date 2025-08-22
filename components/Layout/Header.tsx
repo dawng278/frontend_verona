@@ -1,82 +1,65 @@
 'use client';
 
-import Link from 'next/link';
-import { useState, useEffect, useRef } from 'react';
-import { Menu, X, LogIn, ShoppingBag } from 'lucide-react';
-import { useAuth } from "@/contexts/AuthContext";
-import { useCart } from '@/contexts/CartContext';
-
-import AccountOverlay from './AccountOverlay';
-import CartOverlay from './CartOverlay';
-import NavLinks from './NavLinks';
+import { useState, useRef, useEffect } from "react";
+import { User, ShoppingBag } from "lucide-react";
+import AccountOverlay from "./AccountOverlay";
+import CartOverlay from "./CartOverlay";
+import { CartContext } from "@/contexts/CartContext";
 
 const Header = () => {
-    const auth = useAuth();
-    const { toggleCart, totalQuantity } = useCart();
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [showAccount, setShowAccount] = useState(false);
+    const [showCart, setShowCart] = useState(false);
 
-    // ✅ fallback an toàn nếu context null
-    const user = auth?.user ?? null;
+    const accountRef = useRef<HTMLDivElement>(null);
+    const cartRef = useRef<HTMLDivElement>(null);
+
+    // Đóng overlay khi click ra ngoài
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (
+                accountRef.current &&
+                !accountRef.current.contains(event.target as Node)
+            ) {
+                setShowAccount(false);
+            }
+            if (
+                cartRef.current &&
+                !cartRef.current.contains(event.target as Node)
+            ) {
+                setShowCart(false);
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
 
     return (
-        <header className="bg-white shadow-md fixed top-0 left-0 w-full z-50">
-            <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-                {/* Logo */}
-                <Link href="/" className="text-2xl font-bold text-[#B61E01]">
-                    Verona Pizza
-                </Link>
+        <header className="relative flex justify-between items-center px-6 py-4 shadow">
+            <h1 className="text-2xl font-bold">VERONA PIZZA</h1>
 
-                {/* Desktop Nav */}
-                <nav className="hidden md:flex space-x-6">
-                    <NavLinks />
-                </nav>
-
-                {/* Actions */}
-                <div className="flex items-center space-x-4">
-                    {/* User Account */}
-                    <div className="relative">
-                        {user ? (
-                            <button className="flex items-center space-x-2">
-                                <LogIn className="cursor-pointer text-gray-700 hover:text-[#B61E01]" />
-                                <span className="text-gray-700">{user.name}</span>
-                            </button>
-                        ) : (
-                            // ✅ Hiển thị thẳng overlay Login/Register khi chưa đăng nhập
-                            <AccountOverlay />
-                        )}
-                    </div>
-
-                    {/* Cart Icon */}
-                    <div className="relative">
-                        <button onClick={toggleCart} className="relative">
-                            <ShoppingBag className="cursor-pointer mt-2 text-gray-700 hover:text-[#B61E01]" />
-                            {totalQuantity > 0 && (
-                                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                                    {totalQuantity}
-                                </span>
-                            )}
-                        </button>
-                    </div>
-
-                    {/* Mobile Menu Button */}
+            <div className="flex items-center gap-4">
+                {/* Icon Account */}
+                <div className="relative" ref={accountRef}>
                     <button
-                        onClick={() => setIsMenuOpen(!isMenuOpen)}
-                        className="md:hidden text-gray-700 hover:text-[#B61E01]"
+                        onClick={() => setShowAccount((prev) => !prev)}
+                        className="p-2 rounded-full hover:bg-gray-100"
                     >
-                        {isMenuOpen ? <X /> : <Menu />}
+                        <User size={24} />
                     </button>
+                    {showAccount && <AccountOverlay />}
+                </div>
+
+                {/* Icon Cart */}
+                <div className="relative" ref={cartRef}>
+                    <button
+                        onClick={() => setShowCart((prev) => !prev)}
+                        className="p-2 rounded-full hover:bg-gray-100"
+                    >
+                        <ShoppingBag size={24} />
+                    </button>
+                    {showCart && <CartOverlay />}
                 </div>
             </div>
-
-            {/* Mobile Nav */}
-            {isMenuOpen && (
-                <nav className="md:hidden bg-white shadow-md p-4 space-y-4">
-                    <NavLinks />
-                </nav>
-            )}
-
-            {/* Cart Overlay */}
-            <CartOverlay />
         </header>
     );
 };
