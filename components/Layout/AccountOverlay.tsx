@@ -10,7 +10,7 @@ const AccountOverlay = () => {
     const [showLogin, setShowLogin] = useState(true);
 
     return (
-        <div className="absolute top-14 right-0 w-80 shadow-md rounded-md p-6 z-50">
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
             {user ? (
                 <>
                     <p className="mb-2">Hello, {user.name}</p>
