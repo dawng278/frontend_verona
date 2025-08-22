@@ -19,7 +19,7 @@ const AccountOverlay = ({ onClose }: AccountOverlayProps) => {
             onClick={onClose} // bấm vào nền -> đóng
         >
             <div
-                className="bg-white rounded-lg shadow-lg p-6 w-96 relative"
+                className="p-6 w-96 relative"
                 onClick={(e) => e.stopPropagation()} // chặn click trong form không đóng
             >
                 {user ? (
