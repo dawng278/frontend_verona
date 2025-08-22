@@ -5,31 +5,43 @@ import { useAuth } from "@/contexts/AuthContext";
 import LoginForm from "../Auth/LoginForm";
 import RegisterForm from "../Auth/RegisterForm";
 
-const AccountOverlay = () => {
+interface AccountOverlayProps {
+    onClose: () => void; // nhận callback từ Header
+}
+
+const AccountOverlay = ({ onClose }: AccountOverlayProps) => {
     const { user, logout } = useAuth();
     const [showLogin, setShowLogin] = useState(true);
 
     return (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-            {user ? (
-                <>
-                    <p className="mb-2">Hello, {user.name}</p>
-                    <button
-                        onClick={logout}
-                        className="block w-full text-left text-red-600 hover:underline"
-                    >
-                        Logout
-                    </button>
-                </>
-            ) : (
-                <>
-                    {showLogin ? (
-                        <LoginForm onSwitchToRegister={() => setShowLogin(false)} />
-                    ) : (
-                        <RegisterForm onSwitchToLogin={() => setShowLogin(true)} />
-                    )}
-                </>
-            )}
+        <div
+            className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+            onClick={onClose} // bấm vào nền -> đóng
+        >
+            <div
+                className="bg-white rounded-lg shadow-lg p-6 w-96 relative"
+                onClick={(e) => e.stopPropagation()} // chặn click trong form không đóng
+            >
+                {user ? (
+                    <div className="text-center">
+                        <p className="mb-4">Hello, {user.name}</p>
+                        <button
+                            onClick={logout}
+                            className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
+                        >
+                            Logout
+                        </button>
+                    </div>
+                ) : (
+                    <>
+                        {showLogin ? (
+                            <LoginForm onSwitchToRegister={() => setShowLogin(false)} />
+                        ) : (
+                            <RegisterForm onSwitchToLogin={() => setShowLogin(true)} />
+                        )}
+                    </>
+                )}
+            </div>
         </div>
     );
 };
