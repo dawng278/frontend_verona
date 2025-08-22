@@ -1,16 +1,19 @@
 'use client';
 
-import Link from 'next/link';
-import { useAuth } from '@/contexts/AuthContext';
+import { useState } from "react";
+import { useAuth } from "@/contexts/AuthContext";
+import LoginForm from "../Auth/LoginForm";
+import RegisterForm from "../Auth/RegisterForm";
 
 const AccountOverlay = () => {
     const { user, logout } = useAuth();
+    const [showLogin, setShowLogin] = useState(true);
 
     return (
-        <div className="absolute top-14 right-0 w-48 bg-white shadow-md rounded-md p-4 z-50">
+        <div className="absolute top-14 right-0 w-80 bg-white shadow-md rounded-md p-6 z-50">
             {user ? (
                 <>
-                    <p className="mb-2">{user.name}</p>
+                    <p className="mb-2">Hello, {user.name}</p>
                     <button
                         onClick={logout}
                         className="block w-full text-left text-red-600 hover:underline"
@@ -20,12 +23,11 @@ const AccountOverlay = () => {
                 </>
             ) : (
                 <>
-                    <Link href="/login" className="block text-[#B61E01] hover:underline mb-2">
-                        Login
-                    </Link>
-                    <Link href="/register" className="block text-[#B61E01] hover:underline">
-                        Register
-                    </Link>
+                    {showLogin ? (
+                        <LoginForm onSwitchToRegister={() => setShowLogin(false)} />
+                    ) : (
+                        <RegisterForm onSwitchToLogin={() => setShowLogin(true)} />
+                    )}
                 </>
             )}
         </div>
