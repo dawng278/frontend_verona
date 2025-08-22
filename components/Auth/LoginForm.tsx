@@ -69,10 +69,23 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, onSwitchToRegister, on
 
             if (response.ok && data.user && data.token) {
                 setFormMessage('Login successful! Welcome back.');
+
+                // Store token in localStorage
+                localStorage.setItem('authToken', data.token);
+                localStorage.setItem('user', JSON.stringify(data.user));
+
+                // Call onSuccess immediately
+                if (onSuccess) {
+                    onSuccess(data.user, data.token);
+                }
+
+                // Close modal after a brief delay to show success message
                 setTimeout(() => {
-                    if (onSuccess) onSuccess(data.user, data.token);
-                    if (onClose) onClose();
+                    if (onClose) {
+                        onClose();
+                    }
                 }, 1000);
+
             } else {
                 setFormMessage(data.message || 'Login failed. Please check your credentials and try again.');
             }

@@ -49,8 +49,11 @@ const AccountOverlay = ({ onClose }: AccountOverlayProps) => {
     };
 
     // Handle successful login/register
-    const handleAuthSuccess = () => {
-        onClose();
+    const handleAuthSuccess = (user?: { id: string; name: string; email: string; role?: string }, token?: string) => {
+        // Force a small delay to ensure state updates
+        setTimeout(() => {
+            onClose();
+        }, 500);
     };
 
     // Handle backdrop click
