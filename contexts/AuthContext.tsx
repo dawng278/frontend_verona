@@ -1,9 +1,8 @@
-'use client'; // phải nằm trên cùng
+'use client';
 
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 
-// --- service API call frontend ---
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
 async function loginService(email: string, password: string) {
@@ -23,9 +22,7 @@ async function registerService(name: string, email: string, password: string) {
     });
     return res.json();
 }
-// --- end service ---
 
-// Kiểu User
 interface User {
     id: string;
     name: string;
@@ -42,8 +39,6 @@ interface AuthContextType {
     login: (email: string, password: string) => Promise<boolean>;
     register: (name: string, email: string, password: string) => Promise<boolean>;
     logout: () => void;
-
-    // Quản lý Account Modal
     isAccountOpen: boolean;
     openAccount: () => void;
     closeAccount: () => void;
@@ -62,13 +57,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const [token, setToken] = useState<string | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [isAccountOpen, setIsAccountOpen] = useState(false);
     const router = useRouter();
 
-    const [isAccountOpen, setIsAccountOpen] = useState(false);
     const openAccount = () => setIsAccountOpen(true);
     const closeAccount = () => setIsAccountOpen(false);
 
-    // Load user/token từ localStorage
     useEffect(() => {
         try {
             const storedUser = localStorage.getItem("user");
@@ -85,8 +79,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
     }, []);
 
-    // --- Login ---
-    const login = useCallback(async (email: string, password: string): Promise<boolean> => {
+    const login = useCallback(async (email: string, password: string) => {
         setLoading(true);
         setError(null);
         try {
@@ -97,7 +90,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 localStorage.setItem("user", JSON.stringify(data.user));
                 localStorage.setItem("token", data.token);
                 closeAccount();
-                router.push("/");
                 return true;
             } else {
                 setError(data?.message || "Login failed.");
@@ -109,10 +101,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         } finally {
             setLoading(false);
         }
-    }, [router]);
+    }, []);
 
-    // --- Register ---
-    const register = useCallback(async (name: string, email: string, password: string): Promise<boolean> => {
+    const register = useCallback(async (name: string, email: string, password: string) => {
         setLoading(true);
         setError(null);
         try {
@@ -136,7 +127,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
     }, []);
 
-    // --- Logout ---
     const logout = useCallback(() => {
         setUser(null);
         setToken(null);
@@ -145,20 +135,24 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         router.push("/login");
     }, [router]);
 
-    const value: AuthContextType = {
-        user,
-        token,
-        loading,
-        error,
-        login,
-        register,
-        logout,
-        isAccountOpen,
-        openAccount,
-        closeAccount,
-    };
-
     if (loading) return <div className="flex justify-center items-center min-h-screen"><p>Loading...</p></div>;
 
-    return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+    return (
+        <AuthContext.Provider
+            value={{
+                user,
+                token,
+                loading,
+                error,
+                login,
+                register,
+                logout,
+                isAccountOpen,
+                openAccount,
+                closeAccount,
+            }}
+        >
+            {children}
+        </AuthContext.Provider>
+    );
 };
