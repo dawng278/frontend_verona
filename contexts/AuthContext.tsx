@@ -5,13 +5,16 @@ import { useRouter } from 'next/navigation';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
+// --- API calls ---
 async function loginService(email: string, password: string) {
     const res = await fetch(`${API_URL}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
     });
-    return res.json();
+    const data = await res.json();
+    if (!res.ok) throw new Error(data?.message || 'Login failed');
+    return data;
 }
 
 async function registerService(name: string, email: string, password: string) {
@@ -20,8 +23,11 @@ async function registerService(name: string, email: string, password: string) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, password }),
     });
-    return res.json();
+    const data = await res.json();
+    if (!res.ok) throw new Error(data?.message || 'Registration failed');
+    return data;
 }
+// --- end API ---
 
 interface User {
     id: string;
@@ -34,10 +40,8 @@ interface User {
 interface AuthContextType {
     user: User | null;
     token: string | null;
-    loading: boolean;
-    error: string | null;
-    login: (email: string, password: string) => Promise<boolean>;
-    register: (name: string, email: string, password: string) => Promise<boolean>;
+    login: (email: string, password: string) => Promise<void>;
+    register: (name: string, email: string, password: string) => Promise<void>;
     logout: () => void;
     isAccountOpen: boolean;
     openAccount: () => void;
@@ -55,14 +59,13 @@ export const useAuth = (): AuthContextType => {
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [user, setUser] = useState<User | null>(null);
     const [token, setToken] = useState<string | null>(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
-    const [isAccountOpen, setIsAccountOpen] = useState(false);
     const router = useRouter();
 
+    const [isAccountOpen, setIsAccountOpen] = useState(false);
     const openAccount = () => setIsAccountOpen(true);
     const closeAccount = () => setIsAccountOpen(false);
 
+    // Load user/token từ localStorage khi app load
     useEffect(() => {
         try {
             const storedUser = localStorage.getItem("user");
@@ -74,57 +77,23 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         } catch {
             localStorage.removeItem("user");
             localStorage.removeItem("token");
-        } finally {
-            setLoading(false);
         }
     }, []);
 
     const login = useCallback(async (email: string, password: string) => {
-        setLoading(true);
-        setError(null);
-        try {
-            const data = await loginService(email, password);
-            if (data?.user && data?.token) {
-                setUser(data.user);
-                setToken(data.token);
-                localStorage.setItem("user", JSON.stringify(data.user));
-                localStorage.setItem("token", data.token);
-                closeAccount();
-                return true;
-            } else {
-                setError(data?.message || "Login failed.");
-                return false;
-            }
-        } catch {
-            setError("Network or server error.");
-            return false;
-        } finally {
-            setLoading(false);
-        }
+        const data = await loginService(email, password);
+        setUser(data.user);
+        setToken(data.token);
+        localStorage.setItem("user", JSON.stringify(data.user));
+        localStorage.setItem("token", data.token);
     }, []);
 
     const register = useCallback(async (name: string, email: string, password: string) => {
-        setLoading(true);
-        setError(null);
-        try {
-            const data = await registerService(name, email, password);
-            if (data?.user && data?.token) {
-                setUser(data.user);
-                setToken(data.token);
-                localStorage.setItem("user", JSON.stringify(data.user));
-                localStorage.setItem("token", data.token);
-                closeAccount();
-                return true;
-            } else {
-                setError(data?.message || "Registration failed.");
-                return false;
-            }
-        } catch {
-            setError("Network or server error.");
-            return false;
-        } finally {
-            setLoading(false);
-        }
+        const data = await registerService(name, email, password);
+        setUser(data.user);
+        setToken(data.token);
+        localStorage.setItem("user", JSON.stringify(data.user));
+        localStorage.setItem("token", data.token);
     }, []);
 
     const logout = useCallback(() => {
@@ -135,24 +104,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         router.push("/login");
     }, [router]);
 
-    if (loading) return <div className="flex justify-center items-center min-h-screen"><p>Loading...</p></div>;
+    const value: AuthContextType = {
+        user,
+        token,
+        login,
+        register,
+        logout,
+        isAccountOpen,
+        openAccount,
+        closeAccount,
+    };
 
-    return (
-        <AuthContext.Provider
-            value={{
-                user,
-                token,
-                loading,
-                error,
-                login,
-                register,
-                logout,
-                isAccountOpen,
-                openAccount,
-                closeAccount,
-            }}
-        >
-            {children}
-        </AuthContext.Provider>
-    );
+    return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

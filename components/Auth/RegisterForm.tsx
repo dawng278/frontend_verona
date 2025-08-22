@@ -2,10 +2,14 @@
 
 import React, { useState } from 'react';
 import { Eye, EyeOff, Loader2 } from 'lucide-react';
-import { useAuth } from '@/contexts/AuthContext';
 
-const RegisterForm: React.FC<{ onSwitchToLogin?: () => void }> = ({ onSwitchToLogin }) => {
-    const { register, error, loading } = useAuth();
+interface RegisterFormProps {
+    onSuccess: (name: string, email: string, password: string) => Promise<void>;
+    onSwitchToLogin?: () => void;
+    onClose?: () => void;
+}
+
+const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess, onSwitchToLogin, onClose }) => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -13,6 +17,7 @@ const RegisterForm: React.FC<{ onSwitchToLogin?: () => void }> = ({ onSwitchToLo
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [formMessage, setFormMessage] = useState<string | null>(null);
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleRegister = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -23,9 +28,17 @@ const RegisterForm: React.FC<{ onSwitchToLogin?: () => void }> = ({ onSwitchToLo
             return;
         }
 
-        const success = await register(name, email, password);
-        if (success) setFormMessage('Registration successful!');
-        else setFormMessage(error || 'Registration failed.');
+        setIsLoading(true);
+        try {
+            await onSuccess(name, email, password);
+            setFormMessage('Registration successful!');
+            setTimeout(() => { if (onClose) onClose(); }, 1000);
+        } catch (err: unknown) {
+            if (err instanceof Error) setFormMessage(err.message);
+            else setFormMessage('Registration failed.');
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     return (
@@ -94,10 +107,10 @@ const RegisterForm: React.FC<{ onSwitchToLogin?: () => void }> = ({ onSwitchToLo
 
                 <button
                     type="submit"
-                    disabled={loading}
+                    disabled={isLoading}
                     className="w-full bg-[#FFA500] text-white font-semibold py-3 rounded-lg hover:bg-[#FF8C00] flex items-center justify-center disabled:opacity-50"
                 >
-                    {loading ? <><Loader2 className="animate-spin mr-2" size={18} />Creating Account...</> : 'Create Account'}
+                    {isLoading ? <><Loader2 className="animate-spin mr-2" size={18} />Creating Account...</> : 'Create Account'}
                 </button>
 
                 <div className="text-center text-sm pt-4 border-t border-gray-100">

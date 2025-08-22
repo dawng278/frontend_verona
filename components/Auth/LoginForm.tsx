@@ -2,22 +2,34 @@
 
 import React, { useState } from 'react';
 import { Eye, EyeOff, Loader2 } from 'lucide-react';
-import { useAuth } from '@/contexts/AuthContext';
 
-const LoginForm: React.FC<{ onSwitchToRegister?: () => void }> = ({ onSwitchToRegister }) => {
-    const { login, error, loading } = useAuth();
+interface LoginFormProps {
+    onSuccess: (email: string, password: string) => Promise<void>;
+    onSwitchToRegister?: () => void;
+    onClose?: () => void;
+}
+
+const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, onSwitchToRegister, onClose }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [formMessage, setFormMessage] = useState<string | null>(null);
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
         setFormMessage(null);
-
-        const success = await login(email, password);
-        if (success) setFormMessage('Login successful!');
-        else setFormMessage(error || 'Login failed.');
+        setIsLoading(true);
+        try {
+            await onSuccess(email, password);
+            setFormMessage('Login successful!');
+            setTimeout(() => { if (onClose) onClose(); }, 1000);
+        } catch (err: unknown) {
+            if (err instanceof Error) setFormMessage(err.message);
+            else setFormMessage('Login failed.');
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     return (
@@ -61,10 +73,10 @@ const LoginForm: React.FC<{ onSwitchToRegister?: () => void }> = ({ onSwitchToRe
 
                 <button
                     type="submit"
-                    disabled={loading}
+                    disabled={isLoading}
                     className="w-full bg-[#FFA500] text-white font-semibold py-3 rounded-lg hover:bg-[#FF8C00] flex items-center justify-center disabled:opacity-50"
                 >
-                    {loading ? <><Loader2 className="animate-spin mr-2" size={18} />Signing In...</> : 'Sign In'}
+                    {isLoading ? <><Loader2 className="animate-spin mr-2" size={18} />Signing In...</> : 'Sign In'}
                 </button>
 
                 <div className="text-center text-sm pt-4 border-t border-gray-100">
