@@ -100,8 +100,9 @@ const OrderHistoryOverlay = ({ onClose, userId }: OrderHistoryOverlayProps) => {
         if (!confirm("Bạn có chắc muốn hủy đơn hàng này?")) return;
 
         try {
+            // Fix: Use the same base URL as for fetching orders
             const res = await fetch(
-                `${process.env.NEXT_PUBLIC_API_URL}/orders/${orderId}/cancel`,
+                `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/orders/${orderId}/cancel`,
                 { method: "PATCH" }
             );
 
