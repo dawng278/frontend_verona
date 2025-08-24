@@ -69,7 +69,7 @@ const OrderHistoryOverlay = ({ onClose, userId }: OrderHistoryOverlayProps) => {
             setLoading(true);
             setError(null);
             const res = await fetch(
-                `${process.env.NEXT_PUBLIC_API_URL}/orders/user/${userId}`
+                `${process.env.NEXT_PUBLIC_BACKEND_URL}/orders/user/${userId}`
             );
 
             if (!res.ok) {
