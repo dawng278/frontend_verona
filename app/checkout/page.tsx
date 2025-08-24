@@ -8,11 +8,13 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
-import { useCart } from "@/contexts/CartContext"; // ✅ lấy giỏ hàng
+import { useCart } from "@/contexts/CartContext";
+import { useAuth } from "@/contexts/AuthContext";
 import Image from "next/image";
 
 export default function CheckoutPage() {
     const { cartItems, totalAmount } = useCart();
+    const { user } = useAuth();
 
     const [name, setName] = useState("");
     const [phone, setPhone] = useState("");
@@ -20,7 +22,11 @@ export default function CheckoutPage() {
     const [payment, setPayment] = useState("");
     const [success, setSuccess] = useState(false);
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
+        if (!user) {
+            alert("Vui lòng đăng nhập trước khi thanh toán.");
+            return;
+        }
         if (!name || !phone || !address || !payment) {
             alert("Vui lòng điền đầy đủ thông tin và chọn phương thức thanh toán.");
             return;
@@ -29,10 +35,42 @@ export default function CheckoutPage() {
             alert("Giỏ hàng trống.");
             return;
         }
-        setSuccess(true);
-        setTimeout(() => {
-            setSuccess(false);
-        }, 4000);
+
+        try {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/orders`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${user.token}` // nếu backend cần auth
+                },
+                body: JSON.stringify({
+                    userId: user.id,       // ✅ userId lấy từ AuthContext
+                    items: cartItems,
+                    total: totalAmount,
+                    address,
+                    phone,
+                    paymentMethod: payment,
+                }),
+            });
+
+            if (!res.ok) {
+                throw new Error(`HTTP error! status: ${res.status}`);
+            }
+
+            const data = await res.json();
+
+            if (data.success) {
+                setSuccess(true);
+                // Xoá giỏ hàng sau khi thanh toán thành công
+                // Bạn có thể gọi useCart().clearCart() nếu có
+                setTimeout(() => setSuccess(false), 4000);
+            } else {
+                alert(data.error || "Thanh toán thất bại");
+            }
+        } catch (err) {
+            console.error("Error creating order:", err);
+            alert("Lỗi kết nối. Vui lòng thử lại sau.");
+        }
     };
 
     return (
