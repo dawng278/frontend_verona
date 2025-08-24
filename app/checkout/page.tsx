@@ -9,6 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { useCart } from "@/contexts/CartContext"; // ✅ lấy giỏ hàng
+import Image from "next/image";
 
 export default function CheckoutPage() {
     const { cartItems, totalAmount } = useCart();
@@ -87,14 +88,25 @@ export default function CheckoutPage() {
                                 <div className="flex items-center space-x-3 border p-3 rounded-lg cursor-pointer hover:bg-gray-50">
                                     <RadioGroupItem value="bank" id="bank" />
                                     <Label htmlFor="bank" className="flex items-center space-x-2 cursor-pointer">
-                                        <img src="/banks/vietcombank.png" alt="Ngân hàng" className="w-10 h-10 rounded" />
+                                        <Image
+                                            src="/banks/vietcombank.png"
+                                            alt="Vietcombank"
+                                            width={10}
+                                            height={10}
+                                            className="rounded"
+                                        />
                                         <span>Thẻ ATM / Ngân hàng nội địa</span>
                                     </Label>
                                 </div>
                                 <div className="flex items-center space-x-3 border p-3 rounded-lg cursor-pointer hover:bg-gray-50">
                                     <RadioGroupItem value="visa" id="visa" />
                                     <Label htmlFor="visa" className="flex items-center space-x-2 cursor-pointer">
-                                        <img src="/banks/visa.png" alt="Visa" className="w-10 h-10" />
+                                        <Image
+                                            src="/banks/visa.png"
+                                            alt="Visa"
+                                            width={10}
+                                            height={10}
+                                            className="rounded" />
                                         <span>Thẻ quốc tế (Visa/MasterCard)</span>
                                     </Label>
                                 </div>
@@ -124,18 +136,29 @@ export default function CheckoutPage() {
                     <div className="space-y-4">
                         <h2 className="text-lg font-semibold">Đơn hàng của bạn</h2>
                         <div className="divide-y rounded-lg border bg-white">
-                            {cartItems.map((item: any) => (
+                            {cartItems.map((item) => (
                                 <div key={item.id} className="flex items-center justify-between p-3">
                                     <div className="flex items-center space-x-3">
-                                        <img src={item.image} alt={item.name} className="w-16 h-16 rounded object-cover" />
+                                        <div className="relative w-16 h-16">
+                                            <Image
+                                                src={item.image || "/placeholder.png"}
+                                                alt={item.name}
+                                                fill
+                                                className="rounded object-cover"
+                                            />
+                                        </div>
                                         <div>
                                             <p className="font-medium">{item.name}</p>
                                             <p className="text-sm text-gray-500">x{item.quantity}</p>
                                         </div>
                                     </div>
-                                    <p className="font-semibold">{(item.price * item.quantity).toLocaleString()} đ</p>
+                                    <p className="font-semibold">
+                                        {(item.price * item.quantity).toLocaleString()} đ
+                                    </p>
                                 </div>
                             ))}
+
+
                             <div className="flex justify-between items-center p-4 font-bold text-lg">
                                 <span>Tổng cộng</span>
                                 <span>{totalAmount.toLocaleString()} đ</span>
