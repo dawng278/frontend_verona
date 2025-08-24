@@ -1,11 +1,17 @@
 'use client';
-
 import { useCart } from '@/contexts/CartContext';
+import { useRouter } from 'next/navigation';
 
 export default function CartOverlay() {
     const { cartItems, isCartOpen, toggleCart, removeFromCart, totalAmount, increaseQuantity, decreaseQuantity } = useCart();
+    const router = useRouter();
 
     if (!isCartOpen) return null;
+
+    const handleCheckout = () => {
+        toggleCart(); // đóng giỏ hàng trước khi chuyển trang
+        router.push('/checkout');
+    };
 
     return (
         <div className="fixed inset-0 z-50 flex justify-end">
@@ -93,7 +99,10 @@ export default function CartOverlay() {
                     <p className="text-lg font-bold text-gray-800">
                         Tổng: <span className="text-[#B61E01]">{totalAmount}₫</span>
                     </p>
-                    <button className="w-full mt-3 bg-[#FFA301] text-white py-2 rounded-xl font-semibold hover:bg-red-700 transition">
+                    <button
+                        onClick={handleCheckout}
+                        className="w-full mt-3 bg-[#FFA301] text-white py-2 rounded-xl font-semibold hover:bg-red-700 transition"
+                    >
                         Thanh toán
                     </button>
                 </div>
