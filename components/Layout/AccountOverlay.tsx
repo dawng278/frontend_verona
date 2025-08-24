@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { User, LogOut, Settings, ShoppingBag, X } from "lucide-react";
 import LoginForm from "../Auth/LoginForm";
 import RegisterForm from "../Auth/RegisterForm";
+import OrderHistoryOverlay from "./OrderHistoryOverlay";
 import { useAuth } from "@/contexts/AuthContext";
 
 interface AccountOverlayProps {
@@ -15,19 +16,30 @@ const AccountOverlay = ({ onClose }: AccountOverlayProps) => {
     const [showLogin, setShowLogin] = useState(true);
     const [isLoggingOut, setIsLoggingOut] = useState(false);
     const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+    const [showOrderHistory, setShowOrderHistory] = useState(false);
     const overlayRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        const handleEscapeKey = (event: KeyboardEvent) => { if (event.key === "Escape") onClose(); };
+        const handleEscapeKey = (event: KeyboardEvent) => {
+            if (event.key === "Escape" && !showOrderHistory) onClose();
+        };
         document.addEventListener("keydown", handleEscapeKey);
         return () => document.removeEventListener("keydown", handleEscapeKey);
-    }, [onClose]);
+    }, [onClose, showOrderHistory]);
 
-    useEffect(() => { document.body.style.overflow = "hidden"; return () => { document.body.style.overflow = "unset"; }; }, []);
+    useEffect(() => {
+        document.body.style.overflow = "hidden";
+        return () => { document.body.style.overflow = "unset"; };
+    }, []);
 
     const handleLogout = async () => {
         setIsLoggingOut(true);
-        try { await logout(); onClose(); } finally { setIsLoggingOut(false); }
+        try {
+            await logout();
+            onClose();
+        } finally {
+            setIsLoggingOut(false);
+        }
     };
 
     const handleAuthSuccess = () => {
@@ -35,7 +47,27 @@ const AccountOverlay = ({ onClose }: AccountOverlayProps) => {
         setTimeout(() => setShowSuccessMessage(false), 2000);
     };
 
-    const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => { if (e.target === e.currentTarget) onClose(); };
+    const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
+        if (e.target === e.currentTarget && !showOrderHistory) onClose();
+    };
+
+    const handleOrderHistoryClick = () => {
+        setShowOrderHistory(true);
+    };
+
+    const handleOrderHistoryClose = () => {
+        setShowOrderHistory(false);
+    };
+
+    // If showing order history, render it instead
+    if (showOrderHistory && user) {
+        return (
+            <OrderHistoryOverlay
+                onClose={handleOrderHistoryClose}
+                userId={user.id || user.id || user.email}
+            />
+        );
+    }
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
@@ -65,11 +97,16 @@ const AccountOverlay = ({ onClose }: AccountOverlayProps) => {
                         </div>
 
                         <div className="space-y-2 mb-6">
-                            <button className="w-full flex items-center space-x-3 px-3 py-2 text-left text-gray-700 hover:bg-gray-50 rounded-lg transition-colors">
-                                <ShoppingBag size={18} /><span>Order History</span>
+                            <button
+                                onClick={handleOrderHistoryClick}
+                                className="w-full flex items-center space-x-3 px-3 py-2 text-left text-gray-700 hover:bg-gray-50 rounded-lg transition-colors"
+                            >
+                                <ShoppingBag size={18} />
+                                <span>Order History</span>
                             </button>
                             <button className="w-full flex items-center space-x-3 px-3 py-2 text-left text-gray-700 hover:bg-gray-50 rounded-lg transition-colors">
-                                <Settings size={18} /><span>Account Settings</span>
+                                <Settings size={18} />
+                                <span>Account Settings</span>
                             </button>
                         </div>
 
@@ -86,13 +123,19 @@ const AccountOverlay = ({ onClose }: AccountOverlayProps) => {
                     <div className="p-2">
                         {showLogin ? (
                             <LoginForm
-                                onSuccess={async (email, password) => { await login(email, password); handleAuthSuccess(); }}
+                                onSuccess={async (email, password) => {
+                                    await login(email, password);
+                                    handleAuthSuccess();
+                                }}
                                 onSwitchToRegister={() => setShowLogin(false)}
                                 onClose={onClose}
                             />
                         ) : (
                             <RegisterForm
-                                onSuccess={async (name, email, password) => { await register(name, email, password); handleAuthSuccess(); }}
+                                onSuccess={async (name, email, password) => {
+                                    await register(name, email, password);
+                                    handleAuthSuccess();
+                                }}
                                 onSwitchToLogin={() => setShowLogin(true)}
                                 onClose={onClose}
                             />
