@@ -21,7 +21,72 @@ export default function CheckoutPage() {
     const [address, setAddress] = useState("");
     const [payment, setPayment] = useState("");
     const [success, setSuccess] = useState(false);
-    const [isLoading, setIsLoading] = useState(false); // ✅ Add loading state
+    const [isLoading, setIsLoading] = useState(false);
+
+    // Payment form states
+    const [cardNumber, setCardNumber] = useState("");
+    const [cardHolder, setCardHolder] = useState("");
+    const [expiryDate, setExpiryDate] = useState("");
+    const [cvv, setCvv] = useState("");
+
+    // Input validation functions
+    const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        // Only allow numbers
+        const numbersOnly = value.replace(/[^0-9]/g, '');
+        setPhone(numbersOnly);
+    };
+
+    const handleCardNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        // Only allow numbers, format with spaces every 4 digits
+        const numbersOnly = value.replace(/[^0-9]/g, '');
+        const formatted = numbersOnly.replace(/(.{4})/g, '$1 ').trim();
+        if (numbersOnly.length <= 16) {
+            setCardNumber(formatted);
+        }
+    };
+
+    const handleCardHolderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        // Only allow letters and spaces, no accents
+        const lettersOnly = value.replace(/[^a-zA-Z\s]/g, '').toUpperCase();
+        setCardHolder(lettersOnly);
+    };
+
+    const handleExpiryDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        // Format MM/YY
+        const numbersOnly = value.replace(/[^0-9]/g, '');
+        let formatted = numbersOnly;
+
+        if (numbersOnly.length >= 2) {
+            const month = numbersOnly.substring(0, 2);
+            const year = numbersOnly.substring(2, 4);
+
+            // Validate month (01-12)
+            if (parseInt(month) > 12) {
+                formatted = '12' + (year ? '/' + year : '');
+            } else if (parseInt(month) === 0) {
+                formatted = '01' + (year ? '/' + year : '');
+            } else {
+                formatted = month + (year ? '/' + year : '');
+            }
+        }
+
+        if (formatted.length <= 5) {
+            setExpiryDate(formatted);
+        }
+    };
+
+    const handleCvvChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        // Only allow numbers, max 4 digits
+        const numbersOnly = value.replace(/[^0-9]/g, '');
+        if (numbersOnly.length <= 4) {
+            setCvv(numbersOnly);
+        }
+    };
 
     const handleSubmit = async () => {
         // ✅ Prevent multiple simultaneous requests
@@ -109,8 +174,9 @@ export default function CheckoutPage() {
                                     id="phone"
                                     type="tel"
                                     value={phone}
-                                    onChange={(e) => setPhone(e.target.value)}
-                                    placeholder="0123 456 789"
+                                    onChange={handlePhoneChange}
+                                    placeholder="0123456789"
+                                    maxLength={11}
                                     required
                                 />
                             </div>
@@ -160,17 +226,45 @@ export default function CheckoutPage() {
                             {/* Nếu chọn ngân hàng hoặc Visa → hiện input nhập thông tin */}
                             {payment === "bank" && (
                                 <div className="space-y-3 mt-3">
-                                    <Input placeholder="Số thẻ ngân hàng" />
-                                    <Input placeholder="Tên chủ thẻ" />
+                                    <Input
+                                        placeholder="Số thẻ ngân hàng"
+                                        value={cardNumber}
+                                        onChange={handleCardNumberChange}
+                                        maxLength={19} // 16 digits + 3 spaces
+                                    />
+                                    <Input
+                                        placeholder="Tên chủ thẻ"
+                                        value={cardHolder}
+                                        onChange={handleCardHolderChange}
+                                    />
                                 </div>
                             )}
                             {payment === "visa" && (
                                 <div className="space-y-3 mt-3">
-                                    <Input placeholder="Số thẻ Visa/MasterCard" />
-                                    <Input placeholder="Tên chủ thẻ" />
+                                    <Input
+                                        placeholder="Số thẻ Visa/MasterCard"
+                                        value={cardNumber}
+                                        onChange={handleCardNumberChange}
+                                        maxLength={19} // 16 digits + 3 spaces
+                                    />
+                                    <Input
+                                        placeholder="Tên chủ thẻ"
+                                        value={cardHolder}
+                                        onChange={handleCardHolderChange}
+                                    />
                                     <div className="grid grid-cols-2 gap-3">
-                                        <Input placeholder="MM/YY" />
-                                        <Input placeholder="CVV" />
+                                        <Input
+                                            placeholder="MM/YY"
+                                            value={expiryDate}
+                                            onChange={handleExpiryDateChange}
+                                            maxLength={5}
+                                        />
+                                        <Input
+                                            placeholder="CVV"
+                                            value={cvv}
+                                            onChange={handleCvvChange}
+                                            maxLength={4}
+                                        />
                                     </div>
                                 </div>
                             )}
