@@ -247,7 +247,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess, onSwitchToLogin,
                             {confirmPassword && password !== confirmPassword && (
                                 <p className="text-red-500 text-xs flex items-center gap-1">
                                     <AlertCircle size={12} />
-                                    Passwords don't match
+                                    Passwords don&#39;t match
                                 </p>
                             )}
                             {confirmPassword && password === confirmPassword && confirmPassword.length > 0 && (
