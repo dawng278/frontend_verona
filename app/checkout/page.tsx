@@ -13,7 +13,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import Image from "next/image";
 
 export default function CheckoutPage() {
-    const { cartItems, totalAmount } = useCart();
+    const { cartItems, totalAmount, clearCart } = useCart(); // ✅ Add clearCart here
     const { user } = useAuth();
 
     const [name, setName] = useState("");
@@ -61,8 +61,7 @@ export default function CheckoutPage() {
 
             if (data.success) {
                 setSuccess(true);
-                // Xoá giỏ hàng sau khi thanh toán thành công
-                // Bạn có thể gọi useCart().clearCart() nếu có
+                clearCart(); // ✅ Clear cart immediately when order is successful
                 setTimeout(() => setSuccess(false), 4000);
             } else {
                 alert(data.error || "Thanh toán thất bại");
