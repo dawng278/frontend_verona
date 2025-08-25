@@ -21,8 +21,12 @@ export default function CheckoutPage() {
     const [address, setAddress] = useState("");
     const [payment, setPayment] = useState("");
     const [success, setSuccess] = useState(false);
+    const [isLoading, setIsLoading] = useState(false); // ✅ Add loading state
 
     const handleSubmit = async () => {
+        // ✅ Prevent multiple simultaneous requests
+        if (isLoading) return;
+
         if (!user) {
             alert("Vui lòng đăng nhập trước khi thanh toán.");
             return;
@@ -35,6 +39,8 @@ export default function CheckoutPage() {
             alert("Giỏ hàng trống.");
             return;
         }
+
+        setIsLoading(true); // ✅ Set loading to true at start
 
         try {
             const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/orders`, {
@@ -69,6 +75,8 @@ export default function CheckoutPage() {
         } catch (err) {
             console.error("Error creating order:", err);
             alert("Lỗi kết nối. Vui lòng thử lại sau.");
+        } finally {
+            setIsLoading(false); // ✅ Always reset loading state
         }
     };
 
@@ -203,8 +211,12 @@ export default function CheckoutPage() {
                         </div>
 
                         <div className="flex justify-end">
-                            <Button onClick={handleSubmit} className="px-6 py-2 text-lg">
-                                Thanh toán
+                            <Button
+                                onClick={handleSubmit}
+                                className="px-6 py-2 text-lg"
+                                disabled={isLoading} // ✅ Disable button when loading
+                            >
+                                {isLoading ? "Đang xử lý..." : "Thanh toán"} {/* ✅ Show loading text */}
                             </Button>
                         </div>
                     </div>
