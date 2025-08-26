@@ -173,7 +173,7 @@ export default function CheckoutPage() {
                 clearCart();
                 setTimeout(() => {
                     setSuccess(false);
-                    router.push('/order-history');
+                    router.push('/');
                 }, 3000);
             } else {
                 alert(data.error || "Thanh toán thất bại");
