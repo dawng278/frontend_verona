@@ -102,7 +102,7 @@ const ServicePage = () => {
     ];
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50 overflow-hidden">
+        <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50 overflow-hidden pt-20">
             {/* Hero Section */}
             <div className="relative py-20 px-4 animate-fade-in">
                 <div className="container mx-auto text-center">

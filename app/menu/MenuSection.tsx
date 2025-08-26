@@ -1,11 +1,13 @@
+// Enhanced MenuSection Component
 // frontend/components/Menu/MenuSection.tsx
-'use client'; // Component này sử dụng hooks và tương tác người dùng
+'use client';
 
 import React, { useState } from 'react';
-import Image from 'next/image'; // Sử dụng Image của Next.js
-import { menuCategories } from '@/data/menuData'; // Import dữ liệu tĩnh từ Canvas menuData.ts
-import { useCart } from '@/contexts/CartContext'; // Import useCart
-import MenuItemCard from './MenuItemCard'; // Import MenuItemCard
+import Image from 'next/image';
+import { menuCategories } from '@/data/menuData';
+import { useCart } from '@/contexts/CartContext';
+import MenuItemCard from './MenuItemCard';
+import { Plus, Filter } from 'lucide-react';
 
 export interface Product {
     id: string;
@@ -13,7 +15,7 @@ export interface Product {
     description: string;
     price: number;
     image: string;
-    category: string; // Đây là ID của category
+    category: string;
 }
 
 interface MenuSectionProps {
@@ -23,10 +25,9 @@ interface MenuSectionProps {
 }
 
 const MenuSection: React.FC<MenuSectionProps> = ({ products, user, setShowAddProductModal }) => {
-    // Sử dụng 'id' của category đầu tiên làm activeTab mặc định
     const [activeTabId, setActiveTabId] = useState(menuCategories[0]?.id || 'hot-combo');
+    const [isTransitioning, setIsTransitioning] = useState(false);
 
-    // Tìm tên hiển thị của tab hiện tại để dùng cho tiêu đề "OUR HOT COMBO"
     const currentActiveTab = menuCategories.find(tab => tab.id === activeTabId);
     const activeTabName = currentActiveTab ? currentActiveTab.name : 'Hot Combo';
 
@@ -38,68 +39,152 @@ const MenuSection: React.FC<MenuSectionProps> = ({ products, user, setShowAddPro
         })
         : [];
 
-    const titleContainerClass = user && user.role === 'admin'
-        ? "flex justify-between items-center mb-8 px-4"
-        : "flex justify-center items-center mb-8 px-4";
+    const handleTabChange = (newTabId: string) => {
+        if (newTabId === activeTabId) return;
+
+        setIsTransitioning(true);
+        setTimeout(() => {
+            setActiveTabId(newTabId);
+            setIsTransitioning(false);
+        }, 150);
+    };
 
     return (
-        <section className="py-12 bg-gray-50">
-            <div className="container mx-auto px-4">
-                {/* Tabs / Category Navigation with Images */}
-                <div className="flex flex-wrap justify-center gap-4 mb-8">
-                    {menuCategories.map(tab => (
-                        <button
-                            key={tab.id}
-                            onClick={() => setActiveTabId(tab.id)}
-                            className={`
-                                    flex flex-col items-center justify-center
-                                    p-3 sm:p-4 rounded-xl border-2
-                                    text-lg font-medium transition-all duration-300 transform
-                                    hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-primary
+        <section className="py-16 bg-white relative">
+            {/* Background decoration */}
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-amber-50/30 to-transparent pointer-events-none"></div>
 
+            <div className="container mx-auto px-4 relative z-10">
+                {/* Category Navigation */}
+                <div className="mb-12">
+                    <div className="flex items-center justify-center mb-8">
+                        <div className="flex items-center space-x-2 bg-amber-100 rounded-full px-4 py-2">
+                            <Filter className="h-4 w-4 text-amber-600" />
+                            <span className="text-amber-700 font-medium text-sm">Choose Category</span>
+                        </div>
+                    </div>
+
+                    <div className="flex flex-wrap justify-center gap-4 lg:gap-6">
+                        {menuCategories.map(tab => (
+                            <button
+                                key={tab.id}
+                                onClick={() => handleTabChange(tab.id)}
+                                className={`
+                                    group relative flex flex-col items-center justify-center
+                                    p-4 lg:p-6 rounded-2xl transition-all duration-300
+                                    min-w-[100px] min-h-[120px] lg:min-w-[130px] lg:min-h-[140px]
                                     ${activeTabId === tab.id
-                                ? 'bg-primary text-white border-primary shadow-md'
-                                : 'bg-white text-gray-700 border-gray-200 hover:border-primary hover:text-primary'}
-                                    min-w-[80px] h-[90px] sm:min-w-[100px] sm:h-[110px] md:min-w-[120px] md:h-[130px]
+                                    ? 'bg-gradient-to-br from-amber-400 to-orange-500 text-white shadow-xl scale-105 transform'
+                                    : 'bg-white text-gray-700 shadow-lg hover:shadow-xl hover:scale-105 border border-gray-100 hover:border-amber-200'}
                                 `}
-                        >
-                            <Image
-                                src={tab.icon}
-                                alt={tab.name}
-                                width={48} // Kích thước cố định cho Image component
-                                height={48} // Kích thước cố định cho Image component
-                                className="w-10 h-10 sm:w-12 sm:h-12 mb-1 object-contain"
-                            />
-                            <span className="text-xs sm:text-sm font-semibold text-center">{tab.name}</span>
-                        </button>
-                    ))}
+                            >
+                                {/* Active indicator */}
+                                {activeTabId === tab.id && (
+                                    <div className="absolute -top-2 -right-2 w-6 h-6 bg-green-500 rounded-full border-2 border-white">
+                                        <div className="w-full h-full bg-green-500 rounded-full animate-pulse"></div>
+                                    </div>
+                                )}
+
+                                <div className="relative mb-3">
+                                    <Image
+                                        src={tab.icon}
+                                        alt={tab.name}
+                                        width={56}
+                                        height={56}
+                                        className="w-12 h-12 lg:w-14 lg:h-14 object-contain transition-transform duration-300 group-hover:scale-110"
+                                    />
+                                    {activeTabId !== tab.id && (
+                                        <div className="absolute inset-0 bg-gradient-to-t from-amber-100/20 to-transparent rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                    )}
+                                </div>
+
+                                <span className="text-sm lg:text-base font-bold text-center leading-tight">
+                                    {tab.name}
+                                </span>
+
+                                {activeTabId === tab.id && (
+                                    <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-2 w-3 h-3 bg-white rounded-full shadow-md"></div>
+                                )}
+                            </button>
+                        ))}
+                    </div>
                 </div>
 
-                {/* Tiêu đề phần sản phẩm và nút Admin */}
-                <div className={titleContainerClass}>
-                    <h2 className="text-4xl font-extrabold text-[#333] tracking-tight">
-                        OUR {activeTabName.toUpperCase()}
-                    </h2>
-                    {user && user.role === 'admin' && (
-                        <button
-                            onClick={() => setShowAddProductModal(true)}
-                            className="bg-primary hover:bg-secondary text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-300 text-sm md:text-base"
-                        >
-                            + Add New Product
-                        </button>
-                    )}
+                {/* Section Header */}
+                <div className="text-center mb-12">
+                    <div className="inline-flex items-center justify-center mb-6">
+                        {user && user.role === 'admin' ? (
+                            <div className="flex items-center space-x-6">
+                                <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 tracking-tight">
+                                    OUR <span className="bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent">
+                                        {activeTabName.toUpperCase()}
+                                    </span>
+                                </h2>
+                                <button
+                                    onClick={() => setShowAddProductModal(true)}
+                                    className="flex items-center space-x-2 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-bold py-3 px-6 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105"
+                                >
+                                    <Plus className="h-5 w-5" />
+                                    <span>Add Product</span>
+                                </button>
+                            </div>
+                        ) : (
+                            <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 tracking-tight">
+                                OUR <span className="bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent">
+                                    {activeTabName.toUpperCase()}
+                                </span>
+                            </h2>
+                        )}
+                    </div>
+                    <div className="w-24 h-1 bg-gradient-to-r from-amber-400 to-orange-500 rounded-full mx-auto mb-4"></div>
+                    <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+                        Freshly prepared with premium ingredients and served with passion
+                    </p>
                 </div>
 
-                {/* Grid hiển thị sản phẩm */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                {/* Products Grid */}
+                <div className={`transition-all duration-300 ${isTransitioning ? 'opacity-50 scale-95' : 'opacity-100 scale-100'}`}>
                     {filteredProducts.length > 0 ? (
-                        filteredProducts.map(product => (
-                            <MenuItemCard key={product.id} item={product} /> // Truyền product làm prop 'item'
-                        ))
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8">
+                            {filteredProducts.map((product, index) => (
+                                <div
+                                    key={product.id}
+                                    className="animate-fade-in-up"
+                                    style={{ animationDelay: `${index * 100}ms` }}
+                                >
+                                    <MenuItemCard item={product} />
+                                </div>
+                            ))}
+                        </div>
                     ) : (
-                        <p className="col-span-full text-center text-gray-500 text-lg">Không tìm thấy sản phẩm nào trong danh mục này.</p>
+                        <div className="text-center py-16">
+                            <div className="w-32 h-32 mx-auto mb-6 bg-gray-100 rounded-full flex items-center justify-center">
+                                <Filter className="h-12 w-12 text-gray-400" />
+                            </div>
+                            <h3 className="text-2xl font-bold text-gray-900 mb-2">No Items Found</h3>
+                            <p className="text-gray-600 mb-6">
+                                We couldn't find any items in this category. Try selecting a different category.
+                            </p>
+                            <button
+                                onClick={() => setActiveTabId(menuCategories[0]?.id || 'hot-combo')}
+                                className="bg-amber-500 hover:bg-amber-600 text-white px-6 py-3 rounded-full font-semibold transition-colors duration-300"
+                            >
+                                View All Categories
+                            </button>
+                        </div>
                     )}
                 </div>
+
+                {/* Product Count */}
+                {filteredProducts.length > 0 && (
+                    <div className="text-center mt-12">
+                        <div className="inline-flex items-center space-x-2 bg-amber-50 rounded-full px-4 py-2">
+                            <span className="text-amber-700 font-medium">
+                                Showing {filteredProducts.length} delicious {filteredProducts.length === 1 ? 'item' : 'items'}
+                            </span>
+                        </div>
+                    </div>
+                )}
             </div>
         </section>
     );
