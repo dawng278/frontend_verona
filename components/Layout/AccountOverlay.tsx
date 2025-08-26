@@ -104,10 +104,6 @@ const AccountOverlay = ({ onClose }: AccountOverlayProps) => {
                                 <ShoppingBag size={18} />
                                 <span>Lịch sử đơn hàng</span>
                             </button>
-                            <button className="w-full flex items-center space-x-3 px-3 py-2 text-left text-gray-700 hover:bg-gray-50 rounded-lg transition-colors">
-                                <Settings size={18} />
-                                <span>Cài đặt tài khoản</span>
-                            </button>
                         </div>
 
                         <button
