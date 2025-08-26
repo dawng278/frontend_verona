@@ -40,7 +40,6 @@ export default function CheckoutPage() {
     const [isLoading, setIsLoading] = useState(false);
     const [promoCode, setPromoCode] = useState("");
     const [discount, setDiscount] = useState(0);
-    const [step, setStep] = useState(1);
 
     // Payment form states
     const [cardNumber, setCardNumber] = useState("");
@@ -144,16 +143,41 @@ export default function CheckoutPage() {
         setIsLoading(true);
 
         try {
-            // Simulate API call
-            await new Promise(resolve => setTimeout(resolve, 2000));
+            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/orders`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${user.token}`
+                },
+                body: JSON.stringify({
+                    userId: user.id,
+                    items: cartItems,
+                    total: finalTotal,
+                    address,
+                    phone,
+                    paymentMethod: payment,
+                    discount,
+                    deliveryFee,
+                    promoCode: promoCode || null
+                }),
+            });
 
-            setSuccess(true);
-            clearCart();
+            if (!res.ok) {
+                throw new Error(`HTTP error! status: ${res.status}`);
+            }
 
-            setTimeout(() => {
-                setSuccess(false);
-                router.push('/');
-            }, 3000);
+            const data = await res.json();
+
+            if (data.success) {
+                setSuccess(true);
+                clearCart();
+                setTimeout(() => {
+                    setSuccess(false);
+                    router.push('/order-history');
+                }, 3000);
+            } else {
+                alert(data.error || "Thanh toán thất bại");
+            }
         } catch (err) {
             console.error("Error creating order:", err);
             alert("Lỗi kết nối. Vui lòng thử lại sau.");
@@ -219,19 +243,8 @@ export default function CheckoutPage() {
                             <span className="font-medium">Quay lại</span>
                         </button>
 
-                        <div className="flex items-center space-x-4">
-                            <div className={`flex items-center space-x-2 px-3 py-1 rounded-full text-sm font-medium ${
-                                step >= 1 ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-500'
-                            }`}>
-                                <div className="w-2 h-2 bg-current rounded-full"></div>
-                                <span>Thông tin</span>
-                            </div>
-                            <div className={`flex items-center space-x-2 px-3 py-1 rounded-full text-sm font-medium ${
-                                step >= 2 ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-500'
-                            }`}>
-                                <div className="w-2 h-2 bg-current rounded-full"></div>
-                                <span>Thanh toán</span>
-                            </div>
+                        <div className="text-center">
+                            <h1 className="text-2xl font-bold text-gray-800">Thanh Toán Đơn Hàng</h1>
                         </div>
 
                         <div className="text-right">
@@ -562,7 +575,7 @@ export default function CheckoutPage() {
                 </div>
             </div>
 
-            {/* Success Modal */}
+            {/* Success Modal - From original code */}
             {success && (
                 <motion.div
                     className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm"
