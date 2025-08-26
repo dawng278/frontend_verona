@@ -163,7 +163,7 @@ const MenuSection: React.FC<MenuSectionProps> = ({ products, user, setShowAddPro
                             </div>
                             <h3 className="text-2xl font-bold text-gray-900 mb-2">No Items Found</h3>
                             <p className="text-gray-600 mb-6">
-                                We couldn't find any items in this category. Try selecting a different category.
+                                We couldn&#39;t find any items in this category. Try selecting a different category.
                             </p>
                             <button
                                 onClick={() => setActiveTabId(menuCategories[0]?.id || 'hot-combo')}
