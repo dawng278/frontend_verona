@@ -8,7 +8,7 @@ import { useCart } from '@/contexts/CartContext';
 
 import CartOverlay from './CartOverlay';
 import NavLinks from './NavLinks';
-import AccountDropdown from "./AccountOverlay"; // ✅ Import the new dropdown component
+import AccountDropdown from "./AccountOverlay"; // ✅ Import component dropdown tài khoản
 
 const Header = () => {
     const auth = useAuth();
@@ -20,7 +20,7 @@ const Header = () => {
 
     const user = auth?.user ?? null;
 
-    // Handle scroll effect
+    // Hiệu ứng khi cuộn
     useEffect(() => {
         const handleScroll = () => {
             setIsScrolled(window.scrollY > 20);
@@ -29,7 +29,7 @@ const Header = () => {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    // Close account overlay if clicked outside
+    // Đóng overlay tài khoản nếu click ra ngoài
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
             if (accountRef.current && !accountRef.current.contains(event.target as Node)) {
@@ -42,7 +42,7 @@ const Header = () => {
         };
     }, []);
 
-    // Close mobile menu when clicking outside
+    // Đóng menu mobile khi click ra ngoài
     const mobileMenuRef = useRef<HTMLDivElement>(null);
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
@@ -58,7 +58,7 @@ const Header = () => {
         };
     }, [isMenuOpen]);
 
-    // Close mobile menu when route changes
+    // Đóng menu mobile khi đổi route
     useEffect(() => {
         setIsMenuOpen(false);
     }, []);
@@ -83,7 +83,7 @@ const Header = () => {
                             <h1 className="text-xl lg:text-2xl font-bold text-[#B61E01] group-hover:text-[#8B1A01] transition-colors">
                                 Beka
                             </h1>
-                            <p className="text-xs text-gray-600 -mt-1 hidden sm:block">Fast Food Store</p>
+                            <p className="text-xs text-gray-600 -mt-1 hidden sm:block">Cửa Hàng Thức Ăn Nhanh</p>
                         </div>
                     </Link>
 
@@ -105,7 +105,7 @@ const Header = () => {
                                     hover:bg-white/80 hover:shadow-md active:scale-95
                                     ${isAccountOpen ? 'bg-white/90 shadow-md' : 'hover:bg-white/60'}
                                 `}
-                                aria-label={user ? `Account menu for ${user.name}` : 'Account menu'}
+                                aria-label={user ? `Menu tài khoản của ${user.name}` : 'Menu tài khoản'}
                             >
                                 <div className="relative">
                                     <User className="text-gray-700 group-hover:text-[#B61E01] transition-colors w-5 h-5" />
@@ -118,14 +118,14 @@ const Header = () => {
                                         <span className="text-sm font-medium text-gray-800 leading-tight">
                                             {user.name.split(' ')[0]}
                                         </span>
-                                        <span className="text-xs text-gray-500 leading-tight">Account</span>
+                                        <span className="text-xs text-gray-500 leading-tight">Tài khoản</span>
                                     </div>
                                 ) : (
-                                    <span className="text-sm font-medium text-gray-700 hidden md:inline">Sign In</span>
+                                    <span className="text-sm font-medium text-gray-700 hidden md:inline">Đăng nhập</span>
                                 )}
                             </button>
 
-                            {/* ✅ Use AccountDropdown instead of AccountOverlay */}
+                            {/* ✅ Dùng AccountDropdown thay vì AccountOverlay */}
                             {isAccountOpen && (
                                 <AccountDropdown onClose={() => setIsAccountOpen(false)} />
                             )}
@@ -136,7 +136,7 @@ const Header = () => {
                             <button
                                 onClick={toggleCart}
                                 className="group relative p-3 rounded-full hover:bg-white/80 hover:shadow-md transition-all duration-200 active:scale-95"
-                                aria-label={`Shopping cart with ${totalQuantity} items`}
+                                aria-label={`Giỏ hàng với ${totalQuantity} sản phẩm`}
                             >
                                 <ShoppingBag className="text-gray-700 group-hover:text-[#B61E01] transition-colors w-5 h-5" />
                                 {totalQuantity > 0 && (
@@ -154,7 +154,7 @@ const Header = () => {
                         <button
                             onClick={() => setIsMenuOpen(!isMenuOpen)}
                             className="lg:hidden p-3 rounded-full hover:bg-white/80 hover:shadow-md transition-all duration-200 active:scale-95"
-                            aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+                            aria-label={isMenuOpen ? 'Đóng menu' : 'Mở menu'}
                         >
                             <div className="relative w-5 h-5">
                                 <Menu
@@ -191,7 +191,7 @@ const Header = () => {
                             <NavLinks />
                         </div>
 
-                        {/* Mobile Account Section - ✅ Also use dropdown for mobile */}
+                        {/* Mobile Account Section - ✅ dùng dropdown cho mobile */}
                         <div className="border-t border-gray-200 pt-4">
                             {user ? (
                                 <div className="flex items-center justify-between p-3 bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl">
@@ -200,8 +200,8 @@ const Header = () => {
                                             <User className="w-5 h-5 text-white" />
                                         </div>
                                         <div>
-                                            <span className="font-medium text-gray-800">Hi, {user.name}!</span>
-                                            <p className="text-sm text-gray-600">Manage your account</p>
+                                            <span className="font-medium text-gray-800">Xin chào, {user.name}!</span>
+                                            <p className="text-sm text-gray-600">Quản lý tài khoản của bạn</p>
                                         </div>
                                     </div>
                                     <button
@@ -211,7 +211,7 @@ const Header = () => {
                                         }}
                                         className="px-4 py-2 bg-[#B61E01] text-white rounded-full text-sm font-medium hover:bg-[#8B1A01] transition-colors"
                                     >
-                                        Account
+                                        Tài khoản
                                     </button>
                                 </div>
                             ) : (
@@ -222,7 +222,7 @@ const Header = () => {
                                     }}
                                     className="w-full p-4 bg-gradient-to-r from-[#B61E01] to-[#8B1A01] text-white rounded-xl font-medium text-center hover:shadow-lg transition-all duration-200 active:scale-95"
                                 >
-                                    Sign In / Register
+                                    Đăng nhập / Đăng ký
                                 </button>
                             )}
                         </div>

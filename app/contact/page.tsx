@@ -72,7 +72,7 @@ const ContactPage: React.FC = () => {
         {
             icon: Mail,
             title: "Email",
-            content: "info@veronapizza.com",
+            content: "info@beka.com",
             color: "text-purple-600",
             bgColor: "bg-purple-100"
         },

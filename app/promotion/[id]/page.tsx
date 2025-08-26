@@ -20,7 +20,7 @@ export default async function PromotionDetailPage({ params }: { params: Promise<
                         className="inline-flex items-center text-gray-600 hover:text-blue-600 transition-colors duration-300 font-medium"
                     >
                         <ArrowLeft className="h-4 w-4 mr-2" />
-                        Back to Promotions
+                        Quay lại Khuyến mãi
                     </Link>
                 </div>
             </div>
@@ -30,11 +30,11 @@ export default async function PromotionDetailPage({ params }: { params: Promise<
                 <div className="mb-8">
                     <div className="flex items-center space-x-4 mb-6">
                         <div className="bg-gradient-to-r from-red-500 to-pink-500 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg">
-                            LIMITED TIME
+                            THỜI GIAN CÓ HẠN
                         </div>
                         <div className="flex items-center space-x-2 text-gray-500">
                             <Calendar className="h-4 w-4" />
-                            <span className="text-sm">Valid until supplies last</span>
+                            <span className="text-sm">Có hiệu lực đến khi hết hàng</span>
                         </div>
                     </div>
 
@@ -45,15 +45,15 @@ export default async function PromotionDetailPage({ params }: { params: Promise<
                     {/* Action Buttons */}
                     <div className="flex flex-wrap gap-4">
                         <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-full font-semibold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
-                            Claim Offer Now
+                            Nhận ưu đãi ngay
                         </button>
                         <button className="flex items-center space-x-2 border border-gray-300 hover:border-blue-300 text-gray-700 hover:text-blue-600 px-6 py-3 rounded-full font-semibold transition-all duration-300">
                             <Share2 className="h-4 w-4" />
-                            <span>Share</span>
+                            <span>Chia sẻ</span>
                         </button>
                         <button className="flex items-center space-x-2 border border-gray-300 hover:border-red-300 text-gray-700 hover:text-red-600 px-6 py-3 rounded-full font-semibold transition-all duration-300">
                             <Heart className="h-4 w-4" />
-                            <span>Save</span>
+                            <span>Lưu</span>
                         </button>
                     </div>
                 </div>
@@ -74,14 +74,14 @@ export default async function PromotionDetailPage({ params }: { params: Promise<
                         </div>
 
                         <div className="mt-8">
-                            <h2 className="text-2xl font-bold text-gray-900 mb-4">About This Promotion</h2>
+                            <h2 className="text-2xl font-bold text-gray-900 mb-4">Về khuyến mãi này</h2>
                             <div className="prose prose-lg max-w-none">
                                 <p className="text-gray-700 leading-relaxed text-lg">
                                     {promotion.description}
                                 </p>
                                 <p className="text-gray-600 mt-6">
-                                    This exclusive offer provides exceptional value and is available for a limited time only.
-                                    Don&#39;t miss out on this opportunity to save while enjoying premium quality products and services.
+                                    Ưu đãi độc quyền này mang đến giá trị tuyệt vời và chỉ có trong thời gian giới hạn.
+                                    Đừng bỏ lỡ cơ hội tiết kiệm khi tận hưởng những sản phẩm và dịch vụ chất lượng cao.
                                 </p>
                             </div>
                         </div>
@@ -90,7 +90,7 @@ export default async function PromotionDetailPage({ params }: { params: Promise<
                     {/* Sidebar */}
                     <div className="lg:col-span-1">
                         <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-8 sticky top-24">
-                            <h3 className="text-xl font-bold text-gray-900 mb-6">Quick Info</h3>
+                            <h3 className="text-xl font-bold text-gray-900 mb-6">Thông tin nhanh</h3>
 
                             <div className="space-y-6">
                                 <div className="flex items-center space-x-3">
@@ -98,8 +98,8 @@ export default async function PromotionDetailPage({ params }: { params: Promise<
                                         <Tag className="h-5 w-5 text-blue-600" />
                                     </div>
                                     <div>
-                                        <p className="font-medium text-gray-900">Category</p>
-                                        <p className="text-sm text-gray-600">Special Offer</p>
+                                        <p className="font-medium text-gray-900">Danh mục</p>
+                                        <p className="text-sm text-gray-600">Ưu đãi đặc biệt</p>
                                     </div>
                                 </div>
 
@@ -108,25 +108,25 @@ export default async function PromotionDetailPage({ params }: { params: Promise<
                                         <Clock className="h-5 w-5 text-green-600" />
                                     </div>
                                     <div>
-                                        <p className="font-medium text-gray-900">Duration</p>
-                                        <p className="text-sm text-gray-600">Limited Time</p>
+                                        <p className="font-medium text-gray-900">Thời gian</p>
+                                        <p className="text-sm text-gray-600">Có hạn</p>
                                     </div>
                                 </div>
                             </div>
 
                             <div className="mt-8 pt-6 border-t border-gray-200">
-                                <h4 className="font-semibold text-gray-900 mb-3">Terms & Conditions</h4>
+                                <h4 className="font-semibold text-gray-900 mb-3">Điều khoản & Điều kiện</h4>
                                 <ul className="text-sm text-gray-600 space-y-2">
-                                    <li>• Valid while supplies last</li>
-                                    <li>• Cannot be combined with other offers</li>
-                                    <li>• Subject to availability</li>
-                                    <li>• Terms may apply</li>
+                                    <li>• Có hiệu lực đến khi hết hàng</li>
+                                    <li>• Không áp dụng cùng khuyến mãi khác</li>
+                                    <li>• Tùy thuộc vào tình trạng sẵn có</li>
+                                    <li>• Có thể áp dụng điều kiện kèm theo</li>
                                 </ul>
                             </div>
 
                             <div className="mt-6">
                                 <button className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white py-4 rounded-xl font-semibold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
-                                    Get This Deal
+                                    Nhận ưu đãi này
                                 </button>
                             </div>
                         </div>
@@ -135,7 +135,7 @@ export default async function PromotionDetailPage({ params }: { params: Promise<
 
                 {/* Related Promotions */}
                 <div className="mt-20">
-                    <h2 className="text-3xl font-bold text-gray-900 mb-8">More Great Deals</h2>
+                    <h2 className="text-3xl font-bold text-gray-900 mb-8">Ưu đãi khác</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {promotions
                             .filter(p => p.id !== promotion.id)

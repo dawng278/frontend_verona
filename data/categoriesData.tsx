@@ -20,19 +20,19 @@ const categoriesData = [
         link: '/menu?category=burger',
     },
     {
-        name: 'Fried Chicken',
+        name: 'Gà Rán',
         defaultImg: friedChickenBucket,
         hoverImg: friedChickenBucketHover,
         link: '/menu?category=fried-chicken',
     },
     {
-        name: 'Fries',
+        name: 'Khoai tây chiên',
         defaultImg: friesBox,
         hoverImg: friesBoxHover,
         link: '/menu?category=fries',
     },
     {
-        name: 'Ice Cream',
+        name: 'Kem',
         defaultImg: iceCreamCup,
         hoverImg: iceCreamCupHover,
         link: '/menu?category=ice-cream',

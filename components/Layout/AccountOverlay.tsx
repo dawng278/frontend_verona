@@ -59,7 +59,7 @@ const AccountOverlay = ({ onClose }: AccountOverlayProps) => {
         setShowOrderHistory(false);
     };
 
-    // If showing order history, render it instead
+    // Nếu đang hiển thị lịch sử đơn hàng, render component đó
     if (showOrderHistory && user) {
         return (
             <OrderHistoryOverlay
@@ -74,13 +74,13 @@ const AccountOverlay = ({ onClose }: AccountOverlayProps) => {
             <div className="absolute inset-0 bg-black bg-opacity-50" onClick={handleBackdropClick} />
             <div ref={overlayRef} className="relative w-full max-w-md bg-white shadow-2xl rounded-lg border border-gray-200 overflow-hidden">
 
-                <button onClick={onClose} className="absolute top-3 right-3 text-gray-400 hover:text-gray-600 z-10 p-1 rounded-full hover:bg-gray-100 transition-colors" aria-label="Close modal">
+                <button onClick={onClose} className="absolute top-3 right-3 text-gray-400 hover:text-gray-600 z-10 p-1 rounded-full hover:bg-gray-100 transition-colors" aria-label="Đóng cửa sổ">
                     <X size={18} />
                 </button>
 
                 {showSuccessMessage && (
                     <div className="absolute top-0 left-0 right-0 bg-green-500 text-white text-center py-2 z-10">
-                        Welcome, {user?.name || 'User'}! ✓
+                        Xin chào, {user?.name || 'Người dùng'}! ✓
                     </div>
                 )}
 
@@ -102,11 +102,11 @@ const AccountOverlay = ({ onClose }: AccountOverlayProps) => {
                                 className="w-full flex items-center space-x-3 px-3 py-2 text-left text-gray-700 hover:bg-gray-50 rounded-lg transition-colors"
                             >
                                 <ShoppingBag size={18} />
-                                <span>Order History</span>
+                                <span>Lịch sử đơn hàng</span>
                             </button>
                             <button className="w-full flex items-center space-x-3 px-3 py-2 text-left text-gray-700 hover:bg-gray-50 rounded-lg transition-colors">
                                 <Settings size={18} />
-                                <span>Account Settings</span>
+                                <span>Cài đặt tài khoản</span>
                             </button>
                         </div>
 
@@ -116,7 +116,7 @@ const AccountOverlay = ({ onClose }: AccountOverlayProps) => {
                             className="w-full flex items-center justify-center space-x-2 px-4 py-3 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                             <LogOut size={18} />
-                            <span>{isLoggingOut ? 'Logging out...' : 'Logout'}</span>
+                            <span>{isLoggingOut ? 'Đang đăng xuất...' : 'Đăng xuất'}</span>
                         </button>
                     </div>
                 ) : (

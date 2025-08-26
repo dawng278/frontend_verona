@@ -60,7 +60,7 @@ const MenuSection: React.FC<MenuSectionProps> = ({ products, user, setShowAddPro
                     <div className="flex items-center justify-center mb-8">
                         <div className="flex items-center space-x-2 bg-amber-100 rounded-full px-4 py-2">
                             <Filter className="h-4 w-4 text-amber-600" />
-                            <span className="text-amber-700 font-medium text-sm">Choose Category</span>
+                            <span className="text-amber-700 font-medium text-sm">Chọn danh mục</span>
                         </div>
                     </div>
 
@@ -116,7 +116,7 @@ const MenuSection: React.FC<MenuSectionProps> = ({ products, user, setShowAddPro
                         {user && user.role === 'admin' ? (
                             <div className="flex items-center space-x-6">
                                 <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 tracking-tight">
-                                    OUR <span className="bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent">
+                                    DANH MỤC <span className="bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent">
                                         {activeTabName.toUpperCase()}
                                     </span>
                                 </h2>
@@ -125,12 +125,12 @@ const MenuSection: React.FC<MenuSectionProps> = ({ products, user, setShowAddPro
                                     className="flex items-center space-x-2 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-bold py-3 px-6 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105"
                                 >
                                     <Plus className="h-5 w-5" />
-                                    <span>Add Product</span>
+                                    <span>Thêm sản phẩm</span>
                                 </button>
                             </div>
                         ) : (
                             <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 tracking-tight">
-                                OUR <span className="bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent">
+                                DANH MỤC <span className="bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent">
                                     {activeTabName.toUpperCase()}
                                 </span>
                             </h2>
@@ -138,7 +138,7 @@ const MenuSection: React.FC<MenuSectionProps> = ({ products, user, setShowAddPro
                     </div>
                     <div className="w-24 h-1 bg-gradient-to-r from-amber-400 to-orange-500 rounded-full mx-auto mb-4"></div>
                     <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-                        Freshly prepared with premium ingredients and served with passion
+                        Được chế biến tươi mới với nguyên liệu cao cấp và phục vụ bằng cả đam mê
                     </p>
                 </div>
 
@@ -161,15 +161,15 @@ const MenuSection: React.FC<MenuSectionProps> = ({ products, user, setShowAddPro
                             <div className="w-32 h-32 mx-auto mb-6 bg-gray-100 rounded-full flex items-center justify-center">
                                 <Filter className="h-12 w-12 text-gray-400" />
                             </div>
-                            <h3 className="text-2xl font-bold text-gray-900 mb-2">No Items Found</h3>
+                            <h3 className="text-2xl font-bold text-gray-900 mb-2">Không tìm thấy sản phẩm</h3>
                             <p className="text-gray-600 mb-6">
-                                We couldn&#39;t find any items in this category. Try selecting a different category.
+                                Chúng tôi không tìm thấy sản phẩm nào trong danh mục này. Hãy thử chọn danh mục khác.
                             </p>
                             <button
                                 onClick={() => setActiveTabId(menuCategories[0]?.id || 'hot-combo')}
                                 className="bg-amber-500 hover:bg-amber-600 text-white px-6 py-3 rounded-full font-semibold transition-colors duration-300"
                             >
-                                View All Categories
+                                Xem tất cả danh mục
                             </button>
                         </div>
                     )}
@@ -180,7 +180,7 @@ const MenuSection: React.FC<MenuSectionProps> = ({ products, user, setShowAddPro
                     <div className="text-center mt-12">
                         <div className="inline-flex items-center space-x-2 bg-amber-50 rounded-full px-4 py-2">
                             <span className="text-amber-700 font-medium">
-                                Showing {filteredProducts.length} delicious {filteredProducts.length === 1 ? 'item' : 'items'}
+                                Hiển thị {filteredProducts.length} {filteredProducts.length === 1 ? 'món ăn' : 'món ăn'}
                             </span>
                         </div>
                     </div>

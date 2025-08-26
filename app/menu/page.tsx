@@ -29,7 +29,7 @@ const MenuPage: React.FC = () => {
         const loadProducts = async () => {
             setIsLoading(true);
 
-            // Simulate loading time for better UX
+            // Giả lập thời gian tải để UX mượt hơn
             await new Promise(resolve => setTimeout(resolve, 500));
 
             if (USE_STATIC_DATA) {
@@ -64,7 +64,7 @@ const MenuPage: React.FC = () => {
             <div className="min-h-screen bg-gradient-to-br from-amber-50 via-white to-orange-50 flex items-center justify-center">
                 <div className="text-center">
                     <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-500 mx-auto mb-4"></div>
-                    <p className="text-gray-600 font-medium">Loading delicious menu...</p>
+                    <p className="text-gray-600 font-medium">Đang tải thực đơn hấp dẫn...</p>
                 </div>
             </div>
         );
@@ -81,15 +81,14 @@ const MenuPage: React.FC = () => {
                             <div className="flex justify-center mb-6">
                                 <div className="flex items-center space-x-2 bg-white/20 backdrop-blur-sm rounded-full px-6 py-2">
                                     <ChefHat className="h-6 w-6 text-white" />
-                                    <span className="text-white font-semibold">Fresh & Delicious</span>
+                                    <span className="text-white font-semibold">Tươi ngon mỗi ngày</span>
                                 </div>
                             </div>
                             <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 tracking-tight">
-                                Our Menu
+                                Thực Đơn Của Chúng Tôi
                             </h1>
                             <p className="text-xl text-orange-100 max-w-3xl mx-auto leading-relaxed">
-                                Discover our carefully crafted selection of mouth-watering dishes,
-                                made with the finest ingredients and prepared with love.
+                                Khám phá những món ăn được chế biến công phu, nguyên liệu tuyển chọn và đầy ắp yêu thương.
                             </p>
                         </div>
 
@@ -99,28 +98,28 @@ const MenuPage: React.FC = () => {
                                 <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6">
                                     <ChefHat className="h-8 w-8 text-white mx-auto mb-2" />
                                     <div className="text-2xl font-bold text-white">{products.length}+</div>
-                                    <div className="text-orange-100 text-sm">Menu Items</div>
+                                    <div className="text-orange-100 text-sm">Món ăn</div>
                                 </div>
                             </div>
                             <div className="text-center">
                                 <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6">
                                     <Clock className="h-8 w-8 text-white mx-auto mb-2" />
-                                    <div className="text-2xl font-bold text-white">15min</div>
-                                    <div className="text-orange-100 text-sm">Avg Prep Time</div>
+                                    <div className="text-2xl font-bold text-white">15 phút</div>
+                                    <div className="text-orange-100 text-sm">Thời gian chuẩn bị TB</div>
                                 </div>
                             </div>
                             <div className="text-center">
                                 <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6">
                                     <Star className="h-8 w-8 text-white mx-auto mb-2" />
                                     <div className="text-2xl font-bold text-white">4.9</div>
-                                    <div className="text-orange-100 text-sm">Customer Rating</div>
+                                    <div className="text-orange-100 text-sm">Đánh giá khách hàng</div>
                                 </div>
                             </div>
                             <div className="text-center">
                                 <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6">
                                     <Award className="h-8 w-8 text-white mx-auto mb-2" />
                                     <div className="text-2xl font-bold text-white">100%</div>
-                                    <div className="text-orange-100 text-sm">Fresh Daily</div>
+                                    <div className="text-orange-100 text-sm">Nguyên liệu tươi mới</div>
                                 </div>
                             </div>
                         </div>
@@ -148,17 +147,17 @@ const MenuPage: React.FC = () => {
             <div className="bg-gradient-to-r from-gray-900 to-gray-800 py-16">
                 <div className="container mx-auto px-4 text-center">
                     <h2 className="text-3xl font-bold text-white mb-4">
-                        Can&#39;t Find What You&#39;re Looking For?
+                        Không tìm thấy món bạn muốn?
                     </h2>
                     <p className="text-gray-300 mb-8 max-w-2xl mx-auto">
-                        Our chefs are always creating new dishes. Contact us for custom orders or special dietary requirements.
+                        Đầu bếp của chúng tôi luôn sáng tạo ra những món ăn mới. Liên hệ với chúng tôi để đặt món theo yêu cầu hoặc chế độ ăn đặc biệt.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
                         <button className="bg-amber-500 hover:bg-amber-600 text-white px-8 py-3 rounded-full font-semibold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
-                            Contact Chef
+                            Liên hệ đầu bếp
                         </button>
                         <button className="border border-gray-400 hover:border-white text-gray-300 hover:text-white px-8 py-3 rounded-full font-semibold transition-all duration-300">
-                            View Specials
+                            Xem món đặc biệt
                         </button>
                     </div>
                 </div>

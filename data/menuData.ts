@@ -74,11 +74,11 @@ interface MenuItem {
 
 export const menuCategories: Category[] = [
     { id: 'hot-combo', name: 'Hot Combo', icon: hotComboIcon.src }, // .frontend để lấy đường dẫn thực tế từ import
-    { id: 'fried-chicken', name: 'Fried Chicken', icon: friedChickenIcon.src },
+    { id: 'fried-chicken', name: 'Gà Rán', icon: friedChickenIcon.src },
     { id: 'burger', name: 'Burger', icon: burgerIcon.src },
-    { id: 'snacks', name: 'Snacks', icon: snacksIcon.src },
-    { id: 'desserts', name: 'Desserts', icon: dessertsIcon.src },
-    { id: 'drinks', name: 'Drinks', icon: drinksIcon.src },
+    { id: 'snacks', name: 'Ăn Vặt', icon: snacksIcon.src },
+    { id: 'desserts', name: 'Tráng Miệng', icon: dessertsIcon.src },
+    { id: 'drinks', name: 'Đồ Uống', icon: drinksIcon.src },
 ];
 
 export const menuItems: MenuItem[] = [
@@ -336,7 +336,7 @@ export const menuItems: MenuItem[] = [
     {
         id: 'pepsi',
         name: 'Pepsi',
-        description: 'Nước ngọt có gas, vị sảng khoái.',
+        description: 'Nước ngọt có gas, vị sảng khoái pepsi.',
         price: 19000,
         image: pepsiImg.src,
         category: 'drinks',

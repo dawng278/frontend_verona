@@ -38,31 +38,31 @@ const categoriesData: Category[] = [
         defaultImg: mockImages.burger,
         hoverImg: mockImages.burgerHover,
         link: '/menu?category=burger',
-        description: 'Juicy & Delicious',
+        description: 'Ngon mọng & Hấp dẫn',
         color: 'from-amber-400 to-orange-500'
     },
     {
-        name: 'Fried Chicken',
+        name: 'Gà Rán',
         defaultImg: mockImages.friedChicken,
         hoverImg: mockImages.friedChickenHover,
         link: '/menu?category=fried-chicken',
-        description: 'Crispy & Golden',
+        description: 'Giòn tan & Vàng ruộm',
         color: 'from-red-400 to-pink-500'
     },
     {
-        name: 'Fries',
+        name: 'Khoai Tây Chiên',
         defaultImg: mockImages.fries,
         hoverImg: mockImages.friesHover,
         link: '/menu?category=fries',
-        description: 'Crispy & Perfect',
+        description: 'Giòn rụm & Hoàn hảo',
         color: 'from-yellow-400 to-orange-400'
     },
     {
-        name: 'Ice Cream',
+        name: 'Kem',
         defaultImg: mockImages.iceCream,
         hoverImg: mockImages.iceCreamHover,
         link: '/menu?category=ice-cream',
-        description: 'Cool & Creamy',
+        description: 'Mát lạnh & Béo ngậy',
         color: 'from-pink-400 to-purple-500'
     },
 ];
@@ -94,21 +94,18 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category }) => {
                         }`}
                         onLoad={() => setImageLoaded(true)}
                         priority={true}
-                        unoptimized={true} // For data URLs
+                        unoptimized={true}
                     />
 
-                    {/* Loading skeleton */}
                     {!imageLoaded && (
                         <div className="absolute inset-0 bg-gray-200 rounded-full animate-pulse" />
                     )}
 
-                    {/* Sparkle effect on hover */}
                     <div className="absolute -top-1 -right-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                         <Sparkles className="w-4 h-4 text-yellow-400 animate-pulse" />
                     </div>
                 </div>
 
-                {/* Text content */}
                 <div className="flex-grow">
                     <h3 className="text-xl lg:text-2xl font-bold text-gray-800 mb-2 group-hover:text-orange-600 transition-colors duration-300">
                         {category.name}
@@ -118,9 +115,8 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category }) => {
                     </p>
                 </div>
 
-                {/* CTA Button */}
                 <button className="inline-flex items-center gap-2 px-4 py-2 bg-orange-500 text-white rounded-full text-sm font-medium opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0 hover:bg-orange-600">
-                    Explore
+                    Khám Phá
                     <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                 </button>
             </div>
@@ -139,7 +135,6 @@ const ProductCategoriesSection = () => {
                 backgroundRepeat: "no-repeat",
             }}
         >
-            {/* Background overlays */}
             <div className="absolute inset-0">
                 <div className="absolute -top-40 -right-40 w-80 h-80 bg-orange-200/30 rounded-full blur-3xl" />
                 <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-yellow-200/30 rounded-full blur-3xl" />
@@ -151,16 +146,16 @@ const ProductCategoriesSection = () => {
                 <div className="text-center mb-12 lg:mb-16">
                     <div className="inline-flex items-center gap-2 bg-orange-100 text-orange-600 px-4 py-2 rounded-full text-sm font-medium mb-4">
                         <Sparkles className="w-4 h-4" />
-                        Our Menu Categories
+                        Danh Mục Thực Đơn
                     </div>
                     <h2 className="text-4xl lg:text-6xl font-bold text-gray-900 mb-4">
-                        What to eat{' '}
+                        Hôm nay ăn gì{' '}
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-red-500">
-              today?
-            </span>
+                            nào?
+                        </span>
                     </h2>
                     <p className="text-lg lg:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
-                        BEKA menu is varied and rich, with many delicious choices for you, your family and friends.
+                        Thực đơn BEKA đa dạng và phong phú, với nhiều lựa chọn hấp dẫn dành cho bạn, gia đình và bạn bè.
                     </p>
                 </div>
 
@@ -180,7 +175,7 @@ const ProductCategoriesSection = () => {
                 {/* Call to Action */}
                 <div className="text-center mt-12 lg:mt-16">
                     <button className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-full text-lg font-semibold hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-                        View Full Menu
+                        Xem Toàn Bộ Thực Đơn
                         <ChevronRight className="w-5 h-5" />
                     </button>
                 </div>

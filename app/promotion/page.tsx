@@ -17,14 +17,14 @@ const PromotionPage = () => {
                         <div className="flex justify-center mb-6">
                             <div className="flex items-center space-x-2 bg-white/20 backdrop-blur-sm rounded-full px-4 py-2">
                                 <Sparkles className="h-5 w-5 text-yellow-300" />
-                                <span className="text-white font-medium">Limited Time Offers</span>
+                                <span className="text-white font-medium">Ưu Đãi Giới Hạn</span>
                             </div>
                         </div>
                         <h1 className="text-4xl font-bold tracking-tight text-white sm:text-6xl mb-6">
-                            Exclusive Promotions
+                            Khuyến Mãi Đặc Biệt
                         </h1>
                         <p className="text-xl leading-8 text-blue-100 max-w-2xl mx-auto">
-                            Discover amazing deals and special offers crafted just for you. Don&#39;t miss out on these incredible savings!
+                            Khám phá những ưu đãi hấp dẫn được thiết kế riêng cho bạn. Đừng bỏ lỡ cơ hội tiết kiệm tuyệt vời này!
                         </p>
                     </div>
                 </div>
@@ -44,14 +44,14 @@ const PromotionPage = () => {
                             <div className="flex items-center space-x-2">
                                 <Tag className="h-5 w-5 text-green-600" />
                                 <span className="text-sm font-medium text-gray-700">
-                                    {promotions.length} Active Deals
+                                    {promotions.length} Ưu đãi đang diễn ra
                                 </span>
                             </div>
                             <div className="h-4 w-px bg-gray-200"></div>
                             <div className="flex items-center space-x-2">
                                 <Calendar className="h-5 w-5 text-blue-600" />
                                 <span className="text-sm font-medium text-gray-700">
-                                    Updated Daily
+                                    Cập nhật hàng ngày
                                 </span>
                             </div>
                         </div>
@@ -69,7 +69,7 @@ const PromotionPage = () => {
                                     {/* Sale Badge */}
                                     <div className="absolute top-4 left-4 z-10">
                                         <div className="bg-gradient-to-r from-red-500 to-pink-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg">
-                                            HOT DEAL
+                                            ƯU ĐÃI HOT
                                         </div>
                                     </div>
 
@@ -102,10 +102,10 @@ const PromotionPage = () => {
                                         {/* Action Button */}
                                         <div className="flex items-center justify-between">
                                             <span className="text-xs text-gray-500 bg-gray-50 px-2 py-1 rounded-full">
-                                                Promotion #{index + 1}
+                                                Khuyến mãi #{index + 1}
                                             </span>
                                             <div className="bg-blue-50 group-hover:bg-blue-100 text-blue-600 px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-300">
-                                                View Details
+                                                Xem chi tiết
                                             </div>
                                         </div>
                                     </div>
@@ -118,17 +118,17 @@ const PromotionPage = () => {
                     <div className="mt-20 text-center">
                         <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-3xl p-12 border border-blue-100">
                             <h2 className="text-3xl font-bold text-gray-900 mb-4">
-                                Don&#39;t Miss Out!
+                                Đừng Bỏ Lỡ!
                             </h2>
                             <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
-                                New promotions are added regularly. Check back often to discover fresh deals and exclusive offers.
+                                Các khuyến mãi mới được thêm thường xuyên. Hãy quay lại để khám phá những ưu đãi và độc quyền mới nhất.
                             </p>
                             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                                 <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-full font-semibold transition-colors duration-300 shadow-lg hover:shadow-xl">
-                                    Subscribe for Updates
+                                    Đăng ký nhận tin
                                 </button>
                                 <button className="border border-gray-300 hover:border-blue-300 text-gray-700 hover:text-blue-600 px-8 py-3 rounded-full font-semibold transition-all duration-300">
-                                    View All Categories
+                                    Xem tất cả danh mục
                                 </button>
                             </div>
                         </div>

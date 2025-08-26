@@ -5,8 +5,7 @@ import { ArrowRight, Star, Sparkles, Heart, Users, Phone, Gift } from 'lucide-re
 // Mock background image - replace with your actual import
 const bgService = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyMCIgaGVpZ2h0PSIxMDgwIiB2aWV3Qm94PSIwIDAgMTkyMCAxMDgwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8ZGVmcz4KPGF0YWRpYWxHcmFkaWVudCBpZD0iYmciIGN4PSI5NjAiIGN5PSI1NDAiIHI9IjgwMCI+CjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNGRkY3RUQiLz4KPHN0b3Agb2Zmc2V0PSI1MCUiIHN0b3AtY29sb3I9IiNGRkY0RTYiLz4KPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjRkRFNjhBIi8+CjwvcmFkaWFsR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjE5MjAiIGhlaWdodD0iMTA4MCIgZmlsbD0idXJsKCNiZykiLz4KPC9zdmc+";
 
-// Mock service images - replace with your actual imports
-// Using data URLs like ProductCategories (no external domains needed)
+// Mock service images
 const mockServiceImages = {
     kidParty: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDMwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjRkY5ODAwIi8+Cjx0ZXh0IHg9IjE1MCIgeT0iMTYwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSJ3aGl0ZSIgZm9udC1zaXplPSI4MCIgZm9udC1mYW1pbHk9IkFyaWFsIj7wn46JPC90ZXh0Pgo8L3N2Zz4=",
     kidClub: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDMwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjOUMzNEZGIi8+Cjx0ZXh0IHg9IjE1MCIgeT0iMTYwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSJ3aGl0ZSIgZm9udC1zaXplPSI4MCIgZm9udC1mYW1pbHk9IkFyaWFsIj7wn5K5PC90ZXh0Pgo8L3N2Zz4=",
@@ -14,55 +13,55 @@ const mockServiceImages = {
     service: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDMwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjREMxOTE3Ii8+Cjx0ZXh0IHg9IjE1MCIgeT0iMTYwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSJ3aGl0ZSIgZm9udC1zaXplPSI4MCIgZm9udC1mYW1pbHk9IkFyaWFsIj7wn5SnPC90ZXh0Pgo8L3N2Zz4="
 };
 
-// Service data with enhanced information
+// Service data with Vietnamese text
 const services = [
     {
         id: 1,
         img: mockServiceImages.kidParty,
-        title: 'KID PARTY',
-        subtitle: 'Special Birthday Celebrations',
-        description: 'Looking for ideas for a special birthday party for your child? Our Kid Party services ensures your child will have much fun and memorable experiences.',
+        title: 'TIỆC SINH NHẬT TRẺ EM',
+        subtitle: 'Lễ kỷ niệm sinh nhật đặc biệt',
+        description: 'Bạn đang tìm ý tưởng cho một bữa tiệc sinh nhật đáng nhớ cho bé? Dịch vụ Tiệc Sinh Nhật của chúng tôi sẽ mang đến cho bé những khoảnh khắc vui nhộn và kỷ niệm khó quên.',
         icon: Gift,
         color: 'from-orange-400 to-red-500',
         bgColor: 'bg-orange-50',
         hoverBg: 'hover:bg-orange-100',
-        features: ['Custom Decorations', 'Fun Activities', 'Birthday Cake', 'Photo Memories']
+        features: ['Trang trí riêng biệt', 'Hoạt động vui nhộn', 'Bánh sinh nhật', 'Lưu giữ kỷ niệm bằng ảnh']
     },
     {
         id: 2,
         img: mockServiceImages.kidClub,
-        title: 'KID CLUBS',
-        subtitle: 'Educational Fun Activities',
-        description: 'Let your children experience and discover their talents with fun activities and educational games at Beka Kids Club. Learn more information about Beka Kid Club and join now.',
+        title: 'CÂU LẠC BỘ TRẺ EM',
+        subtitle: 'Hoạt động vui chơi giáo dục',
+        description: 'Hãy để trẻ khám phá và phát triển tài năng thông qua các hoạt động bổ ích và trò chơi giáo dục tại Beka Kid Club. Tìm hiểu thêm và đăng ký tham gia ngay hôm nay.',
         icon: Users,
         color: 'from-purple-400 to-pink-500',
         bgColor: 'bg-purple-50',
         hoverBg: 'hover:bg-purple-100',
-        features: ['Educational Games', 'Talent Discovery', 'Social Skills', 'Creative Activities']
+        features: ['Trò chơi giáo dục', 'Khám phá tài năng', 'Kỹ năng xã hội', 'Hoạt động sáng tạo']
     },
     {
         id: 3,
         img: mockServiceImages.bigService,
-        title: 'BIG SERVICE ORDER',
-        subtitle: 'Special Group Discounts',
-        description: 'To meet the needs of all customers, your family and friends, the special discount program for large orders is created to bring delightful experiences to you.',
+        title: 'ĐẶT DỊCH VỤ SỐ LƯỢNG LỚN',
+        subtitle: 'Ưu đãi đặc biệt cho nhóm',
+        description: 'Nhằm đáp ứng nhu cầu của mọi khách hàng, gia đình và bạn bè, chương trình ưu đãi đặc biệt cho các đơn hàng lớn mang đến những trải nghiệm tuyệt vời cho bạn.',
         icon: Star,
         color: 'from-teal-400 to-cyan-500',
         bgColor: 'bg-teal-50',
         hoverBg: 'hover:bg-teal-100',
-        features: ['Group Discounts', 'Family Packages', 'Custom Menus', 'Priority Service']
+        features: ['Giảm giá cho nhóm', 'Gói gia đình', 'Thực đơn tùy chọn', 'Dịch vụ ưu tiên']
     },
     {
         id: 4,
         img: mockServiceImages.service,
-        title: 'CUSTOMER SERVICE',
-        subtitle: '24/7 Support Available',
-        description: 'We\'re always here to serve you. For customer support, services feedback, or any other inquiries, don\'t hesitate to get in touch. We are devoted to providing the highest quality of services.',
+        title: 'CHĂM SÓC KHÁCH HÀNG',
+        subtitle: 'Hỗ trợ 24/7',
+        description: 'Chúng tôi luôn sẵn sàng phục vụ bạn. Đối với hỗ trợ khách hàng, phản hồi dịch vụ, hoặc bất kỳ thắc mắc nào, đừng ngần ngại liên hệ. Chúng tôi cam kết mang đến dịch vụ chất lượng cao nhất.',
         icon: Phone,
         color: 'from-rose-400 to-red-500',
         bgColor: 'bg-rose-50',
         hoverBg: 'hover:bg-rose-100',
-        features: ['24/7 Support', 'Quality Service', 'Feedback Welcome', 'Quick Response']
+        features: ['Hỗ trợ 24/7', 'Dịch vụ chất lượng', 'Luôn lắng nghe phản hồi', 'Phản hồi nhanh chóng']
     }
 ];
 
@@ -93,7 +92,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, index }) => {
             </div>
 
             <div className="relative p-8 h-full flex flex-col">
-                {/* Image container */}
+                {/* Image */}
                 <div className="relative w-20 h-20 mx-auto mb-6 group-hover:scale-110 transition-transform duration-500">
                     <div className={`absolute inset-0 bg-gradient-to-r ${service.color} rounded-full opacity-20 blur-xl transition-all duration-500`} />
                     <Image
@@ -131,9 +130,9 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, index }) => {
                     </div>
                 </div>
 
-                {/* CTA Button */}
+                {/* CTA */}
                 <button className={`w-full mt-4 py-3 bg-gradient-to-r ${service.color} text-white rounded-xl font-semibold opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0 hover:shadow-lg flex items-center justify-center gap-2`}>
-                    Learn More
+                    Tìm Hiểu Thêm
                     <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                 </button>
             </div>
@@ -165,13 +164,13 @@ const ServiceSection = () => {
                 <div className="text-center mb-16">
                     <div className="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm text-orange-600 px-6 py-3 rounded-full text-sm font-semibold mb-6 shadow-lg">
                         <Sparkles className="w-4 h-4" />
-                        Our Services
+                        Dịch Vụ Của Chúng Tôi
                     </div>
 
                     <h1 className="text-6xl lg:text-7xl font-bold mb-4">
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-red-600">
-              SERVICE
-            </span>
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-red-600">
+                            DỊCH VỤ
+                        </span>
                     </h1>
 
                     <div className="flex items-center justify-center gap-3 mb-6">
@@ -181,10 +180,10 @@ const ServiceSection = () => {
                     </div>
 
                     <p className="text-2xl lg:text-3xl font-semibold text-gray-800 mb-4">
-                        ENJOY PERFECT MOMENT
+                        TRẢI NGHIỆM KHOẢNH KHẮC HOÀN HẢO
                     </p>
                     <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                        Discover our premium services designed to create unforgettable experiences for you and your loved ones
+                        Khám phá các dịch vụ cao cấp của chúng tôi, được thiết kế để mang đến những trải nghiệm khó quên cho bạn và những người thân yêu.
                     </p>
                 </div>
 
@@ -203,29 +202,29 @@ const ServiceSection = () => {
                 <div className="text-center mt-16">
                     <button className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-full text-lg font-semibold hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 group">
                         <Phone className="w-5 h-5" />
-                        Contact Us Today
+                        Liên Hệ Ngay Hôm Nay
                         <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
                     </button>
                 </div>
             </div>
 
             <style jsx>{`
-        @keyframes fade-in-up {
-          from {
-            opacity: 0;
-            transform: translateY(40px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        
-        .animate-fade-in-up {
-          animation: fade-in-up 0.8s ease-out forwards;
-          opacity: 0;
-        }
-      `}</style>
+                @keyframes fade-in-up {
+                    from {
+                        opacity: 0;
+                        transform: translateY(40px);
+                    }
+                    to {
+                        opacity: 1;
+                        transform: translateY(0);
+                    }
+                }
+                
+                .animate-fade-in-up {
+                    animation: fade-in-up 0.8s ease-out forwards;
+                    opacity: 0;
+                }
+            `}</style>
         </section>
     );
 };

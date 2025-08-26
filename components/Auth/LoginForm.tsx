@@ -17,12 +17,8 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, onSwitchToRegister, on
     const [isLoading, setIsLoading] = useState(false);
     const [focusedField, setFocusedField] = useState<string | null>(null);
 
-    // Remove scroll lock when component mounts to allow background scrolling
     useEffect(() => {
-        // Allow body to scroll
         document.body.style.overflow = 'auto';
-
-        // Cleanup function (optional, in case parent tries to lock scroll)
         return () => {
             document.body.style.overflow = 'auto';
         };
@@ -35,18 +31,17 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, onSwitchToRegister, on
 
         try {
             if (onSuccess) await onSuccess(email, password);
-            setFormMessage('Login successful!');
+            setFormMessage('Đăng nhập thành công!');
             setTimeout(() => { if (onClose) onClose(); }, 1000);
         } catch (err: unknown) {
             if (err instanceof Error) setFormMessage(err.message);
-            else setFormMessage('Login failed.');
+            else setFormMessage('Đăng nhập thất bại.');
         } finally {
             setIsLoading(false);
         }
     };
 
     const handleFormClick = (e: React.MouseEvent) => {
-        // Prevent clicks inside the form from bubbling up to parent
         e.stopPropagation();
     };
 
@@ -60,7 +55,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, onSwitchToRegister, on
                 {/* Success/Error Message */}
                 {formMessage && (
                     <div className={`px-6 py-3 text-center text-sm font-medium ${
-                        formMessage.includes('successful')
+                        formMessage.includes('thành công')
                             ? 'bg-green-50 text-green-700 border-b border-green-100'
                             : 'bg-red-50 text-[#FFA301] border-b border-red-100'
                     }`}>
@@ -71,15 +66,15 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, onSwitchToRegister, on
                 {/* Form Content */}
                 <div className="p-6 space-y-6">
                     <div className="text-center">
-                        <h2 className="text-2xl font-bold sm:text-3xl text-gray-800 mb-2 font-extrabold">Welcome Back</h2>
-                        <p className="text-gray-600 text-sm">Sign in to your account to continue</p>
+                        <h2 className="text-2xl font-bold sm:text-3xl text-gray-800 mb-2 font-extrabold">Chào mừng trở lại</h2>
+                        <p className="text-gray-600 text-sm">Đăng nhập để tiếp tục</p>
                     </div>
 
                     <form onSubmit={handleLogin} className="space-y-5">
                         {/* Email Field */}
                         <div className="space-y-2">
                             <label className="block text-sm font-medium text-gray-700">
-                                Email Address
+                                Địa chỉ Email
                             </label>
                             <div className="relative group">
                                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -96,7 +91,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, onSwitchToRegister, on
                                     onFocus={() => setFocusedField('email')}
                                     onBlur={() => setFocusedField(null)}
                                     className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl bg-white/80 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-[#FFA301] focus:border-transparent transition-all duration-200 placeholder-gray-400"
-                                    placeholder="Enter your email"
+                                    placeholder="Nhập email của bạn"
                                     required
                                 />
                             </div>
@@ -105,7 +100,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, onSwitchToRegister, on
                         {/* Password Field */}
                         <div className="space-y-2">
                             <label className="block text-sm font-medium text-gray-700">
-                                Password
+                                Mật khẩu
                             </label>
                             <div className="relative group">
                                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -122,7 +117,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, onSwitchToRegister, on
                                     onFocus={() => setFocusedField('password')}
                                     onBlur={() => setFocusedField(null)}
                                     className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-xl bg-white/80 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-[#FFA301] focus:border-transparent transition-all duration-200 placeholder-gray-400"
-                                    placeholder="Enter your password"
+                                    placeholder="Nhập mật khẩu của bạn"
                                     required
                                 />
                                 <button
@@ -141,7 +136,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, onSwitchToRegister, on
                                 type="button"
                                 className="text-sm text-[#FFA301] hover:text-red-700 font-medium transition-colors"
                             >
-                                Forgot password?
+                                Quên mật khẩu?
                             </button>
                         </div>
 
@@ -155,11 +150,11 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, onSwitchToRegister, on
                                 {isLoading ? (
                                     <>
                                         <Loader2 className="animate-spin" size={18} />
-                                        <span>Signing In...</span>
+                                        <span>Đang đăng nhập...</span>
                                     </>
                                 ) : (
                                     <>
-                                        <span>Sign In</span>
+                                        <span>Đăng nhập</span>
                                         <ArrowRight className="group-hover:translate-x-1 transition-transform" size={18} />
                                     </>
                                 )}
@@ -173,7 +168,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, onSwitchToRegister, on
                                 <div className="w-full border-t border-gray-200"></div>
                             </div>
                             <div className="relative flex justify-center text-xs uppercase">
-                                <span className="bg-white px-3 text-gray-500 font-medium">Or continue with</span>
+                                <span className="bg-white px-3 text-gray-500 font-medium">Hoặc tiếp tục với</span>
                             </div>
                         </div>
 
@@ -205,13 +200,13 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, onSwitchToRegister, on
                         {/* Switch to Register */}
                         <div className="text-center pt-2">
                             <p className="text-gray-600 text-sm">
-                                Don&#39;t have an account?{' '}
+                                Bạn chưa có tài khoản?{' '}
                                 <button
                                     type="button"
                                     onClick={onSwitchToRegister}
                                     className="text-[#FFA301] font-semibold hover:text-red-700 transition-colors"
                                 >
-                                    Create one now
+                                    Tạo ngay
                                 </button>
                             </p>
                         </div>

@@ -20,12 +20,8 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess, onSwitchToLogin,
     const [isLoading, setIsLoading] = useState(false);
     const [focusedField, setFocusedField] = useState<string | null>(null);
 
-    // Remove scroll lock when component mounts to allow background scrolling
     useEffect(() => {
-        // Allow body to scroll
         document.body.style.overflow = 'auto';
-
-        // Cleanup function (optional, in case parent tries to lock scroll)
         return () => {
             document.body.style.overflow = 'auto';
         };
@@ -40,39 +36,38 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess, onSwitchToLogin,
         setFormMessage(null);
 
         if (!validatePassword(password)) {
-            setFormMessage('Password must be at least 8 characters long');
+            setFormMessage('Mật khẩu phải có ít nhất 8 ký tự');
             return;
         }
 
         if (password !== confirmPassword) {
-            setFormMessage('Passwords do not match');
+            setFormMessage('Mật khẩu không khớp');
             return;
         }
 
         setIsLoading(true);
         try {
             if (onSuccess) await onSuccess(name, email, password);
-            setFormMessage('Registration successful!');
+            setFormMessage('Đăng ký thành công!');
             setTimeout(() => { if (onClose) onClose(); }, 1000);
         } catch (err: unknown) {
             if (err instanceof Error) setFormMessage(err.message);
-            else setFormMessage('Registration failed.');
+            else setFormMessage('Đăng ký thất bại.');
         } finally {
             setIsLoading(false);
         }
     };
 
     const handleFormClick = (e: React.MouseEvent) => {
-        // Prevent clicks inside the form from bubbling up to parent
         e.stopPropagation();
     };
 
     const getPasswordStrength = (pwd: string) => {
         if (pwd.length === 0) return { strength: 0, text: '', color: '' };
-        if (pwd.length < 6) return { strength: 25, text: 'Weak', color: 'bg-red-500' };
-        if (pwd.length < 8) return { strength: 50, text: 'Fair', color: 'bg-yellow-500' };
-        if (pwd.length < 12) return { strength: 75, text: 'Good', color: 'bg-blue-500' };
-        return { strength: 100, text: 'Strong', color: 'bg-green-500' };
+        if (pwd.length < 6) return { strength: 25, text: 'Yếu', color: 'bg-red-500' };
+        if (pwd.length < 8) return { strength: 50, text: 'Trung bình', color: 'bg-yellow-500' };
+        if (pwd.length < 12) return { strength: 75, text: 'Tốt', color: 'bg-blue-500' };
+        return { strength: 100, text: 'Mạnh', color: 'bg-green-500' };
     };
 
     const passwordStrength = getPasswordStrength(password);
@@ -87,7 +82,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess, onSwitchToLogin,
                 {/* Success/Error Message */}
                 {formMessage && (
                     <div className={`px-6 py-3 text-center text-sm font-medium ${
-                        formMessage.includes('successful')
+                        formMessage.includes('thành công')
                             ? 'bg-green-50 text-green-700 border-b border-green-100'
                             : 'bg-red-50 text-[#FFA301] border-b border-red-100'
                     }`}>
@@ -98,15 +93,15 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess, onSwitchToLogin,
                 {/* Form Content */}
                 <div className="p-6 space-y-6">
                     <div className="text-center">
-                        <h2 className="text-2xl font-bold sm:text-3xl text-gray-800 mb-2 font-extrabold">Create Your Account</h2>
-                        <p className="text-gray-600 text-sm">Join us and start your journey today</p>
+                        <h2 className="text-2xl font-bold sm:text-3xl text-gray-800 mb-2 font-extrabold">Tạo Tài Khoản</h2>
+                        <p className="text-gray-600 text-sm">Tham gia cùng chúng tôi ngay hôm nay</p>
                     </div>
 
                     <form onSubmit={handleRegister} className="space-y-5">
                         {/* Name Field */}
                         <div className="space-y-2">
                             <label className="block text-sm font-medium text-gray-700">
-                                Full Name
+                                Họ và Tên
                             </label>
                             <div className="relative group">
                                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -123,7 +118,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess, onSwitchToLogin,
                                     onFocus={() => setFocusedField('name')}
                                     onBlur={() => setFocusedField(null)}
                                     className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl bg-white/80 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-[#FFA301] focus:border-transparent transition-all duration-200 placeholder-gray-400"
-                                    placeholder="Enter your full name"
+                                    placeholder="Nhập họ và tên"
                                     required
                                 />
                             </div>
@@ -132,7 +127,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess, onSwitchToLogin,
                         {/* Email Field */}
                         <div className="space-y-2">
                             <label className="block text-sm font-medium text-gray-700">
-                                Email Address
+                                Địa chỉ Email
                             </label>
                             <div className="relative group">
                                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -149,7 +144,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess, onSwitchToLogin,
                                     onFocus={() => setFocusedField('email')}
                                     onBlur={() => setFocusedField(null)}
                                     className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl bg-white/80 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-[#FFA301] focus:border-transparent transition-all duration-200 placeholder-gray-400"
-                                    placeholder="Enter your email address"
+                                    placeholder="Nhập địa chỉ email"
                                     required
                                 />
                             </div>
@@ -158,7 +153,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess, onSwitchToLogin,
                         {/* Password Field */}
                         <div className="space-y-2">
                             <label className="block text-sm font-medium text-gray-700">
-                                Password
+                                Mật khẩu
                             </label>
                             <div className="relative group">
                                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -175,7 +170,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess, onSwitchToLogin,
                                     onFocus={() => setFocusedField('password')}
                                     onBlur={() => setFocusedField(null)}
                                     className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-xl bg-white/80 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-[#FFA301] focus:border-transparent transition-all duration-200 placeholder-gray-400"
-                                    placeholder="Create a strong password"
+                                    placeholder="Tạo mật khẩu mạnh"
                                     required
                                 />
                                 <button
@@ -191,7 +186,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess, onSwitchToLogin,
                             {password && (
                                 <div className="space-y-2">
                                     <div className="flex justify-between items-center text-xs">
-                                        <span className="text-gray-500">Password strength:</span>
+                                        <span className="text-gray-500">Độ mạnh mật khẩu:</span>
                                         <span className={`font-medium ${
                                             passwordStrength.strength < 50 ? 'text-red-500' :
                                                 passwordStrength.strength < 75 ? 'text-yellow-500' : 'text-green-500'
@@ -212,7 +207,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess, onSwitchToLogin,
                         {/* Confirm Password Field */}
                         <div className="space-y-2">
                             <label className="block text-sm font-medium text-gray-700">
-                                Confirm Password
+                                Xác nhận mật khẩu
                             </label>
                             <div className="relative group">
                                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -233,7 +228,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess, onSwitchToLogin,
                                             ? 'border-red-300 focus:ring-red-400'
                                             : 'border-gray-300 focus:ring-[#FFA301]'
                                     }`}
-                                    placeholder="Confirm your password"
+                                    placeholder="Xác nhận mật khẩu"
                                     required
                                 />
                                 <button
@@ -247,13 +242,13 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess, onSwitchToLogin,
                             {confirmPassword && password !== confirmPassword && (
                                 <p className="text-red-500 text-xs flex items-center gap-1">
                                     <AlertCircle size={12} />
-                                    Passwords don&#39;t match
+                                    Mật khẩu không khớp
                                 </p>
                             )}
                             {confirmPassword && password === confirmPassword && confirmPassword.length > 0 && (
                                 <p className="text-green-500 text-xs flex items-center gap-1">
                                     <CheckCircle size={12} />
-                                    Passwords match
+                                    Mật khẩu khớp
                                 </p>
                             )}
                         </div>
@@ -268,11 +263,11 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess, onSwitchToLogin,
                                 {isLoading ? (
                                     <>
                                         <Loader2 className="animate-spin" size={18} />
-                                        <span>Creating Account...</span>
+                                        <span>Đang tạo tài khoản...</span>
                                     </>
                                 ) : (
                                     <>
-                                        <span>Create Account</span>
+                                        <span>Tạo Tài Khoản</span>
                                         <ArrowRight className="group-hover:translate-x-1 transition-transform" size={18} />
                                     </>
                                 )}
@@ -286,7 +281,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess, onSwitchToLogin,
                                 <div className="w-full border-t border-gray-200"></div>
                             </div>
                             <div className="relative flex justify-center text-xs uppercase">
-                                <span className="bg-white px-3 text-gray-500 font-medium">Or continue with</span>
+                                <span className="bg-white px-3 text-gray-500 font-medium">Hoặc tiếp tục với</span>
                             </div>
                         </div>
 
@@ -318,13 +313,13 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess, onSwitchToLogin,
                         {/* Switch to Login */}
                         <div className="text-center pt-2">
                             <p className="text-gray-600 text-sm">
-                                Already have an account?{' '}
+                                Đã có tài khoản?{' '}
                                 <button
                                     type="button"
                                     onClick={onSwitchToLogin}
                                     className="text-[#FFA301] font-semibold hover:text-red-700 transition-colors"
                                 >
-                                    Sign in here
+                                    Đăng nhập tại đây
                                 </button>
                             </p>
                         </div>

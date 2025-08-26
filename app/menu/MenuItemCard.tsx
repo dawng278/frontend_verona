@@ -78,7 +78,7 @@ const MenuItemCard: React.FC<MenuItemCardProps> = ({ item }) => {
 
                 {/* Popular badge */}
                 <div className="absolute top-4 left-4 bg-gradient-to-r from-amber-400 to-orange-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg">
-                    Popular
+                    Phổ biến
                 </div>
 
                 {/* Quick info overlay */}
@@ -90,7 +90,7 @@ const MenuItemCard: React.FC<MenuItemCardProps> = ({ item }) => {
                         </div>
                         <div className="flex items-center space-x-1">
                             <Clock className="h-4 w-4" />
-                            <span>15min</span>
+                            <span>15 phút</span>
                         </div>
                     </div>
                 </div>
@@ -103,7 +103,7 @@ const MenuItemCard: React.FC<MenuItemCardProps> = ({ item }) => {
                 </h3>
 
                 <p className="text-gray-600 text-sm mb-4 line-clamp-2 leading-relaxed">
-                    {item.description || "Deliciously prepared with fresh ingredients and authentic flavors."}
+                    {item.description || "Được chế biến thơm ngon với nguyên liệu tươi mới và hương vị đậm đà."}
                 </p>
 
                 <div className="flex items-center justify-between mb-4">
@@ -125,17 +125,17 @@ const MenuItemCard: React.FC<MenuItemCardProps> = ({ item }) => {
                     onClick={handleAddToCartClick}
                     disabled={cartLoading}
                     className="w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 disabled:from-gray-400 disabled:to-gray-500 text-white font-bold py-3 px-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 disabled:transform-none disabled:cursor-not-allowed flex items-center justify-center space-x-2"
-                    aria-label={`Add ${item.name} to cart`}
+                    aria-label={`Thêm ${item.name} vào giỏ hàng`}
                 >
                     {cartLoading ? (
                         <>
                             <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
-                            <span>Adding...</span>
+                            <span>Đang thêm...</span>
                         </>
                     ) : (
                         <>
                             <Plus className="h-5 w-5" />
-                            <span>Add to Cart</span>
+                            <span>Thêm vào giỏ</span>
                         </>
                     )}
                 </button>

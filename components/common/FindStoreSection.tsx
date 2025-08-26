@@ -23,35 +23,35 @@ const FindStoreSection = () => {
         setIsSearching(false);
 
         // Handle search logic here
-        console.log('Searching for stores in:', { province, district });
+        console.log('Tìm cửa hàng tại:', { province, district });
     };
 
     const provinces: Location[] = [
-        { value: 'hochiminh', label: 'Ho Chi Minh City' },
-        { value: 'hanoi', label: 'Hanoi' },
-        { value: 'danang', label: 'Da Nang' },
-        { value: 'cantho', label: 'Can Tho' },
+        { value: 'hochiminh', label: 'TP. Hồ Chí Minh' },
+        { value: 'hanoi', label: 'Hà Nội' },
+        { value: 'danang', label: 'Đà Nẵng' },
+        { value: 'cantho', label: 'Cần Thơ' },
     ];
 
     const districts: Record<ProvinceKey, Location[]> = {
         hochiminh: [
-            { value: 'binhthanh', label: 'Binh Thanh District' },
-            { value: 'quan1', label: 'District 1' },
-            { value: 'quan3', label: 'District 3' },
-            { value: 'quan7', label: 'District 7' },
+            { value: 'binhthanh', label: 'Quận Bình Thạnh' },
+            { value: 'quan1', label: 'Quận 1' },
+            { value: 'quan3', label: 'Quận 3' },
+            { value: 'quan7', label: 'Quận 7' },
         ],
         hanoi: [
-            { value: 'badinh', label: 'Ba Dinh District' },
-            { value: 'hoankien', label: 'Hoan Kiem District' },
-            { value: 'dongda', label: 'Dong Da District' },
+            { value: 'badinh', label: 'Quận Ba Đình' },
+            { value: 'hoankien', label: 'Quận Hoàn Kiếm' },
+            { value: 'dongda', label: 'Quận Đống Đa' },
         ],
         danang: [
-            { value: 'haichau', label: 'Hai Chau District' },
-            { value: 'thanhkhe', label: 'Thanh Khe District' },
+            { value: 'haichau', label: 'Quận Hải Châu' },
+            { value: 'thanhkhe', label: 'Quận Thanh Khê' },
         ],
         cantho: [
-            { value: 'ninhkieu', label: 'Ninh Kieu District' },
-            { value: 'cairang', label: 'Cai Rang District' },
+            { value: 'ninhkieu', label: 'Quận Ninh Kiều' },
+            { value: 'cairang', label: 'Quận Cái Răng' },
         ]
     };
 
@@ -69,11 +69,11 @@ const FindStoreSection = () => {
                     <div className="flex items-center justify-center mb-4">
                         <MapPin className="w-8 h-8 text-white mr-3" />
                         <h2 className="text-3xl md:text-4xl font-bold text-white tracking-tight">
-                            Find Our Stores
+                            Tìm Cửa Hàng
                         </h2>
                     </div>
                     <p className="text-white/90 text-lg max-w-2xl mx-auto">
-                        Locate the nearest store in your area and discover our products
+                        Xác định cửa hàng gần nhất tại khu vực của bạn và khám phá sản phẩm của chúng tôi
                     </p>
                 </div>
 
@@ -83,7 +83,7 @@ const FindStoreSection = () => {
                         {/* Province Select */}
                         <div className="space-y-2">
                             <label className="block text-white/95 text-sm font-semibold mb-3 tracking-wide">
-                                📍 Province/City
+                                📍 Tỉnh/Thành phố
                             </label>
                             <div className="relative group">
                                 <select
@@ -93,9 +93,9 @@ const FindStoreSection = () => {
                                         setDistrict(''); // Reset district when province changes
                                     }}
                                     className="appearance-none bg-white/95 backdrop-blur-sm border-2 border-white/30 rounded-2xl py-4 px-5 pr-12 w-full text-gray-800 leading-tight focus:outline-none focus:border-orange-400 focus:ring-4 focus:ring-orange-200/50 transition-all duration-300 text-base font-medium shadow-lg hover:shadow-xl hover:bg-white group-hover:border-orange-300"
-                                    aria-label="Select Province"
+                                    aria-label="Chọn Tỉnh/Thành phố"
                                 >
-                                    <option value="" className="text-gray-500">Choose your province</option>
+                                    <option value="" className="text-gray-500">Chọn tỉnh/thành phố</option>
                                     {provinces.map((prov) => (
                                         <option key={prov.value} value={prov.value} className="text-gray-800 font-medium">
                                             {prov.label}
@@ -111,7 +111,7 @@ const FindStoreSection = () => {
                         {/* District Select */}
                         <div className="space-y-2">
                             <label className="block text-white/95 text-sm font-semibold mb-3 tracking-wide">
-                                🏘️ District
+                                🏘️ Quận/Huyện
                             </label>
                             <div className="relative group">
                                 <select
@@ -119,10 +119,10 @@ const FindStoreSection = () => {
                                     onChange={(e) => setDistrict(e.target.value)}
                                     disabled={!province}
                                     className="appearance-none bg-white/95 backdrop-blur-sm border-2 border-white/30 rounded-2xl py-4 px-5 pr-12 w-full text-gray-800 leading-tight focus:outline-none focus:border-orange-400 focus:ring-4 focus:ring-orange-200/50 transition-all duration-300 text-base font-medium shadow-lg hover:shadow-xl hover:bg-white group-hover:border-orange-300 disabled:bg-gray-100/80 disabled:text-gray-400 disabled:cursor-not-allowed disabled:border-gray-200"
-                                    aria-label="Select District"
+                                    aria-label="Chọn Quận/Huyện"
                                 >
                                     <option value="" className="text-gray-500">
-                                        {!province ? "Select province first" : "Choose your district"}
+                                        {!province ? "Vui lòng chọn tỉnh/thành phố trước" : "Chọn quận/huyện"}
                                     </option>
                                     {province && districts[province]?.map((dist) => (
                                         <option key={dist.value} value={dist.value} className="text-gray-800 font-medium">
@@ -139,24 +139,24 @@ const FindStoreSection = () => {
                         {/* Search Button */}
                         <div className="space-y-2">
                             <label className="block text-transparent text-sm font-semibold mb-3 tracking-wide select-none">
-                                Search
+                                Tìm kiếm
                             </label>
                             <button
                                 type="button"
                                 onClick={handleSearch}
                                 disabled={!province || !district || isSearching}
                                 className="w-full bg-gradient-to-r from-white to-gray-50 text-orange-600 font-bold py-4 px-6 rounded-2xl hover:from-gray-50 hover:to-gray-100 active:from-gray-100 active:to-gray-200 transition-all duration-300 disabled:from-gray-200 disabled:to-gray-300 disabled:text-gray-400 disabled:cursor-not-allowed shadow-lg hover:shadow-xl transform hover:-translate-y-1 active:translate-y-0 disabled:translate-y-0 disabled:shadow-md flex items-center justify-center gap-3 border border-white/50"
-                                aria-label="Search for stores"
+                                aria-label="Tìm cửa hàng"
                             >
                                 {isSearching ? (
                                     <>
                                         <div className="animate-spin rounded-full h-5 w-5 border-2 border-orange-600 border-t-transparent"></div>
-                                        <span>Searching...</span>
+                                        <span>Đang tìm...</span>
                                     </>
                                 ) : (
                                     <>
                                         <Search className="w-5 h-5" />
-                                        <span>Find Stores</span>
+                                        <span>Tìm cửa hàng</span>
                                     </>
                                 )}
                             </button>
@@ -167,19 +167,19 @@ const FindStoreSection = () => {
                     <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-8 pt-6 border-t border-white/20">
                         <div className="text-center">
                             <div className="text-2xl font-bold text-white">25+</div>
-                            <div className="text-white/80 text-sm">Locations</div>
+                            <div className="text-white/80 text-sm">Cửa hàng</div>
                         </div>
                         <div className="text-center">
                             <div className="text-2xl font-bold text-white">4</div>
-                            <div className="text-white/80 text-sm">Provinces</div>
+                            <div className="text-white/80 text-sm">Tỉnh/Thành phố</div>
                         </div>
                         <div className="text-center">
                             <div className="text-2xl font-bold text-white">24/7</div>
-                            <div className="text-white/80 text-sm">Support</div>
+                            <div className="text-white/80 text-sm">Hỗ trợ</div>
                         </div>
                         <div className="text-center">
                             <div className="text-2xl font-bold text-white">★ 5.0</div>
-                            <div className="text-white/80 text-sm">Rating</div>
+                            <div className="text-white/80 text-sm">Đánh giá</div>
                         </div>
                     </div>
                 </div>

@@ -33,7 +33,7 @@ const HomePage = () => {
             >
                 <Image
                     src={backgroundTexture}
-                    alt="Background"
+                    alt="Nền"
                     className="w-full h-full object-cover opacity-60"
                     fill
                     priority={true}
@@ -47,7 +47,7 @@ const HomePage = () => {
                 <div className="relative mb-12 overflow-hidden ">
                     <Image
                         src={banner}
-                        alt="Banner"
+                        alt="Ảnh Banner"
                         className="w-full h-auto transform hover:scale-105 transition-transform duration-700"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t to-transparent"></div>
@@ -66,15 +66,15 @@ const HomePage = () => {
                             {/* Badge */}
                             <div className="inline-flex items-center space-x-2 bg-gradient-to-r from-red-500 to-orange-500 text-white px-4 py-2 rounded-full text-sm font-semibold shadow-lg">
                                 <Flame className="w-4 h-4" />
-                                <span>NEW ARRIVAL</span>
+                                <span>MÓN MỚI</span>
                             </div>
 
                             {/* Main Heading */}
                             <div className="space-y-4">
                                 <h1 className="text-4xl md:text-5xl lg:text-7xl text-[#B61E01] font-['DM_Serif_Text'] font-bold leading-tight">
-                                    New Dishes
+                                    Món Ăn Mới
                                     <span className="block bg-gradient-to-r from-red-600 via-orange-500 to-yellow-500 bg-clip-text text-transparent">
-                                        Hot Spicy
+                                        Cay Nóng Hấp Dẫn
                                     </span>
                                 </h1>
 
@@ -83,26 +83,26 @@ const HomePage = () => {
                                     {[...Array(5)].map((_, i) => (
                                         <Star key={i} className="w-5 h-5 fill-current" />
                                     ))}
-                                    <span className="text-gray-600 ml-2">4.9 (2.1k reviews)</span>
+                                    <span className="text-gray-600 ml-2">4.9 (2.1k đánh giá)</span>
                                 </div>
                             </div>
 
                             {/* Description */}
                             <p className="text-[#2D0902] text-lg md:text-xl leading-relaxed max-w-2xl mx-auto lg:mx-0">
-                                A new dish that directly hits your palate with a powerful,
-                                <span className="font-semibold text-red-600"> spicy kick</span>, exquisitely prepared to deliver extreme excitement.
-                                This is a true challenge for spice lovers.
+                                Một món ăn mới chinh phục vị giác của bạn với hương vị
+                                <span className="font-semibold text-red-600"> cay nồng bùng nổ</span>, được chế biến tinh tế để mang lại sự phấn khích tột độ.
+                                Đây thật sự là một thử thách cho những tín đồ yêu thích vị cay.
                             </p>
 
                             {/* Features */}
                             <div className="grid grid-cols-2 gap-4 max-w-md mx-auto lg:mx-0">
                                 <div className="flex items-center space-x-2 text-gray-700">
                                     <Clock className="w-5 h-5 text-green-600" />
-                                    <span className="text-sm">15 min delivery</span>
+                                    <span className="text-sm">Giao hàng 15 phút</span>
                                 </div>
                                 <div className="flex items-center space-x-2 text-gray-700">
                                     <MapPin className="w-5 h-5 text-blue-600" />
-                                    <span className="text-sm">Fresh & Local</span>
+                                    <span className="text-sm">Tươi ngon & Địa phương</span>
                                 </div>
                             </div>
 
@@ -111,14 +111,14 @@ const HomePage = () => {
                                 <button className="group relative px-8 py-4 bg-gradient-to-r from-[#B61E01] to-red-600 text-white text-lg font-semibold rounded-2xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 overflow-hidden">
                                     <div className="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
                                     <div className="relative flex items-center space-x-2">
-                                        <span>Order Now</span>
+                                        <span>Đặt Ngay</span>
                                         <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                                     </div>
                                 </button>
 
                                 <button className="flex items-center space-x-2 px-6 py-4 border-2 border-gray-800 text-gray-800 rounded-2xl hover:bg-gray-800 hover:text-white transition-all duration-300">
                                     <Phone className="w-5 h-5" />
-                                    <span className="font-semibold">Call Now</span>
+                                    <span className="font-semibold">Gọi Ngay</span>
                                 </button>
                             </div>
 
@@ -126,15 +126,15 @@ const HomePage = () => {
                             <div className="flex items-center justify-center lg:justify-start space-x-8 text-sm text-gray-600 pt-4">
                                 <div className="text-center">
                                     <div className="font-bold text-2xl text-[#B61E01]">50K+</div>
-                                    <div>Happy Customers</div>
+                                    <div>Khách Hàng Hài Lòng</div>
                                 </div>
                                 <div className="text-center">
                                     <div className="font-bold text-2xl text-[#B61E01]">25+</div>
-                                    <div>Locations</div>
+                                    <div>Chi Nhánh</div>
                                 </div>
                                 <div className="text-center">
                                     <div className="font-bold text-2xl text-[#B61E01]">5★</div>
-                                    <div>Rating</div>
+                                    <div>Đánh Giá</div>
                                 </div>
                             </div>
                         </div>
@@ -143,7 +143,7 @@ const HomePage = () => {
                         <div className="relative overflow-hidden rounded-2xl">
                             <Image
                                 src={largeSpicyBeefBurger}
-                                alt="Large Spicy Beef Burger"
+                                alt="Burger Bò Cay Đặc Biệt"
                                 className="w-full h-full object-cover transform hover:scale-110 transition-transform duration-700"
                             />
 
