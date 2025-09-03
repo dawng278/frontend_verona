@@ -81,9 +81,9 @@ const Header = () => {
                         </div>
                         <div>
                             <h1 className="text-xl lg:text-2xl font-bold text-[#B61E01] group-hover:text-[#8B1A01] transition-colors">
-                                Beka
+                                VERONA
                             </h1>
-                            <p className="text-xs text-gray-600 -mt-1 hidden sm:block">Cửa Hàng Thức Ăn Nhanh</p>
+                            <p className="text-xs text-gray-600 -mt-1 hidden sm:block">Cửa Hàng Pizza</p>
                         </div>
                     </Link>
 

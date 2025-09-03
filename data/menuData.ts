@@ -2,60 +2,55 @@
 
 // Import ảnh cho categories
 // Đảm bảo các file ảnh này tồn tại trong thư mục frontend/assets/images/categories/
-import hotComboIcon from '@/assets/images/categories/hot-combo.png';
-import friedChickenIcon from '@/assets/images/categories/fried-chicken-light.png';
-import burgerIcon from '@/assets/images/categories/burger-menu.png';
-import snacksIcon from '@/assets/images/categories/snacks.png';
-import dessertsIcon from '@/assets/images/categories/desserts.png';
+import seafoodIcon from '@/assets/images/categories/seafood.png';
+import beefIcon from '@/assets/images/categories/beef.png';
+import chickenIcon from '@/assets/images/categories/chicken.png';
+import porkIcon from '@/assets/images/categories/pork.png';
+import vegetarianIcon from '@/assets/images/categories/vegerarian.png';
 import drinksIcon from '@/assets/images/categories/drinks.png';
 
 // Import ảnh cho các sản phẩm/combo
 // Đảm bảo các file ảnh này tồn tại trong thư mục frontend/assets/images/menu/hotCombo/
-//HOT COMBO IMAGES
-import combo1Img from '@/assets/images/menu/hotCombo/combo1.png';
-import combo2Img from '@/assets/images/menu/hotCombo/combo2.png';
-import combo3Img from '@/assets/images/menu/hotCombo/combo3.png';
-import combo4Img from '@/assets/images/menu/hotCombo/combo4.png';
-import combo5Img from '@/assets/images/menu/hotCombo/combo5.png';
-//FRIED CHICKEN IMAGES
-import friedChicken1pcImg from '@/assets/images/menu/fried-chicken/1pc-fried-chicken.png';
-import friedChicken2pcsImg from '@/assets/images/menu/fried-chicken/2pcs-fried-chicken.png';
-import friedChicken4pcsImg from '@/assets/images/menu/fried-chicken/4pcs-fried-chicken.png';
-import friedChicken6pcsImg from '@/assets/images/menu/fried-chicken/6pcs-fried-chicken.png';
-import friedChicken8pcsImg from '@/assets/images/menu/fried-chicken/8pcs-fried-chicken.png';
-//BURGER IMAGES
-import beefBurgerImg from '@/assets/images/menu/burger/beef-burger.png';
-import beefBurgerDrinkImg from '@/assets/images/menu/burger/beef-burger-and-drink.png';
-import chickenBurgerImg from '@/assets/images/menu/burger/chicken-burger.png';
-import chickenBurgerDrinkImg from '@/assets/images/menu/burger/chicken-burger-and-drink.png';
-import doubleBeefBurgerImg from '@/assets/images/menu/burger/double-beef-burger.png';
-import hotDogImg from '@/assets/images/menu/burger/hot-dog.png';
-//SNACKS IMAGES
-import bbqFriesImg from '@/assets/images/menu/snacks/bbq-fries.png';
-import cheeseFriesImg from '@/assets/images/menu/snacks/cheese-fries.png';
-import largeFriesImg from '@/assets/images/menu/snacks/large-fries.png';
-import nuggetImg from '@/assets/images/menu/snacks/nugget.png';
-import regularFriesImg from '@/assets/images/menu/snacks/regular-fries.png';
-import saladImg from '@/assets/images/menu/snacks/salad.png';
-//DESSERST IMAGES
-import blueBerryCreamCupImg from '@/assets/images/menu/desserts/blueberry-cream-cup.png';
-import cherryCreamCupImg from '@/assets/images/menu/desserts/cherry-cream-cup.png';
-import chocolateCreamCupImg from '@/assets/images/menu/desserts/chocolate-cream-cup.png';
-import chocolateCreamImg from '@/assets/images/menu/desserts/chocolate-cream.png';
-import strawberryCreamCupImg from '@/assets/images/menu/desserts/strawberry-cream-cup.png';
-import strawberryCreamImg from '@/assets/images/menu/desserts/strawberry-cream.png';
+//SEAFOOD IMAGES
+import oceanMania from '@/assets/images/menu/pizza/Ocean-Mania.png';
+import pizzaminSea from '@/assets/images/menu/pizza/Pizzamin-Sea.png';
+import seafoodDelight from '@/assets/images/menu/pizza/Seafood-Delight.png';
+import seafoodLimePesto from '@/assets/images/menu/pizza/Seafood-Lime-Pesto.png';
+import cheesyCrabStickPineapple from '@/assets/images/menu/pizza/Cheesy-Crab-Stick-&-Pineapple.png';
+import superToppingOceanMania from '@/assets/images/menu/pizza/Super-Topping-Ocean-Mania.png';
+import superToppingPizzaminSea from '@/assets/images/menu/pizza/Super-Topping-Pizzamin-Sea.png';
+import superToppingSeafoodLimePesto from '@/assets/images/menu/pizza/Super-Topping-Seafood-Lime-Pesto.png';
+//BEEF IMAGES
+import baconCheeseburger from '@/assets/images/menu/pizza/Bacon-Cheeseburger.png';
+import cheeseVolcanoCheeseburger from '@/assets/images/menu/pizza/Cheese-Volcano-Cheeseburger.png';
+import superToppingBaconCheeseburger from '@/assets/images/menu/pizza/Super-Topping-Bacon-Cheeseburger.png';
+import meatLovers from '@/assets/images/menu/pizza/Meat-Lovers.png';
+//CHICKEN IMAGES
+import cheesyChickenBacon from '@/assets/images/menu/pizza/Cheesy-Chicken-Bacon.png';
+//PORK IMAGES
+import pepperoniFeast from '@/assets/images/menu/pizza/Pepperoni-Feast.png';
+import cheeseVolcanoPepperoni from '@/assets/images/menu/pizza/Cheese-Volcano-Pepperoni.png';
+import superToppingPepperoni from '@/assets/images/menu/pizza/Super-Topping-Pepperoni.png';
+import sausageKidMania from '@/assets/images/menu/pizza/Sausage-Kid-Mania.png';
+//VEGETARIAN IMAGES
+import cheeseMania from '@/assets/images/menu/pizza/Cheese-Mania.png';
+import cheesyMadness from '@/assets/images/menu/pizza/Cheesy-Madness.png';
+import extravaganza from '@/assets/images/menu/pizza/Extravaganza.png';
+import veggieMania from '@/assets/images/menu/pizza/Veggie-Mania.png';
+import cheeseVolcanoExtravaganza from '@/assets/images/menu/pizza/Cheese-Volcano-Extravaganza.png';
 //DRINKS IMAGES
-import sevenUpImg from '@/assets/images/menu/drinks/7up.png';
-import cocaColaImg from '@/assets/images/menu/drinks/coca-cola.png';
-import pepsiImg from '@/assets/images/menu/drinks/pepsi.png';
-import honeyTeaCreamCheeseImg from '@/assets/images/menu/drinks/honey-tea-cream-cheese.png';
-import milkTeaCreamCheeseImg from '@/assets/images/menu/drinks/milk-tea-cream-cheese.png';
-import milkTeaMatchaCreamCheeseImg from '@/assets/images/menu/drinks/milk-tea-matcha-cream-cheese.png';
-import strawberryMilkTeaCreamCheeseImg from '@/assets/images/menu/drinks/strawberry-milk-tea-cream-cheese.png';
-// Import ảnh cho các sản phẩm/burger
-// Đảm bảo các file ảnh này tồn tại trong thư mục frontend/assets/images/menu/burger/
-
-
+import cocaCola from '@/assets/images/menu/drinks/Coca-Cola.png';
+import cocaColaLarge from '@/assets/images/menu/drinks/Coca-Cola-Large.png';
+import cocaColaZero from '@/assets/images/menu/drinks/Coca-Cola-Zero.png';
+import cocaColaZeroLarge from '@/assets/images/menu/drinks/Coca-Cola-Zero-Large.png';
+import dasani from '@/assets/images/menu/drinks/Dasani.png';
+import dasaniLarge from '@/assets/images/menu/drinks/Dasani-Large.png';
+import mirinda from '@/assets/images/menu/drinks/Mirinda.png';
+import mirindaLarge from '@/assets/images/menu/drinks/Mirinda-Large.png';
+import sprite from '@/assets/images/menu/drinks/Sprite.png';
+import spriteLarge from '@/assets/images/menu/drinks/Sprite-Large.png';
+import teaplusOolongLemon from '@/assets/images/menu/drinks/Teaplus-Oolong-Lemon.png';
+import teaplusOolongPeach from '@/assets/images/menu/drinks/Teaplus-Oolong-Peach.png';
 
 interface Category {
     id: string;
@@ -73,304 +68,295 @@ interface MenuItem {
 }
 
 export const menuCategories: Category[] = [
-    { id: 'hot-combo', name: 'Hot Combo', icon: hotComboIcon.src }, // .frontend để lấy đường dẫn thực tế từ import
-    { id: 'fried-chicken', name: 'Gà Rán', icon: friedChickenIcon.src },
-    { id: 'burger', name: 'Burger', icon: burgerIcon.src },
-    { id: 'snacks', name: 'Ăn Vặt', icon: snacksIcon.src },
-    { id: 'desserts', name: 'Tráng Miệng', icon: dessertsIcon.src },
+    { id: 'seafood', name: 'Hải Sản', icon: seafoodIcon.src }, // .frontend để lấy đường dẫn thực tế từ import
+    { id: 'beef', name: 'Thịt', icon: beefIcon.src },
+    { id: 'chicken', name: 'Gà', icon: chickenIcon.src },
+    { id: 'pork', name: 'Thịt Xông Khói', icon: porkIcon.src },
+    { id: 'vegetarian', name: 'Chay', icon: vegetarianIcon.src },
     { id: 'drinks', name: 'Đồ Uống', icon: drinksIcon.src },
 ];
 
 export const menuItems: MenuItem[] = [
-    // 🔥 HOT COMBO
     {
-        id: 'combo1',
-        name: 'Combo 1',
-        description: 'Burger bò, 1 miếng gà rán giòn và Pepsi mát lạnh.',
-        price: 129000,
-        image: combo1Img.src,
-        category: 'hot-combo',
+        id: 'oceanmania',
+        name: 'Ocean Mania',
+        description: 'Pizza hải sản sốt Mayonnaise đặc trưng, với tôm, mực, thanh cua và hành tây.',
+        price: 205000,
+        image: oceanMania.src,
+        category: 'seafood',
     },
     {
-        id: 'combo2',
-        name: 'Combo 2',
-        description: 'Khoai tây chiên giòn, gà rán và Pepsi.',
-        price: 119000,
-        image: combo2Img.src,
-        category: 'hot-combo',
+        id: 'pizzaminsea',
+        name: 'Pizzamin Sea',
+        description: 'Hải sản nướng trên nền sốt tiêu đen, phủ dứa và hành tây, hòa quyện với phô mai Mozzarella và Cheddar.',
+        price: 235000,
+        image: pizzaminSea.src,
+        category: 'seafood',
     },
     {
-        id: 'combo3',
-        name: 'Combo 3',
-        description: '2 burger bò, khoai tây chiên và 2 Pepsi.',
-        price: 159000,
-        image: combo3Img.src,
-        category: 'hot-combo',
+        id: 'seafooddelight',
+        name: 'Seafood Delight',
+        description: 'Pizza hải sản truyền thống với sốt cà chua, tôm, mực, thanh cua và hành tây.',
+        price: 205000,
+        image: seafoodDelight.src,
+        category: 'seafood',
     },
     {
-        id: 'combo4',
-        name: 'Combo 4',
-        description: '2 burger, gà rán giòn và Pepsi.',
-        price: 149000,
-        image: combo4Img.src,
-        category: 'hot-combo',
+        id: 'seafoodlimepesto',
+        name: 'Seafood Lime Pesto',
+        description: 'Hải sản tươi trên nền sốt Pesto chanh thơm lừng, mang đến hương vị Địa Trung Hải.',
+        price: 205000,
+        image: seafoodLimePesto.src,
+        category: 'seafood',
     },
     {
-        id: 'combo5',
-        name: 'Combo 5',
-        description: '2 burger, khoai tây chiên và 2 Pepsi.',
-        price: 159000,
-        image: combo5Img.src,
-        category: 'hot-combo',
-    },
-
-    // 🍗 FRIED CHICKEN
-    {
-        id: 'friedChicken1pc',
-        name: 'Gà rán 1 miếng',
-        description: 'Gà rán giòn tan, thấm vị đậm đà.',
-        price: 39000,
-        image: friedChicken1pcImg.src,
-        category: 'fried-chicken',
+        id: 'cheesycrabstickandpineapple',
+        name: 'Cheesy Crab Stick & Pineapple',
+        description: 'Thanh cua mềm, dứa chua ngọt và phô mai béo ngậy tạo nên hương vị độc đáo.',
+        price: 175000,
+        image: cheesyCrabStickPineapple.src,
+        category: 'seafood',
     },
     {
-        id: 'friedChicken2pcs',
-        name: 'Gà rán 2 miếng',
-        description: '2 miếng gà rán giòn hấp dẫn, ăn kèm tuyệt vời.',
-        price: 75000,
-        image: friedChicken2pcsImg.src,
-        category: 'fried-chicken',
+        id: 'supertoppingoceanmania',
+        name: 'Super Topping Ocean Mania',
+        description: 'Gấp đôi topping tôm, mực và thanh cua trên nền sốt Mayonnaise, bùng nổ hương vị hải sản.',
+        price: 235000,
+        image: superToppingOceanMania.src,
+        category: 'seafood',
     },
     {
-        id: 'friedChicken4pcs',
-        name: 'Gà rán 4 miếng',
-        description: 'Phần 4 miếng gà rán giòn, đủ cho nhóm bạn.',
-        price: 145000,
-        image: friedChicken4pcsImg.src,
-        category: 'fried-chicken',
+        id: 'supertoppingpizzaminsea',
+        name: 'Super Topping Pizzamin Sea',
+        description: 'Phiên bản tăng cường của Pizzamin Sea với nhiều hải sản hơn, ăn kèm dứa và sốt tiêu đen.',
+        price: 235000,
+        image: superToppingPizzaminSea.src,
+        category: 'seafood',
     },
     {
-        id: 'friedChicken6pcs',
-        name: 'Gà rán 6 miếng',
-        description: '6 miếng gà rán nóng hổi, giòn rụm.',
-        price: 210000,
-        image: friedChicken6pcsImg.src,
-        category: 'fried-chicken',
-    },
-    {
-        id: 'friedChicken8pcs',
-        name: 'Gà rán 8 miếng',
-        description: '8 miếng gà rán giòn tan, thích hợp cho gia đình.',
-        price: 275000,
-        image: friedChicken8pcsImg.src,
-        category: 'fried-chicken',
+        id: 'supertoppingseafoodlimepesto',
+        name: 'Super Topping Seafood Lime Pesto',
+        description: 'Thưởng thức gấp đôi hải sản trên nền sốt Pesto chanh thơm, thêm đậm đà và hấp dẫn.',
+        price: 242000,
+        image: superToppingSeafoodLimePesto.src,
+        category: 'seafood',
     },
 
-    // 🍔 BURGER
+    // --- BEEF PIZZAS
     {
-        id: 'beefBurger',
-        name: 'Burger bò',
-        description: 'Burger bò nướng đậm đà, phô mai tan chảy.',
-        price: 69000,
-        image: beefBurgerImg.src,
-        category: 'burger',
+        id: 'baconcheeseburger',
+        name: 'Bacon Cheeseburger',
+        description: 'Lấy cảm hứng từ burger bò, pizza này có thịt bò nướng, thịt xông khói, sốt phô mai và rau củ.',
+        price: 235000,
+        image: baconCheeseburger.src,
+        category: 'beef',
     },
     {
-        id: 'beefBurgerDrink',
-        name: 'Burger bò + nước ngọt',
-        description: 'Burger bò ăn kèm Pepsi mát lạnh.',
-        price: 89000,
-        image: beefBurgerDrinkImg.src,
-        category: 'burger',
+        id: 'cheesevolcanocheeseburger',
+        name: 'Cheese Volcano Cheeseburger',
+        description: 'Pizza núi lửa phô mai với nhân bơ gơ bò Mỹ, sốt phô mai American, thịt xông khói, hành tây và nấm.',
+        price: 305000,
+        image: cheeseVolcanoCheeseburger.src,
+        category: 'beef',
     },
     {
-        id: 'chickenBurger',
-        name: 'Burger gà',
-        description: 'Burger gà giòn rụm, sốt đặc trưng.',
-        price: 65000,
-        image: chickenBurgerImg.src,
-        category: 'burger',
+        id: 'supertoppingbaconcheeseburger',
+        name: 'Super Topping Bacon Cheeseburger',
+        description: 'Phiên bản đặc biệt với gấp đôi thịt bò và thịt xông khói, phô mai và sốt mayonnaise.',
+        price: 235000,
+        image: superToppingBaconCheeseburger.src,
+        category: 'beef',
     },
     {
-        id: 'chickenBurgerDrink',
-        name: 'Burger gà + nước ngọt',
-        description: 'Burger gà giòn ăn kèm Pepsi.',
-        price: 85000,
-        image: chickenBurgerDrinkImg.src,
-        category: 'burger',
-    },
-    {
-        id: 'doubleBeefBurger',
-        name: 'Burger bò kép',
-        description: '2 lớp thịt bò nướng, gấp đôi hương vị.',
-        price: 99000,
-        image: doubleBeefBurgerImg.src,
-        category: 'burger',
-    },
-    {
-        id: 'hotDog',
-        name: 'Hotdog',
-        description: 'Xúc xích nướng kẹp bánh mì, thêm sốt đậm đà.',
-        price: 55000,
-        image: hotDogImg.src,
-        category: 'burger',
+        id: 'meatlovers',
+        name: 'Meat Lovers',
+        description: 'Dành cho tín đồ thịt: pepperoni, xúc xích Ý, thịt nguội, thịt heo xông khói, thịt bò và thịt heo.',
+        price: 205000,
+        image: meatLovers.src,
+        category: 'beef',
     },
 
-    // 🍟 SNACKS
+    // --- CHICKEN PIZZAS
     {
-        id: 'bbqFries',
-        name: 'Khoai tây lắc BBQ',
-        description: 'Khoai tây chiên giòn, phủ bột gia vị BBQ.',
-        price: 45000,
-        image: bbqFriesImg.src,
-        category: 'snacks',
-    },
-    {
-        id: 'cheeseFries',
-        name: 'Khoai tây phô mai',
-        description: 'Khoai tây chiên phủ sốt phô mai béo ngậy.',
-        price: 49000,
-        image: cheeseFriesImg.src,
-        category: 'snacks',
-    },
-    {
-        id: 'largeFries',
-        name: 'Khoai tây chiên (Lớn)',
-        description: 'Phần khoai tây chiên lớn, giòn thơm.',
-        price: 39000,
-        image: largeFriesImg.src,
-        category: 'snacks',
-    },
-    {
-        id: 'nugget',
-        name: 'Gà nugget',
-        description: 'Miếng gà nugget giòn rụm, ăn chơi cực đã.',
-        price: 45000,
-        image: nuggetImg.src,
-        category: 'snacks',
-    },
-    {
-        id: 'regularFries',
-        name: 'Khoai tây chiên (Vừa)',
-        description: 'Khoai tây chiên vừa ăn, nóng giòn.',
-        price: 29000,
-        image: regularFriesImg.src,
-        category: 'snacks',
-    },
-    {
-        id: 'salad',
-        name: 'Salad rau trộn',
-        description: 'Rau tươi mát, sốt mè rang thơm ngon.',
-        price: 35000,
-        image: saladImg.src,
-        category: 'snacks',
+        id: 'cheesychickenbacon',
+        name: 'Cheesy Chicken Bacon',
+        description: 'Sự kết hợp hoàn hảo của gà nướng, thịt xông khói và sốt Ranch kem béo ngậy.',
+        price: 175000,
+        image: cheesyChickenBacon.src,
+        category: 'chicken',
     },
 
-    // 🍰 DESSERTS
+    // --- PORK PIZZAS
     {
-        id: 'blueberryCreamCup',
-        name: 'Kem việt quất',
-        description: 'Kem mát lạnh, topping việt quất thơm ngọt.',
-        price: 39000,
-        image: blueBerryCreamCupImg.src,
-        category: 'desserts',
+        id: 'pepperonifeast',
+        name: 'Pepperoni Feast',
+        description: 'Vị pizza truyền thống với sốt cà chua, phô mai Mozzarella và những lát pepperoni cay nhẹ.',
+        price: 205000,
+        image: pepperoniFeast.src,
+        category: 'pork',
     },
     {
-        id: 'cherryCreamCup',
-        name: 'Kem anh đào',
-        description: 'Kem hương anh đào chua ngọt hấp dẫn.',
-        price: 39000,
-        image: cherryCreamCupImg.src,
-        category: 'desserts',
+        id: 'cheesevolcanopepperoni',
+        name: 'Cheese Volcano Pepperoni',
+        description: 'Vòng phô mai núi lửa béo ngậy bao quanh pizza pepperoni cổ điển, mang lại trải nghiệm độc đáo.',
+        price: 305000,
+        image: cheeseVolcanoPepperoni.src,
+        category: 'pork',
     },
     {
-        id: 'chocolateCreamCup',
-        name: 'Kem socola cốc',
-        description: 'Kem socola béo ngậy trong cốc tiện lợi.',
-        price: 42000,
-        image: chocolateCreamCupImg.src,
-        category: 'desserts',
+        id: 'supertoppingpepperoni',
+        name: 'Super Topping Pepperoni',
+        description: 'Gấp đôi số lượng pepperoni, sốt cà chua và phô mai, đậm đà hơn bao giờ hết.',
+        price: 235000,
+        image: superToppingPepperoni.src,
+        category: 'pork',
     },
     {
-        id: 'chocolateCream',
-        name: 'Kem socola que',
-        description: 'Kem socola mát lạnh, ngon tuyệt.',
-        price: 35000,
-        image: chocolateCreamImg.src,
-        category: 'desserts',
-    },
-    {
-        id: 'strawberryCreamCup',
-        name: 'Kem dâu cốc',
-        description: 'Kem dâu tây tươi mát trong cốc.',
-        price: 39000,
-        image: strawberryCreamCupImg.src,
-        category: 'desserts',
-    },
-    {
-        id: 'strawberryCream',
-        name: 'Kem dâu que',
-        description: 'Kem dâu tây thơm ngon, giải nhiệt tức thì.',
-        price: 35000,
-        image: strawberryCreamImg.src,
-        category: 'desserts',
+        id: 'sausagekidmania',
+        name: 'Sausage Kid Mania',
+        description: 'Pizza với xúc xích, thịt xông khói, bắp và dứa, kết hợp với hai lớp phô mai béo ngậy.',
+        price: 175000,
+        image: sausageKidMania.src,
+        category: 'pork',
     },
 
-    // 🥤 DRINKS
+    // --- VEGETARIAN PIZZAS
     {
-        id: 'sevenUp',
-        name: '7Up',
-        description: 'Nước ngọt có gas vị chanh tươi mát.',
-        price: 19000,
-        image: sevenUpImg.src,
-        category: 'drinks',
+        id: 'cheesemania',
+        name: 'Cheese Mania',
+        description: 'Đơn giản và ngon miệng với hai lớp phô mai Mozzarella béo ngậy trên sốt cà chua truyền thống.',
+        price: 155000,
+        image: cheeseMania.src,
+        category: 'vegetarian',
     },
     {
-        id: 'cocaCola',
+        id: 'cheesymadness',
+        name: 'Cheesy Madness',
+        description: 'Dành cho người yêu phô mai với sự kết hợp của Cheddar, Mozzarella và Blue Cheese, kèm sốt phô mai đặc biệt.',
+        price: 175000,
+        image: cheesyMadness.src,
+        category: 'vegetarian',
+    },
+    {
+        id: 'extravaganza',
+        name: 'Extravaganza',
+        description: 'Pizza thập cẩm chay, với nhiều loại rau củ như nấm, hành tây, ớt chuông và ô liu đen.',
+        price: 205000,
+        image: extravaganza.src,
+        category: 'vegetarian',
+    },
+    {
+        id: 'veggiemania',
+        name: 'Veggie Mania',
+        description: 'Đa dạng các loại rau củ tươi ngon, bao gồm cà chua, hành tây, nấm và ớt chuông.',
+        price: 155000,
+        image: veggieMania.src,
+        category: 'vegetarian',
+    },
+    {
+        id: 'cheesevolcanoextravaganza',
+        name: 'Cheese Volcano Extravaganza',
+        description: 'Pizza núi lửa phô mai với hỗn hợp thập cẩm của rau củ tươi, đậm đà và ngon miệng.',
+        price: 305000,
+        image: cheeseVolcanoExtravaganza.src,
+        category: 'vegetarian',
+    },
+
+    // --- DRINKS
+    {
+        id: 'cocacola',
         name: 'Coca Cola',
-        description: 'Nước ngọt có gas, vị nguyên bản.',
+        description: 'Thức uống có gas phổ biến trên toàn thế giới, mang lại cảm giác sảng khoái.',
         price: 19000,
-        image: cocaColaImg.src,
+        image: cocaCola.src,
         category: 'drinks',
     },
     {
-        id: 'pepsi',
-        name: 'Pepsi',
-        description: 'Nước ngọt có gas, vị sảng khoái pepsi.',
+        id: 'cocacolalarge',
+        name: 'Coca Cola (chai lớn)',
+        description: 'Chai Coca Cola dung tích lớn, phù hợp cho nhóm bạn.',
+        price: 305000,
+        image: cocaColaLarge.src,
+        category: 'drinks',
+    },
+    {
+        id: 'cocacolazero',
+        name: 'Coca Cola Zero',
+        description: 'Thức uống không đường, không calo, giữ nguyên hương vị Coca-Cola nguyên bản.',
         price: 19000,
-        image: pepsiImg.src,
+        image: cocaColaZero.src,
         category: 'drinks',
     },
     {
-        id: 'honeyTeaCreamCheese',
-        name: 'Trà mật ong kem cheese',
-        description: 'Trà mật ong ngọt dịu, phủ kem cheese béo ngậy.',
-        price: 45000,
-        image: honeyTeaCreamCheeseImg.src,
+        id: 'cocacolazerolarge',
+        name: 'Coca Cola Zero (chai lớn)',
+        description: 'Chai Coca Cola Zero dung tích lớn, sảng khoái không lo calo.',
+        price: 305000,
+        image: cocaColaZeroLarge.src,
         category: 'drinks',
     },
     {
-        id: 'milkTeaCreamCheese',
-        name: 'Trà sữa kem cheese',
-        description: 'Trà sữa đậm vị, phủ kem cheese mặn ngọt.',
-        price: 45000,
-        image: milkTeaCreamCheeseImg.src,
+        id: 'dasani',
+        name: 'Dasani',
+        description: 'Nước tinh khiết Dasani được bổ sung khoáng chất, giúp thanh lọc cơ thể.',
+        price: 19000,
+        image: dasani.src,
         category: 'drinks',
     },
     {
-        id: 'milkTeaMatchaCreamCheese',
-        name: 'Trà sữa matcha kem cheese',
-        description: 'Vị matcha thanh mát, phủ lớp kem cheese.',
-        price: 49000,
-        image: milkTeaMatchaCreamCheeseImg.src,
+        id: 'dasanilarge',
+        name: 'Dasani (chai lớn)',
+        description: 'Chai nước tinh khiết Dasani dung tích lớn, giải khát hiệu quả.',
+        price: 305000,
+        image: dasaniLarge.src,
         category: 'drinks',
     },
     {
-        id: 'strawberryMilkTeaCreamCheese',
-        name: 'Trà sữa dâu kem cheese',
-        description: 'Trà sữa dâu ngọt ngào, thêm lớp kem cheese.',
-        price: 49000,
-        image: strawberryMilkTeaCreamCheeseImg.src,
+        id: 'mirinda',
+        name: 'Mirinda',
+        description: 'Nước ngọt có gas hương cam thơm mát, sảng khoái tức thì.',
+        price: 19000,
+        image: mirinda.src,
+        category: 'drinks',
+    },
+    {
+        id: 'mirindalarge',
+        name: 'Mirinda (chai lớn)',
+        description: 'Chai nước Mirinda dung tích lớn, phù hợp cho bữa ăn gia đình.',
+        price: 305000,
+        image: mirindaLarge.src,
+        category: 'drinks',
+    },
+    {
+        id: 'sprite',
+        name: 'Sprite',
+        description: 'Nước ngọt có gas vị chanh tự nhiên, sảng khoái bất tận.',
+        price: 19000,
+        image: sprite.src,
+        category: 'drinks',
+    },
+    {
+        id: 'spritelarge',
+        name: 'Sprite (chai lớn)',
+        description: 'Chai Sprite dung tích lớn, giải khát cực đã cho nhóm bạn.',
+        price: 305000,
+        image: spriteLarge.src,
+        category: 'drinks',
+    },
+    {
+        id: 'teaplusoolonglemon',
+        name: 'Trà Teaplus Oolong Chanh',
+        description: 'Trà Ô Long kết hợp vị chanh tươi mát, mang đến sự tỉnh táo.',
+        price: 19000,
+        image: teaplusOolongLemon.src,
+        category: 'drinks',
+    },
+    {
+        id: 'teaplusoolongpeach',
+        name: 'Trà Teaplus Oolong Đào',
+        description: 'Trà Ô Long vị đào ngọt dịu, thanh mát và nhẹ nhàng.',
+        price: 19000,
+        image: teaplusOolongPeach.src,
         category: 'drinks',
     },
 ];

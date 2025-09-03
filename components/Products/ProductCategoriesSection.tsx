@@ -19,42 +19,34 @@ interface CategoryCardProps {
 // Mock background image - replace with your actual import
 const bgCategories = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyMCIgaGVpZ2h0PSIxMDgwIiB2aWV3Qm94PSIwIDAgMTkyMCAxMDgwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8ZGVmcz4KPGF0YWRpYWxHcmFkaWVudCBpZD0iYmciIGN4PSI5NjAiIGN5PSI1NDAiIHI9IjgwMCI+CjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNGRkY3RUQiLz4KPHN0b3Agb2Zmc2V0PSI1MCUiIHN0b3AtY29sb3I9IiNGRkY0RTYiLz4KPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjRkRFNjhBIi8+CjwvcmFkaWFsR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjE5MjAiIGhlaWdodD0iMTA4MCIgZmlsbD0idXJsKCNiZykiLz4KPC9zdmc+";
 
-// Using data URLs for placeholder images (no external domains needed)
+// Updated pizza-themed mock images
 const mockImages = {
-    burger: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDMwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjRkY5ODAwIi8+Cjx0ZXh0IHg9IjE1MCIgeT0iMTYwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSJ3aGl0ZSIgZm9udC1zaXplPSI4MCIgZm9udC1mYW1pbHk9IkFyaWFsIj7wn42UPC90ZXh0Pgo8L3N2Zz4=",
-    burgerHover: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDMwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjRkY1NzIyIi8+Cjx0ZXh0IHg9IjE1MCIgeT0iMTYwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSJ3aGl0ZSIgZm9udC1zaXplPSI4MCIgZm9udC1mYW1pbHk9IkFyaWFsIj7wn42UPC90ZXh0Pgo8L3N2Zz4=",
-    friedChicken: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDMwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjRjQ0MzM2Ii8+Cjx0ZXh0IHg9IjE1MCIgeT0iMTYwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSJ3aGl0ZSIgZm9udC1zaXplPSI4MCIgZm9udC1mYW1pbHk9IkFyaWFsIj7wn42XPC90ZXh0Pgo8L3N2Zz4=",
-    friedChickenHover: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDMwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjRDMyRjJGIi8+Cjx0ZXh0IHg9IjE1MCIgeT0iMTYwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSJ3aGl0ZSIgZm9udC1zaXplPSI4MCIgZm9udC1mYW1pbHk9IkFyaWFsIj7wn42XPC90ZXh0Pgo8L3N2Zz4=",
-    fries: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDMwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjRkZDMTA3Ii8+Cjx0ZXh0IHg9IjE1MCIgeT0iMTYwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSJ3aGl0ZSIgZm9udC1zaXplPSI4MCIgZm9udC1mYW1pbHk9IkFyaWFsIj7wn42fPC90ZXh0Pgo8L3N2Zz4=",
-    friesHover: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDMwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjRkY4RjAwIi8+Cjx0ZXh0IHg9IjE1MCIgeT0iMTYwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSJ3aGl0ZSIgZm9udC1zaXplPSI4MCIgZm9udC1mYW1pbHk9IkFyaWFsIj7wn42fPC90ZXh0Pgo8L3N2Zz4=",
+    pizza: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDMwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjRkY2QjM1Ii8+Cjx0ZXh0IHg9IjE1MCIgeT0iMTYwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSJ3aGl0ZSIgZm9udC1zaXplPSI4MCIgZm9udC1mYW1pbHk9IkFyaWFsIj7wn42VPC90ZXh0Pgo8L3N2Zz4=",
+    pizzaHover: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDMwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjRkY0NTAwIi8+Cjx0ZXh0IHg9IjE1MCIgeT0iMTYwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSJ3aGl0ZSIgZm9udC1zaXplPSI4MCIgZm9udC1mYW1pbHk9IkFyaWFsIj7wn42VPC90ZXh0Pgo8L3N2Zz4=",
+    snacks: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDMwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjRkZBNTAwIi8+Cjx0ZXh0IHg9IjE1MCIgeT0iMTYwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSJ3aGl0ZSIgZm9udC1zaXplPSI4MCIgZm9udC1mYW1pbHk9IkFyaWFsIj7wn42fPC90ZXh0Pgo8L3N2Zz4=",
+    snacksHover: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDMwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjRkY4RjAwIi8+Cjx0ZXh0IHg9IjE1MCIgeT0iMTYwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSJ3aGl0ZSIgZm9udC1zaXplPSI4MCIgZm9udC1mYW1pbHk9IkFyaWFsIj7wn42fPC90ZXh0Pgo8L3N2Zz4=",
     iceCream: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDMwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjRTkxRTYzIi8+Cjx0ZXh0IHg9IjE1MCIgeT0iMTYwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSJ3aGl0ZSIgZm9udC1zaXplPSI4MCIgZm9udC1mYW1pbHk9IkFyaWFsIj7wn42mPC90ZXh0Pgo8L3N2Zz4=",
     iceCreamHover: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDMwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjQzIxODVCIi8+Cjx0ZXh0IHg9IjE1MCIgeT0iMTYwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSJ3aGl0ZSIgZm9udC1zaXplPSI4MCIgZm9udC1mYW1pbHk9IkFyaWFsIj7wn42mPC90ZXh0Pgo8L3N2Zz4=",
+    drinks: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDMwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjMDA5Njg4Ii8+Cjx0ZXh0IHg9IjE1MCIgeT0iMTYwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSJ3aGl0ZSIgZm9udC1zaXplPSI4MCIgZm9udC1mYW1pbHk9IkFyaWFsIj7wn42lPC90ZXh0Pgo8L3N2Zz4=",
+    drinksHover: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDMwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjMDA3OTZCIi8+Cjx0ZXh0IHg9IjE1MCIgeT0iMTYwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSJ3aGl0ZSIgZm9udC1zaXplPSI4MCIgZm9udC1mYW1pbHk9IkFyaWFsIj7wn42lPC90ZXh0Pgo8L3N2Zz4=",
 };
 
-// Enhanced category data
+// Updated categories data for pizza theme
 const categoriesData: Category[] = [
     {
-        name: 'Burger',
-        defaultImg: mockImages.burger,
-        hoverImg: mockImages.burgerHover,
-        link: '/menu?category=burger',
-        description: 'Ngon mọng & Hấp dẫn',
-        color: 'from-amber-400 to-orange-500'
+        name: 'Pizza',
+        defaultImg: mockImages.pizza,
+        hoverImg: mockImages.pizzaHover,
+        link: '/menu?category=pizza',
+        description: 'Đế mỏng giòn & Phô mai tươi',
+        color: 'from-orange-400 to-red-500'
     },
     {
-        name: 'Gà Rán',
-        defaultImg: mockImages.friedChicken,
-        hoverImg: mockImages.friedChickenHover,
-        link: '/menu?category=fried-chicken',
-        description: 'Giòn tan & Vàng ruộm',
-        color: 'from-red-400 to-pink-500'
-    },
-    {
-        name: 'Khoai Tây Chiên',
-        defaultImg: mockImages.fries,
-        hoverImg: mockImages.friesHover,
-        link: '/menu?category=fries',
-        description: 'Giòn rụm & Hoàn hảo',
+        name: 'Snacks',
+        defaultImg: mockImages.snacks,
+        hoverImg: mockImages.snacksHover,
+        link: '/menu?category=snacks',
+        description: 'Giòn tan & Hấp dẫn',
         color: 'from-yellow-400 to-orange-400'
     },
     {
@@ -64,6 +56,14 @@ const categoriesData: Category[] = [
         link: '/menu?category=ice-cream',
         description: 'Mát lạnh & Béo ngậy',
         color: 'from-pink-400 to-purple-500'
+    },
+    {
+        name: 'Đồ Uống',
+        defaultImg: mockImages.drinks,
+        hoverImg: mockImages.drinksHover,
+        link: '/menu?category=drinks',
+        description: 'Tươi mát & Sảng khoái',
+        color: 'from-teal-400 to-blue-500'
     },
 ];
 
@@ -155,7 +155,7 @@ const ProductCategoriesSection = () => {
                         </span>
                     </h2>
                     <p className="text-lg lg:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
-                        Thực đơn BEKA đa dạng và phong phú, với nhiều lựa chọn hấp dẫn dành cho bạn, gia đình và bạn bè.
+                        Thực đơn Pizza đa dạng và phong phú, với nhiều lựa chọn hấp dẫn dành cho bạn, gia đình và bạn bè.
                     </p>
                 </div>
 

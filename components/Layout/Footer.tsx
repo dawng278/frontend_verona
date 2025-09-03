@@ -12,7 +12,7 @@ const Footer = () => {
                 <div className="flex flex-col md:flex-row justify-between items-center md:items-start space-y-8 md:space-y-0 md:space-x-8">
                     {/* Cột 1: Thông tin công ty */}
                     <div className="w-full md:w-1/3 text-center md:text-left">
-                        <h3 className="text-2xl font-bold text-yellow-500 mb-2">BEKA</h3>
+                        <h3 className="text-2xl font-bold text-yellow-500 mb-2">VERONA PIZZA</h3>
                         <p className="text-sm leading-relaxed">
                             Thưởng thức những chiếc pizza ngon nhất được làm từ nguyên liệu tươi ngon, chuẩn vị Ý. Verona Pizza - Nơi hương vị gặp gỡ đam mê!
                         </p>
@@ -55,7 +55,7 @@ const Footer = () => {
                             </li>
                             <li className="flex items-center justify-center md:justify-start space-x-2">
                                 <Mail size={18} className="text-yellow-500" />
-                                <span>info@beka.com</span>
+                                <span>info@verona.com</span>
                             </li>
                             <li className="flex items-center justify-center md:justify-start space-x-2">
                                 <p>123 Đường B, Quận C, Thành phố D, Việt Nam</p>
